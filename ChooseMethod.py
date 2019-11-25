@@ -5,7 +5,7 @@ from Util import try_parse_int
 class Method:
     def __init__(self, name, method, options=None):
         self.name = name
-        self.method = method,
+        self.method = method
         if options is not None:
             self.options = options
         else:
