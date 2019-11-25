@@ -34,4 +34,4 @@ def get_mod_name(mod_id):
 
 
 def mount_dir(original_path, link_path):
-    check_call(["mount", "--bind", original_path, link_path])
+    check_call(["sudo", "mount", "--bind", original_path, link_path])
