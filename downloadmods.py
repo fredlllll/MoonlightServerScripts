@@ -3,6 +3,7 @@ import subprocess
 import os
 import requests
 import stat
+import getpass
 
 ARMA3APPID = 107410
 
@@ -56,7 +57,7 @@ def download_mods(mod_ids):
 
 def run_steam_cmd(parameters):
     steam_user = input('Steam user pls:')
-    steam_password = input('Steam password pls:')
+    steam_password = getpass.getpass('Steam password pls:')
 
     subprocess.check_call(["/usr/games/steamcmd", '+login', steam_user, steam_password] + parameters + ['+quit'])
     print("\n")
