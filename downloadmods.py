@@ -84,7 +84,7 @@ def process_mod_links(mod_ids):
             continue  # dont do anything if the link is already in place
         mod_path = os.path.join(STEAMFOLDER, 'SteamApps/workshop/content', str(ARMA3APPID), str(mod_id))
         os.symlink(mod_path, link_path, target_is_directory=True)
-        mod_paths.append(mod_path)
+        mod_paths.append(link_path)
     return mod_paths
 
 
