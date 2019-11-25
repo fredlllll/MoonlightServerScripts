@@ -74,7 +74,7 @@ def process_mod_folder(mod_folder):
         elif modDir.lower() == 'keys':
             if modDir.lower() != modDir and not os.path.exists(keys_folder):
                 # only make link if modDir is not all lowercase and no link exists yet
-                os.symlink(modDir, addons_folder)
+                os.symlink(modDir, keys_folder)
 
     # some mods may not have a keys or addons folder, hence we have to check if they(their links) exist
     if os.path.exists(addons_folder):
@@ -85,7 +85,7 @@ def process_mod_folder(mod_folder):
 
 
 folder = sys.argv[1]  # the folder containing the mods
-folders = get_dir_dirs(folder)
+folders = get_dir_dirs(folder, sym_links=True)
 
 for d in folders:
     if d.startswith('@'):  # mod folders start with @
