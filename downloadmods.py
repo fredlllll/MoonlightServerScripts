@@ -2,7 +2,7 @@
 import subprocess
 import os
 import requests
-import shutil
+import stat
 
 ARMA3APPID = 107410
 
@@ -71,19 +71,20 @@ def escape_mod_name(mod_name):
     return mod_name
 
 
-def copy_mods(mod_ids):
-    # copy mods to the arma 3 server mods directory
-    to_paths = []
-    for mod_id in mod_ids:
-        print("copying mod " + str(mod_id) + "\n")
-        from_path = os.path.join(STEAMFOLDER, 'SteamApps/workshop/content', str(ARMA3APPID), str(mod_id))
-        mod_name = get_mod_name(mod_id)
-        mod_name = escape_mod_name(mod_name)
-        to_path = os.path.join(ARMA3SERVERDIR, 'mods', '@' + mod_name)
-        shutil.copytree(from_path, to_path, dirs_exist_ok=True)
-        to_paths.append(to_path)
+def process_mod_links(mod_ids):
+    # make links to the mods folders
+    mods_dir = os.path.join(ARMA3SERVERDIR, 'mods')
 
-    return to_paths
+    mod_paths = []
+    for mod_id in mod_ids:
+        mod_name = escape_mod_name(get_mod_name(mod_id))
+        link_path = os.path.join(mods_dir, '@' + mod_name)
+        if os.path.exists(link_path):
+            continue  # dont do anything if the link is already in place
+        mod_path = os.path.join(STEAMFOLDER, 'SteamApps/workshop/content', str(ARMA3APPID), str(mod_id))
+        os.symlink(mod_path, link_path, target_is_directory=True)
+        mod_paths.append(mod_path)
+    return mod_paths
 
 
 def get_mod_name(_id):
@@ -97,20 +98,31 @@ def get_mod_name(_id):
     return resp.json()['response']['publishedfiledetails'][0]['title']
 
 
-def create_mod_parameter_content(mod_paths):
+def create_server_run_script_content(mod_paths):
     rel_paths = []
     for path in mod_paths:
         rel = os.path.relpath(path, ARMA3SERVERDIR)  # should return something like mods/@lalala
         rel_paths.append(rel)
-    return ";".join(rel_paths)
+
+    content = "#!/bin/bash\n"
+    content += 'cd "' + ARMA3SERVERDIR + '"\n'
+    content += './arma3server -config=server.cfg -name=server -mod="\\\n'
+
+    for mod_path in rel_paths:
+        content += mod_path + ';\\\n'
+
+    content += '"'
+
+    return content
 
 
 def process_mod_ids_list(mod_ids):
     download_mods(mod_ids)
-    mod_paths = copy_mods(mod_ids)
-    mod_param = create_mod_parameter_content(mod_paths)
-    with open("mod_param.txt", "w") as f:
+    mod_paths = process_mod_links(mod_ids)
+    mod_param = create_server_run_script_content(mod_paths)
+    with open("runarma3server.sh", "w") as f:
         f.write(mod_param)
+    os.chmod("runarma3server.sh", stat.S_IRWXU | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
 
 
 def run__use_mod_ids_file():
