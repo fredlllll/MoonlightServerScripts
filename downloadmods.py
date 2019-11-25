@@ -190,7 +190,7 @@ print("options:\n")
 
 options_kwargs = {}
 for opt in options:
-    chosen = input(opt['name'] + ", Default: '" + opt['value'] + "'? (y/n/empty means default):")
+    chosen = input(opt['name'] + ", Default: '" + str(opt['value']) + "'? (y/n/empty means default):")
     if len(chosen) > 0:
         opt['value'] = is_string_truthy(chosen)
     options_kwargs[opt['kwargs_name']] = opt['value']
