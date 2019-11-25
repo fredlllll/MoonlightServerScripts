@@ -122,7 +122,7 @@ def process_mod_ids_list(mod_ids):
     mod_param = create_server_run_script_content(mod_paths)
     with open("runarma3server.sh", "w") as f:
         f.write(mod_param)
-    os.chmod("runarma3server.sh", stat.S_IRWXU | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
+    os.chmod("runarma3server.sh", stat.S_IRWXU | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH)
 
 
 def run__use_mod_ids_file():
