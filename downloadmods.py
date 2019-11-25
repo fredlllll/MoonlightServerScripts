@@ -76,7 +76,6 @@ def process_mod_links(mod_ids):
     # make links to the mods folders
     mods_dir = os.path.join(ARMA3SERVERDIR, 'mods')
 
-    mod_paths = []
     for mod_id in mod_ids:
         mod_name = escape_mod_name(get_mod_name(mod_id))
         link_path = os.path.join(mods_dir, '@' + mod_name)
@@ -84,8 +83,6 @@ def process_mod_links(mod_ids):
             continue  # dont do anything if the link is already in place
         mod_path = os.path.join(STEAMFOLDER, 'SteamApps/workshop/content', str(ARMA3APPID), str(mod_id))
         os.symlink(mod_path, link_path, target_is_directory=True)
-        mod_paths.append(link_path)
-    return mod_paths
 
 
 def get_mod_name(_id):
@@ -99,7 +96,14 @@ def get_mod_name(_id):
     return resp.json()['response']['publishedfiledetails'][0]['title']
 
 
-def create_server_run_script_content(mod_paths):
+def create_server_run_script_content(mod_ids):
+    mods_dir = os.path.join(ARMA3SERVERDIR, 'mods')
+    mod_paths = []
+    for mod_id in mod_ids:
+        mod_name = escape_mod_name(get_mod_name(mod_id))
+        link_path = os.path.join(mods_dir, '@' + mod_name)
+        mod_paths.append(link_path)
+
     rel_paths = []
     for path in mod_paths:
         rel = os.path.relpath(path, ARMA3SERVERDIR)  # should return something like mods/@lalala
@@ -117,28 +121,37 @@ def create_server_run_script_content(mod_paths):
     return content
 
 
-def process_mod_ids_list(mod_ids):
-    download_mods(mod_ids)
-    mod_paths = process_mod_links(mod_ids)
-    mod_param = create_server_run_script_content(mod_paths)
-    with open("runarma3server.sh", "w") as f:
-        f.write(mod_param)
-    os.chmod("runarma3server.sh", stat.S_IRWXU | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH)
+def process_mod_ids_list(mod_ids, do_download=True, do_linking=True, do_create_run_script=True):
+    if do_download:
+        download_mods(mod_ids)
+
+    if do_linking:
+        process_mod_links(mod_ids)
+
+    if do_create_run_script:
+        mod_param = create_server_run_script_content(mod_ids)
+        with open("runarma3server.sh", "w") as f:
+            f.write(mod_param)
+        os.chmod("runarma3server.sh", stat.S_IRWXU | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH)
 
 
-def run__use_mod_ids_file():
+def run__use_mod_ids_file(**kwargs):
     mod_ids_file = input("path to mod id file:")
     mod_ids = parse_mod_ids_file(mod_ids_file)
-    process_mod_ids_list(mod_ids)
+    process_mod_ids_list(mod_ids, **kwargs)
 
 
-def run__use_steam_collection_id():
+def run__use_steam_collection_id(**kwargs):
     collection_id = int(input("collection id:"))
     mod_ids = get_collection_mod_ids(collection_id)
-    process_mod_ids_list(mod_ids)
+    process_mod_ids_list(mod_ids, **kwargs)
 
 
-options = [
+def is_string_truthy(s):
+    return s.lower() in ['true', '1', 'y', 'yes']
+
+
+methods = [
     {
         "name": "Use Mod Id File",
         "method": run__use_mod_ids_file
@@ -149,9 +162,37 @@ options = [
     }
 ]
 
-print("valid options are:\n")
-for i in range(len(options)):
-    print(str(i) + ') ' + options[i]['name'] + "\n")
+options = [
+    {
+        "name": "Do Download",
+        "kwargs_name": "do_download",
+        "value": True
+    },
+    {
+        "name": "Do Linking",
+        "kwargs_name": "do_linking",
+        "value": True
+    },
+    {
+        "name": "Do Create Run Script",
+        "kwargs_name": "do_create_run_script",
+        "value": True
+    }
+]
 
-chosen_option = int(input("Choose option:"))
-options[chosen_option]['method']()
+print("available methods are:\n")
+for i in range(len(methods)):
+    print(str(i) + ') ' + methods[i]['name'] + "\n")
+
+chosen_method = int(input("Choose method:"))
+
+print("options:\n")
+
+options_kwargs = {}
+for opt in options:
+    chosen = input(opt['name'] + ", Default: '" + opt['value'] + "'? (y/n/empty means default):")
+    if len(chosen) > 0:
+        opt['value'] = is_string_truthy(chosen)
+    options_kwargs[opt['kwargs_name']] = opt['value']
+
+methods[chosen_method]['method'](**options_kwargs)
