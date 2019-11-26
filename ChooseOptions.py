@@ -24,9 +24,10 @@ class ChooseOptions:
         self.options = options
 
     def choose_options(self):
-        print("options:\n")
         kwargs = {}
-        for opt in self.options:
-            opt.choose()
-            kwargs[opt.kwargs_name] = opt.value
+        if len(self.options) > 0:
+            print("options:\n")
+            for opt in self.options:
+                opt.choose()
+                kwargs[opt.kwargs_name] = opt.value
         return kwargs
