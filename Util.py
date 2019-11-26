@@ -1,4 +1,5 @@
 import requests
+import os
 from subprocess import check_call
 
 
@@ -35,3 +36,8 @@ def get_mod_name(mod_id):
 
 def mount_dir(original_path, link_path):
     check_call(["sudo", "mount", "--bind", original_path, link_path])
+
+
+def rename_in_place(file_path, new_file_name):
+    dir_name = os.path.dirname(file_path)
+    os.rename(file_path, os.path.join(dir_name, new_file_name))
