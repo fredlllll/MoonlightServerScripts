@@ -67,12 +67,11 @@ def process_mod_folder(mod_folder):
     mod_dirs = get_dir_dirs(mod_folder)
     # check all folders of the mod to see if addons and keys are capitalized properly, if not make a lowercase link
     for mod_dir in mod_dirs:
-        if mod_dir.lower() == 'addons':
-            if mod_dir.lower() != mod_dir:
-                rename_in_place(mod_dir, 'addons')
-        elif mod_dir.lower() == 'keys':
-            if mod_dir.lower() != mod_dir:
-                rename_in_place(mod_dir, 'keys')
+        mod_dir_path = os.path.join(mod_folder, mod_dir)
+        if mod_dir.lower() == 'addons' and mod_dir.lower() != mod_dir:
+            rename_in_place(mod_dir_path, 'addons')
+        elif mod_dir.lower() == 'keys' and mod_dir.lower() != mod_dir:
+            rename_in_place(mod_dir_path, 'keys')
 
     # some mods may not have a keys or addons folder, hence we have to check if they(their links) exist
     if os.path.exists(addons_folder):
