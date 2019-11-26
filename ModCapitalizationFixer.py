@@ -5,6 +5,7 @@
 
 import sys
 import os
+from Util import rename_in_place
 
 
 def get_dir_files(dir_path, sub_dirs=True, follow_sym_links=False, full_paths=True, sym_links=False):
@@ -55,9 +56,8 @@ def process_mod_sub_folder(sub_folder):
         for file in sub_folder_files:
             name = os.path.basename(file)
             name_lower = name.lower()
-            link_name = os.path.join(sub_folder, name_lower)
-            if name != name_lower and not os.path.exists(link_name):
-                os.symlink(file, link_name)
+            if name != name_lower:
+                rename_in_place(file, name_lower)
 
 
 def process_mod_folder(mod_folder):
@@ -66,15 +66,13 @@ def process_mod_folder(mod_folder):
 
     mod_dirs = get_dir_dirs(mod_folder)
     # check all folders of the mod to see if addons and keys are capitalized properly, if not make a lowercase link
-    for modDir in mod_dirs:
-        if modDir.lower() == 'addons':
-            if modDir.lower() != modDir and not os.path.exists(addons_folder):
-                # only make link if modDir is not all lowercase and no link exists yet
-                os.symlink(modDir, addons_folder)
-        elif modDir.lower() == 'keys':
-            if modDir.lower() != modDir and not os.path.exists(keys_folder):
-                # only make link if modDir is not all lowercase and no link exists yet
-                os.symlink(modDir, keys_folder)
+    for mod_dir in mod_dirs:
+        if mod_dir.lower() == 'addons':
+            if mod_dir.lower() != mod_dir:
+                rename_in_place(mod_dir, 'addons')
+        elif mod_dir.lower() == 'keys':
+            if mod_dir.lower() != mod_dir:
+                rename_in_place(mod_dir, 'keys')
 
     # some mods may not have a keys or addons folder, hence we have to check if they(their links) exist
     if os.path.exists(addons_folder):
