@@ -39,8 +39,7 @@ class Page_ModDownloaderHandler(BaseHandler):
             mod_ids = []
             mod_ids_str.split(',')
             for tmp in mod_ids_str:
-                if is_int(tmp):
-                    mod_ids.append(int(tmp))
+                mod_ids.append(tmp)
         else:
             self.redirect(self.url)  # TODO: note whats wrong
             return
