@@ -74,3 +74,4 @@ fabric.properties
 venv/
 __pycache__/
 *.log
+LocalSettings.py

@@ -11,8 +11,7 @@ class MONGO_DB:
     db_name = "moondash"
 
 
-from Framework.TornadoApplication import TORNADO_APPLICATION,HTTPS_ENDPOINT,HTTP_ENDPOINT
-
+from Framework.TornadoApplication import TORNADO_APPLICATION, HTTPS_ENDPOINT, HTTP_ENDPOINT
 
 TORNADO_APPLICATIONS = {
     "tornado": TORNADO_APPLICATION("AWO2Q97KZPCQB8IBX1GO3XH3HB1PYPSCUOLVLSZP", [
@@ -38,6 +37,7 @@ WEBHOOKS = {
 ARMA3APPID = 107410
 
 import os
+
 STEAMFOLDER = '/home/moonlight/.steam'
 ARMA3SERVERDIR = os.path.join(STEAMFOLDER, 'SteamApps/common/Arma 3 Server')
 ARMA3MODSDIR = os.path.join(ARMA3SERVERDIR, 'mods')
@@ -46,5 +46,6 @@ ARMA3SERVERRUNSCRIPT = '/home/moonlight/runarma3server.sh'
 
 try:
     import Settings.LocalSettings
-except:
+except Exception as e:
+    print(str(e))
     pass
