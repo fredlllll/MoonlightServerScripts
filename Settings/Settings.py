@@ -43,6 +43,7 @@ ARMA3SERVERDIR = os.path.join(STEAMFOLDER, 'SteamApps/common/Arma 3 Server')
 ARMA3MODSDIR = os.path.join(ARMA3SERVERDIR, 'mods')
 ARMA3SERVERSERVICENAME = 'arma3server'
 
+ARMA3SERVERADDITONALCOMMANDLINE = "-cfg=basic.cfg -config=server.cfg -name=server -loadMissionToMemory"
 ARMA3SERVERRUNSCRIPT = '/home/moonlight/runarma3server.sh'
 
 try:

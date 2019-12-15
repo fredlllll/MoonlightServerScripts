@@ -1,6 +1,6 @@
 from Handlers.BaseHandler import BaseHandler
 from tornado.web import authenticated
-from Settings.Settings import ARMA3MODSDIR, ARMA3SERVERDIR, ARMA3SERVERRUNSCRIPT
+from Settings.Settings import ARMA3MODSDIR, ARMA3SERVERDIR, ARMA3SERVERRUNSCRIPT, ARMA3SERVERADDITONALCOMMANDLINE
 import logging
 import os
 from Util import md5
@@ -47,7 +47,7 @@ class Page_StartupScriptMakerHandler(BaseHandler):
 
         content = "#!/bin/bash\n"
         content += 'cd "' + ARMA3SERVERDIR + '"\n'
-        content += './arma3server -config=server.cfg -name=server -mod="\\\n'
+        content += './arma3server ' + ARMA3SERVERADDITONALCOMMANDLINE + ' -mod="\\\n'
 
         for mod in checked_mods:
             abs_path = os.path.join(ARMA3MODSDIR, mod['name'])
