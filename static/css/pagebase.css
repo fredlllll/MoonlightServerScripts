@@ -48,5 +48,9 @@ table.jobs td,th{
 }
 
 textarea.log{
-
+display: block;
+width: 98%;
+background:black;
+color:white;
+font-family: monospace;
 }
