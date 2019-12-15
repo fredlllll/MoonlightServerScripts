@@ -50,6 +50,7 @@ table.jobs td,th{
 textarea.log{
 display: block;
 width: 98%;
+height:75%;
 background:black;
 color:white;
 font-family: monospace;
