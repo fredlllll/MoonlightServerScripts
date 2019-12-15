@@ -1,7 +1,7 @@
 {% extends "pagebase.html" %}
 {% block title_content %}Mod Downloader{% end %}
 {% block main %}
-available mods:<br/>
+available mods({{len(mod_infos)}}):<br/>
 <button onclick="selectAll()">Select All</button>
 <button onclick="selectNone()">Select None</button>
 <br/>
@@ -35,5 +35,6 @@ available mods:<br/>
     function selectNone(){
         setAllChecked(false);
     }
+
 </script>
 {% end %}
