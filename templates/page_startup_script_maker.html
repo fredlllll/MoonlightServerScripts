@@ -2,6 +2,9 @@
 {% block title_content %}Mod Downloader{% end %}
 {% block main %}
 available mods:<br/>
+<button onclick="selectAll()">Select All</button>
+<button onclick="selectNone()">Select None</button>
+<br/>
 <form method="post">
     <table class="mods">
         <tr>
@@ -17,4 +20,20 @@ available mods:<br/>
     </table>
     <input type="submit" name="create" value="Create Startup Script"/>
 </form>
+<script>
+    var boxes = document.querySelectorAll('input[type=checkbox]');
+
+    function setAllChecked(checked){
+        for(var i =0; i< boxes.length; i++){
+            boxes.checked = checked;
+        }
+    }
+
+    function selectAll(){
+        setAllChecked(true);
+    }
+    function selectNone(){
+        setAllChecked(false);
+    }
+</script>
 {% end %}
