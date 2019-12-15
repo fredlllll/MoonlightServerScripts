@@ -39,3 +39,4 @@ class Page_JobsHandler(BaseHandler):
                     '$ne': EXECUTING
                 }
             }]})
+        self.redirect(self.url)
