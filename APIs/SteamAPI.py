@@ -2,6 +2,9 @@ import requests
 from Settings.Settings import ARMA3APPID, STEAMFOLDER
 import subprocess
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 MOD_NAME_CACHE = {}
 
@@ -26,6 +29,7 @@ def get_mod_name(mod_id, dont_use_cache=False):
 
     return name
 
+
 def escape_mod_name(mod_name):
     # best guess are that these are escaped: / < > : " \ | ? * with a dash cause they dont work on windows
     to_escape = ['/', '<', '>', ':', '"', '\\', '|', '?', '*']
@@ -33,6 +37,7 @@ def escape_mod_name(mod_name):
     for c in to_escape:
         mod_name = mod_name.replace(c, '-')
     return mod_name
+
 
 def clear_mod_name_cache():
     global MOD_NAME_CACHE
@@ -50,7 +55,7 @@ def get_collection_mod_ids(collection_id):
 
     if resp.status_code == 200:
         first_collection = resp.json()['response']['collectiondetails'][0]
-        items = first_collection.get('children',[])
+        items = first_collection.get('children', [])
         ids = []
         for item in items:
             mod_id = item['publishedfileid']
@@ -69,7 +74,7 @@ def download_mods(mod_ids, user, password, auth_code):
     run_steam_cmd(commands, user, password, auth_code)
 
 
-def run_steam_cmd(parameters, user=None, password=None, auth_code=None):
+def _create_steam_cmd_call(parameters, user=None, password=None, auth_code=None):
     cmdline = ["/usr/games/steamcmd"]
     if user is not None:
         cmdline.append('+login')
@@ -80,6 +85,13 @@ def run_steam_cmd(parameters, user=None, password=None, auth_code=None):
                 cmdline.append(auth_code)
     cmdline += parameters
     cmdline.append('+quit')
+    return cmdline
+
+
+def run_steam_cmd(parameters, user=None, password=None, auth_code=None):
+    cmdline = _create_steam_cmd_call(parameters, user, password, auth_code)
+    cmdline_censored = _create_steam_cmd_call(parameters, 'USER', 'PASSWORD', 'AUTH_CODE')
+    logger.info("calling steamcmd: " + ' '.join(cmdline_censored))
     subprocess.check_call(cmdline)
 
 
