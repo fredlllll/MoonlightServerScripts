@@ -1,5 +1,17 @@
 {% extends "pagebase.html" %}
 {% block title_content %}Index{% end %}
 {% block main %}
-//TODO: server status und so
+Server status: {{status}}<br/>
+<form method="post">
+    <input type="submit" name="start" value="Start"/>
+    <input type="submit" name="stop" value="Stop"/>
+    <input type="submit" name="restart" value="Restart"/>
+    <input type="submit" name="enable" value="Enable"/>
+    <input type="submit" name="disable" value="Disable"/>
+</form>
+<br/>
+Log (not live, refresh page):
+<textarea class="log">
+{{log}}
+</textarea>
 {% end %}

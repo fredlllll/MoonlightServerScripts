@@ -1,0 +1,4 @@
+from Framework.SystemdUnitController import SystemdUnitController
+from Settings.Settings import ARMA3SERVERSERVICENAME
+
+Arma3ServerController = SystemdUnitController(ARMA3SERVERSERVICENAME)

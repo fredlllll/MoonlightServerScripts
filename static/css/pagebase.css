@@ -46,3 +46,7 @@ table.jobs{
 table.jobs td,th{
  border: 1px solid black;
 }
+
+textarea.log{
+
+}
