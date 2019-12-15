@@ -37,4 +37,4 @@ class SystemdUnitController:
         return active_state + ', ' + sub_state
 
     def get_log(self, lines):
-        return subprocess.check_output(['journalctl', '-u', self.unit_name, '-n' + str(int(lines)), '--no-pager'], universal_newlines=True)
+        return subprocess.check_output(['sudo', 'journalctl', '-u', self.unit_name, '-n' + str(int(lines)), '--no-pager'], universal_newlines=True)

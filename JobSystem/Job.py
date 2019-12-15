@@ -1,4 +1,5 @@
 import time
+import traceback
 from Models.JobInfo import JobInfo, WAITING, EXECUTING, FAILED, FINISHED
 
 
@@ -20,7 +21,7 @@ class Job:
             self._job_info.status = FINISHED
         except Exception as e:
             self._job_info.status = FAILED
-            self._job_info.error = str(e)
+            self._job_info.error = traceback.format_exc()
         self._job_info.end_timestamp = time.time()
         self._job_info.progress = 1
         self._job_info.save()
