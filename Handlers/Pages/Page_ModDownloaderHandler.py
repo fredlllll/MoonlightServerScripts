@@ -3,7 +3,6 @@ from Handlers.Pages.Page_JobsHandler import Page_JobsHandler
 from tornado.web import authenticated
 from APIs.SteamAPI import get_downloaded_mods, get_mod_name, get_collection_mod_ids
 import logging
-from Util import is_int
 from JobSystem.Jobs.DownloadModsJob import DownloadModsJob
 from JobSystem.JobExecuter import JobExecuter
 
@@ -36,10 +35,7 @@ class Page_ModDownloaderHandler(BaseHandler):
         if len(collection_id) > 0:
             mod_ids = get_collection_mod_ids(collection_id)
         elif len(mod_ids_str) > 0:
-            mod_ids = []
-            mod_ids_str.split(',')
-            for tmp in mod_ids_str:
-                mod_ids.append(tmp)
+            mod_ids = mod_ids_str.split(',')
         else:
             self.redirect(self.url)  # TODO: note whats wrong
             return
