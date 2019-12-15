@@ -65,6 +65,11 @@ class Model(ABC):
         coll.delete_one(query)
 
     @classmethod
+    def _delete_many_by_query(cls, query):
+        coll = cls._get_collection()
+        coll.delete_many(query)
+
+    @classmethod
     def find(cls, key):
         record = cls._load_one_record_by_query({cls._get_key(): {"$eq": key}})
         if record is None:
@@ -73,11 +78,19 @@ class Model(ABC):
 
     @classmethod
     def all(cls):
-        records = cls._load_many_records_by_query({})
+        return cls.where({})
+
+    @classmethod
+    def where(cls, query, skip=None, limit=None, sort=None, sort_dir=pymongo.ASCENDING):
+        records = cls._load_many_records_by_query(query, skip, limit, sort, sort_dir)
         models = []
         for record in records:
             models.append(cls(**record))
         return models
+
+    @classmethod
+    def delete_where(cls, query):
+        cls._delete_many_by_query(query)
 
     @classmethod
     def modify_numeric_field(cls, key, field, change):

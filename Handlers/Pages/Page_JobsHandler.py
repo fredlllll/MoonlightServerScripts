@@ -1,7 +1,7 @@
 from Handlers.BaseHandler import BaseHandler
 from tornado.web import authenticated
 import logging
-from Models.JobInfo import JobInfo
+from Models.JobInfo import JobInfo, WAITING, EXECUTING
 
 logger = logging.getLogger(__name__)
 
@@ -26,3 +26,16 @@ class Page_JobsHandler(BaseHandler):
             })
 
         self.render("page_jobs.html", job_infos=job_infos)
+
+    @authenticated
+    def post(self):
+        if self.get_argument('clear_jobs', None) is not None:
+            jobs = JobInfo.delete_where({'$and': [{
+                'status': {
+                    '$ne': WAITING
+                }
+            }, {
+                'status': {
+                    '$ne': EXECUTING
+                }
+            }]})
