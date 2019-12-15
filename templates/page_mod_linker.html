@@ -1,0 +1,22 @@
+{% extends "pagebase.html" %}
+{% block title_content %}Mod Linker{% end %}
+{% block main %}
+available mods:<br/>
+<form method="post">
+    <table class="mods">
+        <tr>
+            <th>Selected</th>
+            <th>Mod Id</th>
+            <th>Mod name</th>
+        </tr>
+        {% for mod_info in mod_infos %}
+        <tr>
+            <td><input type="checkbox" name="chk_{{mod_info['id']}}" checked/></td>
+            <td>{{ mod_info['id'] }}</td>
+            <td>{{ mod_info['name'] }}</td>
+        </tr>
+        {% end %}
+    </table>
+    <input type="submit" name="create" value="Link Mods"/>
+</form>
+{% end %}

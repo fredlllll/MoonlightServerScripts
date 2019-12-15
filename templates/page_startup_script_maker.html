@@ -1,0 +1,20 @@
+{% extends "pagebase.html" %}
+{% block title_content %}Mod Downloader{% end %}
+{% block main %}
+available mods:<br/>
+<form method="post">
+    <table class="mods">
+        <tr>
+            <th>Selected</th>
+            <th>Mod name</th>
+        </tr>
+        {% for mod_info in mod_infos %}
+        <tr>
+            <td><input type="checkbox" name="chk_{{mod_info['hash']}}" checked/></td>
+            <td>{{ mod_info['name'] }}</td>
+        </tr>
+        {% end %}
+    </table>
+    <input type="submit" name="create" value="Create Startup Script"/>
+</form>
+{% end %}

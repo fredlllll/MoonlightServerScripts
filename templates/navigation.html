@@ -1,0 +1,24 @@
+{% if is_authenticated %}
+<li>
+    <a href="/login_signup?logout">Logout</a>
+</li>
+<li>
+    <a href="/">Index</a>
+</li>
+<li>
+    <a href="/jobs">Jobs</a>
+</li>
+<li>
+    <a href="/mod_downloader">Mod Downloader</a>
+</li>
+<li>
+    <a href="/mod_linker">Mod Linker</a>
+</li>
+<li>
+    <a href="/startup_script_maker">Startup Script Maker</a>
+</li>
+{%else%}
+<li>
+    <a href="/login_signup">Login/Sign up</a>
+</li>
+{%end%}

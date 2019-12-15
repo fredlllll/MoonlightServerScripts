@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ application_name }} - {% block title_content %}{{title}}{% end %}{% end %}
+{% block css5 %}
+{% raw link_to_css('pagebase.css') %}
+{% end %}
+{% block body %}
+<div class="container">
+  <nav class="navigation">
+    <ul class="nav">
+    {% block navigation %}
+        {% include "navigation.html" %}
+    {% end %}
+    </ul>
+  </nav>
+  <main class="main">
+    {% block main %}{% end %}
+  </main>
+</div>
+{% end %}

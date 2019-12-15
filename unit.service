@@ -1,0 +1,12 @@
+[Unit]
+Description=__servicedescription__
+
+[Service]
+User=web
+Group=web
+WorkingDirectory=__workingdir__
+ExecStart=/bin/bash __workingdir__/run.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

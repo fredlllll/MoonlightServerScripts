@@ -1,0 +1,79 @@
+{% extends "pagebase.html" %}
+{% block title_content %}Mod Downloader{% end %}
+{% block main %}
+
+
+Downloaded mods:<br/>
+{% if len(mod_infos) > 0 %}
+<table class="mods">
+    <tr>
+        <th>Mod ID</th>
+        <th>Mod name</th>
+    </tr>
+    {% for mod_info in mod_infos %}
+    <tr>
+        <td>{{ mod_info['id'] }}</td>
+        <td>{{ mod_info['name'] }}</td>
+    </tr>
+    {% end %}
+</table>
+{% else %}
+No Mods downloaded at the moment
+{% end %}
+
+<br/>
+<br/>
+Download Mods:
+<form method="post">
+    <table>
+        <tr>
+            <td>
+                a) Collection id
+            </td>
+            <td>
+                <input type="text" name="collection_id" placeholder="collection id"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                b) Mod Ids
+            </td>
+            <td>
+                <input type="text" name="mod_ids" placeholder="123,5656,12331234,..."/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                User
+            </td>
+            <td>
+                <input type="text" name="user" placeholder="User"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Password
+            </td>
+            <td>
+                <input type="password" name="password" placeholder="Password"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2FA code
+            </td>
+            <td>
+                <input type="text" name="auth_code" placeholder="2FA code"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+            <td>
+                <input type="submit" name="download_mods" value="Download Mods">
+            </td>
+        </tr>
+    </table>
+</form>
+{% end %}

@@ -1,0 +1,13 @@
+{% extends "html5base.html" %}
+{% block html_attributes %}lang="{{get_lang()}}"{% end %}
+{% block head_content %}
+  <meta charset="UTF-8">
+  <title>{% block title %}{% end %}</title>
+  {% block head %}{% end %}
+  {% block css1 %}{% end %}{% block css2 %}{% end %}{% block css3 %}{% end %}{% block css4 %}{% end %}{% block css5 %}{% end %}
+{% end %}
+{% block body_content %}
+  {% block body %}
+  {% end %}
+  {% block js1 %}{% end %}{% block js2 %}{% end %}{% block js3 %}{% end %}{% block js4 %}{% end %}{% block js5 %}{% end %}
+{% end %}
