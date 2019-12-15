@@ -95,7 +95,7 @@ def run_steam_cmd(parameters, user=None, password=None, auth_code=None):
     try:
         subprocess.check_call(cmdline)
     except subprocess.CalledProcessError as e:
-        logger.warning("received non zero return code from steamcmd command: " + e.returncode)
+        logger.warning("received non zero return code from steamcmd command: " + str(e.returncode))
 
 
 def get_downloaded_mods():
