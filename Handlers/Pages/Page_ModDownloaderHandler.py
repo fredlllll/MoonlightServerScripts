@@ -62,7 +62,7 @@ class Page_ModDownloaderHandler(BaseHandler):
 
     @authenticated
     def post(self):
-        action = self.get_argument('argument', None)
+        action = self.get_argument('action', None)
         if action == 'download':
             self.post_download()
         elif action == 'delete':
