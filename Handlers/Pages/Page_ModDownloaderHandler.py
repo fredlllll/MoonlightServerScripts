@@ -4,6 +4,7 @@ from tornado.web import authenticated
 from APIs.SteamAPI import get_downloaded_mods, get_mod_name, get_collection_mod_ids
 import logging
 from JobSystem.Jobs.DownloadModsJob import DownloadModsJob
+from JobSystem.Jobs.DeleteModsJob import DeleteModsJob
 from JobSystem.JobExecuter import JobExecuter
 
 logger = logging.getLogger(__name__)
@@ -28,8 +29,7 @@ class Page_ModDownloaderHandler(BaseHandler):
 
         self.render("page_mod_downloader.html", mod_infos=mod_infos)
 
-    @authenticated
-    def post(self):
+    def post_download(self):
         collection_id = self.get_argument('collection_id', '')
         mod_ids_str = self.get_argument('mod_ids', '')
         if len(collection_id) > 0:
@@ -48,3 +48,24 @@ class Page_ModDownloaderHandler(BaseHandler):
         JobExecuter.add_job(job)
 
         self.redirect(Page_JobsHandler.url)
+
+    def post_delete(self):
+        mod_id = self.get_argument('mod_id', None)
+        if mod_id is None:
+            self.redirect(self.url)
+            return
+
+        job = DeleteModsJob([mod_id])
+        JobExecuter.add_job(job)
+
+        self.redirect(Page_JobsHandler.url)
+
+    @authenticated
+    def post(self):
+        action = self.get_argument('argument', None)
+        if action == 'download':
+            self.post_download()
+        elif action == 'delete':
+            self.post_delete()
+        else:
+            self.redirect(self.url)

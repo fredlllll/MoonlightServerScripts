@@ -9,11 +9,17 @@ Downloaded mods({{len(mod_infos)}}):<br/>
     <tr>
         <th>Mod ID</th>
         <th>Mod name</th>
+        <th>Delete</th>
     </tr>
     {% for mod_info in mod_infos %}
     <tr>
         <td>{{ mod_info['id'] }}</td>
         <td>{{ mod_info['name'] }}</td>
+        <td><form method="post">
+            <input type="submit" value="Delete"/>
+            <input type="hidden" name="action" value="delete"/>
+            <input type="hidden" name="mod_id" value="{{mod_info['id']}}" />
+        </form></td>
     </tr>
     {% end %}
 </table>
@@ -75,5 +81,6 @@ Download Mods:
             </td>
         </tr>
     </table>
+    <input type="hidden" name="action" value="download"/>
 </form>
 {% end %}

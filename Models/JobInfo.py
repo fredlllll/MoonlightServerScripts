@@ -11,7 +11,8 @@ class JobInfo(Model):
     def _get_collection_name(cls):
         return 'job_infos'
 
-    def _get_fields(self):
+    @classmethod
+    def _get_fields(cls):
         return [
             'name',
             'info',

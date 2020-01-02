@@ -3,6 +3,7 @@ from Settings.Settings import ARMA3APPID, STEAMFOLDER
 import subprocess
 import os
 import logging
+import shutil
 
 logger = logging.getLogger(__name__)
 
@@ -108,3 +109,11 @@ def get_downloaded_mods():
                 mods.append(entry)
 
     return mods
+
+
+def delete_mods(mod_ids):
+    workshop_mods_folder = os.path.join(STEAMFOLDER, 'SteamApps/workshop/content/', str(ARMA3APPID))
+    for mod_id in mod_ids:
+        mod_folder = os.path.join(workshop_mods_folder, mod_id)
+        if os.path.exists(mod_folder):
+            shutil.rmtree(mod_folder, ignore_errors=True)

@@ -29,9 +29,6 @@ class BaseHandler(RequestHandler):
     def _has_permission(self, permission):
         return self.current_user is not None and self.current_user.has_permission(permission)
 
-    def redirect_info_message(self, message):
-        self.redirect("/info_message?" + urlencode({'message': message}))
-
     def redirect_403(self):
         self.redirect("/403")
 
