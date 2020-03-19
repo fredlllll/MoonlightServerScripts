@@ -59,6 +59,13 @@ class Page_ModDownloaderHandler(BaseHandler):
         JobExecuter.add_job(job)
 
         self.redirect(Page_JobsHandler.url)
+        
+    def post_delete_all(self):
+        mod_ids = get_downloaded_mods()
+        job = DeleteModsJob(mod_ids)
+        JobExecuter.add_job(job)
+
+        self.redirect(Page_JobsHandler.url)
 
     @authenticated
     def post(self):
@@ -67,5 +74,7 @@ class Page_ModDownloaderHandler(BaseHandler):
             self.post_download()
         elif action == 'delete':
             self.post_delete()
+        elif action == 'delete-all':
+            self.post_delete_all()
         else:
             self.redirect(self.url)
