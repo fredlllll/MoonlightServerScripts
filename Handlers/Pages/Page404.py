@@ -1,11 +1,10 @@
-from Handlers.BaseHandler import BaseHandler
+from Handlers.MoonlightBaseHandler import MoonlightBaseHandler
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class Page_404(BaseHandler):
-    url_pattern = r'/404'
+class Page404(MoonlightBaseHandler):
     url = '/404'
 
     def get(self, *args, **kwargs):

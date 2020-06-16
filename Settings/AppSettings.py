@@ -4,24 +4,16 @@ APPLICATION_NAME = 'Moonlight Dashboard'
 
 SESSION_COOKIE_NAME = "moondash_session_id"
 
+MONGO_DB_DB_NAME = "moondash"
+MONGO_DB_HOST = "127.0.0.1"
+MONGO_DB_PORT = 27017
 
-class MONGO_DB:
-    host = "127.0.0.1"
-    port = 27017
-    db_name = "moondash"
-
-
-from Framework.TornadoApplication import TORNADO_APPLICATION, HTTPS_ENDPOINT, HTTP_ENDPOINT
+from TornadoBaseFramework.TornadoApplication import TORNADO_APPLICATION, HTTP_ENDPOINT
 
 TORNADO_APPLICATIONS = {
     "tornado": TORNADO_APPLICATION("AWO2Q97KZPCQB8IBX1GO3XH3HB1PYPSCUOLVLSZP", [
-        HTTPS_ENDPOINT(False, 443, "fullchain.pem", "privkey.pem"),
         HTTP_ENDPOINT(True, 80)
     ])
-}
-
-DEFAULT_USER_VALUES = {
-
 }
 
 PERMISSION_ADMIN = 'admin'
@@ -30,9 +22,6 @@ PERMISSIONS = [
     PERMISSION_ADMIN,
     PERMISSION_EXPERIMENTAL
 ]
-
-WEBHOOKS = {
-}
 
 ARMA3APPID = 107410
 
@@ -46,8 +35,4 @@ ARMA3SERVERSERVICENAME = 'arma3server'
 ARMA3SERVERADDITONALCOMMANDLINE = "-cfg=basic.cfg -config=server.cfg -name=server -loadMissionToMemory"
 ARMA3SERVERRUNSCRIPT = '/home/moonlight/runarma3server.sh'
 
-try:
-    import Settings.LocalSettings
-except Exception as e:
-    print(str(e))
-    pass
+BASE_HANDLER_CLASS = "Handlers.MoonlightBaseHandler.MoonlightBaseHandler"

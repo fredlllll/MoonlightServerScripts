@@ -1,14 +1,13 @@
 import json
 import logging
 
-from Handlers.BaseHandler import BaseHandler
+from ..BaseHandlerProvider import get_base_handler
 
 logger = logging.getLogger(__name__)
 
 
-class APIHandler(BaseHandler):
-    url_pattern = r'/api/(?P<api_name>[^/]+)/(?P<method_name>[^/]+)'
-    url = '/api'
+class APIHandler(get_base_handler()):
+    url = '/api/(?P<api_name>[^/]+)/(?P<method_name>[^/]+)'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

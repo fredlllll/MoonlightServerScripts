@@ -1,4 +1,4 @@
-from Handlers.BaseHandler import BaseHandler
+from Handlers.MoonlightBaseHandler import MoonlightBaseHandler
 from tornado.web import authenticated
 import logging
 from Models.JobInfo import JobInfo, WAITING, EXECUTING
@@ -6,11 +6,10 @@ from Models.JobInfo import JobInfo, WAITING, EXECUTING
 logger = logging.getLogger(__name__)
 
 
-class Page_JobsHandler(BaseHandler):
+class JobsHandler(MoonlightBaseHandler):
     """
     renders the page_index.html template
     """
-    url_pattern = '/jobs'
     url = '/jobs'
 
     @authenticated
@@ -22,7 +21,8 @@ class Page_JobsHandler(BaseHandler):
                 'name': job.name,
                 'info': job.info,
                 'status': job.status,
-                'error': job.error
+                'error': job.error,
+                'output': job.output
             })
 
         self.render("page_jobs.html", job_infos=job_infos)

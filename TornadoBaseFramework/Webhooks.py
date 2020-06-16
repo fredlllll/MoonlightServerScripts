@@ -1,6 +1,6 @@
 import requests
 import logging
-from Settings.Settings import WEBHOOKS
+from .Settings import Settings
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ class Webhooks:
                     logger.warning("Error when invoking webhook " + hook_name + " to " + handler.url + " with Exception: " + str(ex))
 
 
-for name, hooks in WEBHOOKS.items():
+for name, hooks in Settings.WEBHOOKS.items():
     for hook in hooks:
         if hook["enabled"]:
             Webhooks.add_handler(WebhookHandlerDescriptor(name, hook["url"]))

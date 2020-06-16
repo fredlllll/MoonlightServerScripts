@@ -1,4 +1,4 @@
-from Handlers.BaseHandler import BaseHandler
+from ..MoonlightBaseHandler import MoonlightBaseHandler
 from tornado.web import authenticated
 from APIs.Arma3ServerAPI import Arma3ServerController
 import logging
@@ -6,11 +6,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class Page_IndexHandler(BaseHandler):
+class IndexHandler(MoonlightBaseHandler):
     """
     renders the page_index.html template
     """
-    url_pattern = r'/'
     url = '/'
 
     @authenticated

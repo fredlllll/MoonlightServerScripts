@@ -1,4 +1,4 @@
-from Framework.Model import Model
+from TornadoBaseFramework.Storage.Model import Model
 
 WAITING = 'waiting'
 EXECUTING = 'executing'
@@ -20,5 +20,6 @@ class JobInfo(Model):
             'error',
             'start_timestamp',
             'end_timestamp',
-            'progress'
+            'progress',
+            'output'
         ]

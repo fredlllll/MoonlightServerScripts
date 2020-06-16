@@ -1,5 +1,4 @@
-from Framework.API.APIHandler import APIHandler
-from Handlers.API.UserAPI import UserAPI
+from TornadoBaseFramework.API.APIHandler import APIHandler
 
 
 class AppAPIHandler(APIHandler):
@@ -8,4 +7,3 @@ class AppAPIHandler(APIHandler):
         super().__init__(*args, **kwargs)
 
         # not needing any api yet
-        # self._add_api(UserAPI())

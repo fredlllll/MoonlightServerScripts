@@ -1,15 +1,15 @@
 import tornado.escape
 from tornado.web import RequestHandler
-from Util import generate_random_string, urlencode
+from TornadoBaseFramework.Util import generate_random_string,urlencode
 from Models.Session import Session
 from Models.User import User
-from Settings.Settings import APPLICATION_NAME
+from TornadoBaseFramework.Settings import Settings
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class BaseHandler(RequestHandler):
+class MoonlightBaseHandler(RequestHandler):
     def __init__(self, application, request, **kwargs):
         super().__init__(application, request, **kwargs)
         self.user = None
@@ -50,7 +50,7 @@ class BaseHandler(RequestHandler):
         is_authenticated = self.current_user is not None
         kwargs["is_authenticated"] = is_authenticated
         kwargs["generate_random_string"] = generate_random_string
-        kwargs["application_name"] = APPLICATION_NAME
+        kwargs["application_name"] = Settings.APPLICATION_NAME
 
         if is_authenticated:
             kwargs["user"] = self.current_user

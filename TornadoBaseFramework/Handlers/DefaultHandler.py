@@ -1,13 +1,16 @@
-from ..MoonlightBaseHandler import MoonlightBaseHandler
+from tornado.web import RequestHandler
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class DefaultHandler(MoonlightBaseHandler):
+class DefaultHandler(RequestHandler):
     """
     redirects to 404 for every action
     """
+
+    def redirect_404(self):
+        self.redirect('/404')
 
     def head(self, *args, **kwargs):
         self.redirect_404()

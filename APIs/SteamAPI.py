@@ -1,5 +1,5 @@
 import requests
-from Settings.Settings import ARMA3APPID, STEAMFOLDER
+from TornadoBaseFramework.Settings import Settings
 import subprocess
 import os
 import logging
@@ -70,7 +70,7 @@ def download_mods(mod_ids, user, password, auth_code):
     commands = []
     for mod_id in mod_ids:
         commands.append('+workshop_download_item')
-        commands.append(str(ARMA3APPID))
+        commands.append(str(Settings.ARMA3APPID))
         commands.append(str(mod_id))
     run_steam_cmd(commands, user, password, auth_code)
 
@@ -91,7 +91,7 @@ def _create_steam_cmd_call(parameters, user=None, password=None, auth_code=None)
 
 def run_steam_cmd(parameters, user=None, password=None, auth_code=None):
     cmdline = _create_steam_cmd_call(parameters, user, password, auth_code)
-    cmdline_censored = _create_steam_cmd_call(parameters, 'USER', 'PASSWORD', 'AUTH_CODE')
+    cmdline_censored = _create_steam_cmd_call(parameters, 'USER', 'PASSWORD', 'AUTH_CODE')  # prevent logging user credentials
     logger.info("calling steamcmd: " + ' '.join(cmdline_censored))
     try:
         subprocess.check_call(cmdline)
@@ -102,7 +102,7 @@ def run_steam_cmd(parameters, user=None, password=None, auth_code=None):
 def get_downloaded_mods():
     mods = []
 
-    workshop_mods_folder = os.path.join(STEAMFOLDER, 'SteamApps/workshop/content/', str(ARMA3APPID))
+    workshop_mods_folder = os.path.join(Settings.STEAMFOLDER, 'SteamApps/workshop/content/', str(Settings.ARMA3APPID))
     if os.path.exists(workshop_mods_folder):
         for entry in os.listdir(workshop_mods_folder):
             if os.path.isdir(os.path.join(workshop_mods_folder, entry)):
@@ -111,8 +111,8 @@ def get_downloaded_mods():
     return mods
 
 
-def delete_mods(mod_ids):
-    workshop_mods_folder = os.path.join(STEAMFOLDER, 'SteamApps/workshop/content/', str(ARMA3APPID))
+def delete_downloaded_mods(mod_ids):
+    workshop_mods_folder = os.path.join(Settings.STEAMFOLDER, 'SteamApps/workshop/content/', str(Settings.ARMA3APPID))
     for mod_id in mod_ids:
         mod_folder = os.path.join(workshop_mods_folder, mod_id)
         if os.path.exists(mod_folder):

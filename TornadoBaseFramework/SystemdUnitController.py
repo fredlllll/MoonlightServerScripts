@@ -1,7 +1,8 @@
 import subprocess
+from .ServiceController import ServiceController
 
 
-class SystemdUnitController:
+class SystemdUnitController(ServiceController):
     def __init__(self, unit_name):
         self.unit_name = unit_name
 

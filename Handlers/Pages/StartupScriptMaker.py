@@ -1,6 +1,6 @@
-from Handlers.BaseHandler import BaseHandler
+from Handlers.MoonlightBaseHandler import MoonlightBaseHandler
 from tornado.web import authenticated
-from Settings.Settings import ARMA3MODSDIR, ARMA3SERVERDIR, ARMA3SERVERRUNSCRIPT, ARMA3SERVERADDITONALCOMMANDLINE
+from TornadoBaseFramework.Settings import Settings
 import logging
 import os
 from Util import md5
@@ -8,18 +8,19 @@ from Util import md5
 logger = logging.getLogger(__name__)
 
 
-class Page_StartupScriptMakerHandler(BaseHandler):
+class StartupScriptMakerHandler(MoonlightBaseHandler):
     """
     renders the page_index.html template
     """
-    url_pattern = r'/startup_script_maker'
     url = '/startup_script_maker'
 
     def _get_mod_infos(self):
         mod_names = []
-        entries = os.listdir(ARMA3MODSDIR)
+        if not os.path.exists(Settings.ARMA3MODSDIR):
+            return []
+        entries = os.listdir(Settings.ARMA3MODSDIR)
         for entry in entries:
-            if os.path.isdir(os.path.join(ARMA3MODSDIR, entry)):
+            if os.path.isdir(os.path.join(Settings.ARMA3MODSDIR, entry)):
                 mod_names.append(entry)
 
         mod_infos = []
@@ -46,16 +47,16 @@ class Page_StartupScriptMakerHandler(BaseHandler):
                 checked_mods.append(info)
 
         content = "#!/bin/bash\n"
-        content += 'cd "' + ARMA3SERVERDIR + '"\n'
-        content += './arma3server ' + ARMA3SERVERADDITONALCOMMANDLINE + ' -mod="\\\n'
+        content += 'cd "' + Settings.ARMA3SERVERDIR + '"\n'
+        content += './arma3server ' + Settings.ARMA3SERVERADDITONALCOMMANDLINE + ' -mod="\\\n'
 
         for mod in checked_mods:
-            abs_path = os.path.join(ARMA3MODSDIR, mod['name'])
-            rel_path = os.path.relpath(abs_path, ARMA3SERVERDIR)
+            abs_path = os.path.join(Settings.ARMA3MODSDIR, mod['name'])
+            rel_path = os.path.relpath(abs_path, Settings.ARMA3SERVERDIR)
             content += rel_path + ';\\\n'
 
         content += '"'
 
-        with open(ARMA3SERVERRUNSCRIPT, 'w') as f:
+        with open(Settings.ARMA3SERVERRUNSCRIPT, 'w') as f:
             f.write(content)
         self.redirect(self.url)

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from MongoUtil import MongoUtil
-from Util import generate_random_string
+from .MongoUtil import MongoUtil
+from ..Util import generate_random_string
 import time
 import pymongo
 
@@ -95,7 +95,16 @@ class Model(ABC):
     @classmethod
     def modify_numeric_field(cls, key, field, change):
         coll = cls._get_collection()
-        coll.update({cls._get_key(): {'$eq': key}}, {"$inc": {field: change}}, upsert=True)
+        # cause mongodb is a bit stoopid i have to do some extra magic here
+        coll.update_one({cls._get_key(): {'$eq': key}}, [{'$set': {
+            field: {
+                "$add": [
+                    {"$ifNull": ['$' + field, 0]},
+                    change
+                ]
+            }
+        }}])
+        # coll.update({cls._get_key(): {'$eq': key}}, {"$inc": {field: change}}, upsert=True) #old version that only works if field is numeric, doesnt work with null just yet
 
     def _load_from_record(self, record):
         for f in self._get_fields():
@@ -114,16 +123,22 @@ class Model(ABC):
             self.__dict__[CREATED_TIMESTAMP_FIELD] = time.time()
         self.__dict__[UPDATED_TIMESTAMP_FIELD] = time.time()  # set updated time
 
-        record = {}
-        for sf in self._get_special_fields():
-            record[sf] = self.__dict__.get(sf, None)
-        for f in self._get_fields():
-            record[f] = self.__dict__.get(f, None)
+        record = self.to_record()
         _filter = {
             self._get_key(): record[self._get_key()]
         }
         coll = self._get_collection()
         coll.update_one(_filter, {"$set": record}, upsert=True)
+
+    def to_record(self, special_fields=True, normal_fields=True):
+        record = {}
+        if special_fields:
+            for sf in self._get_special_fields():
+                record[sf] = self.__dict__.get(sf, None)
+        if normal_fields:
+            for f in self._get_fields():
+                record[f] = self.__dict__.get(f, None)
+        return record
 
     def delete(self):
         self._delete_one_by_query({self._get_key(): {"$eq": self.__dict__[self._get_key()]}})

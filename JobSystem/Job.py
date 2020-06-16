@@ -9,6 +9,8 @@ class Job:
         self._job_info.name = name
         self._job_info.info = info
         self._job_info.status = WAITING
+        self._job_info.error = 'None'
+        self._job_info.output = ''
         self._job_info.progress = 0
         self._job_info.save()
 

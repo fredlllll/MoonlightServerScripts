@@ -1,4 +1,4 @@
-from Framework.Model import Model
+from TornadoBaseFramework.Storage.Model import Model
 from Utils.UserUtils import verify_password
 
 

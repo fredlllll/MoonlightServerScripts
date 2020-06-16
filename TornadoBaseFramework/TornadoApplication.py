@@ -2,11 +2,9 @@ import os
 
 import tornado.ioloop
 from tornado.web import Application
-from tornado import httpserver
 
-from Handlers.Pages.DefaultHandler import DefaultHandler
-from Handlers.BetterStaticFileHandler import BetterStaticFileHandler
-import Settings.Settings
+from .Handlers.DefaultHandler import DefaultHandler
+from .Handlers.BetterStaticFileHandler import BetterStaticFileHandler
 import logging
 
 import asyncio
@@ -19,7 +17,6 @@ except:
 logger = logging.getLogger(__name__)
 
 
-# caps classes for config
 class HTTPS_ENDPOINT:
     def __init__(self, enabled, port, certfile, keyfile):
         self.enabled = enabled
@@ -35,36 +32,38 @@ class HTTP_ENDPOINT:
 
 
 class TORNADO_APPLICATION:
-    def __init__(self, cookie_secret, endpoints):
+    def __init__(self, cookie_secret, endpoints, static_path="./static"):
         self.cookie_secret = cookie_secret
         self.endpoints = endpoints
+        self.static_path = static_path
 
 
 class TornadoApplication:
-    def __init__(self, handlers=None, ui_modules=None, config_name="tornado"):
+    def __init__(self, tornado_app_config, handlers=None, ui_modules=None):
         self.app = None
         self.handlers = handlers or []
-        self.config_name = config_name
+        self.tornado_app_config = tornado_app_config
         self.ui_modules = ui_modules or {}
         self.endpoints = []
 
-    def add_handler(self, regex, handler_class):
-        self.handlers.append((regex, handler_class))
+    def add_handler(self, regex, handler_class, args=None):
+        if args is not None:
+            self.handlers.append((regex, handler_class, args))
+        else:
+            self.handlers.append((regex, handler_class))
 
     def start(self):
         if self.app is None:
-            config = Settings.Settings.TORNADO_APPLICATIONS[self.config_name]
-
             settings = {
                 "default_handler_class": DefaultHandler,
                 "template_path": os.path.abspath("./templates"),
                 "login_url": "/login_signup",
-                "cookie_secret": config.cookie_secret,
+                "cookie_secret": self.tornado_app_config.cookie_secret,
                 "ui_modules": self.ui_modules
             }
-            self.app = Application(self.handlers, static_path="./static", static_handler_class=BetterStaticFileHandler, **settings)
+            self.app = Application(self.handlers, static_path=self.tornado_app_config.static_path, static_handler_class=BetterStaticFileHandler, **settings)
 
-            for endp in config.endpoints:
+            for endp in self.tornado_app_config.endpoints:
                 if isinstance(endp, HTTP_ENDPOINT):
                     if endp.enabled:
                         endpoint = tornado.httpserver.HTTPServer(self.app)

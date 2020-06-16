@@ -1,7 +1,7 @@
-from Handlers.BaseHandler import BaseHandler
-from Handlers.Pages.Page_JobsHandler import Page_JobsHandler
+from Handlers.MoonlightBaseHandler import MoonlightBaseHandler
+from .Jobs import JobsHandler
 from tornado.web import authenticated
-from APIs.SteamAPI import get_downloaded_mods, get_mod_name, get_collection_mod_ids
+from APIs.SteamAPI import get_downloaded_mods, get_mod_name, get_collection_mod_ids, delete_downloaded_mods
 import logging
 from JobSystem.Jobs.DownloadModsJob import DownloadModsJob
 from JobSystem.Jobs.DeleteModsJob import DeleteModsJob
@@ -10,11 +10,10 @@ from JobSystem.JobExecuter import JobExecuter
 logger = logging.getLogger(__name__)
 
 
-class Page_ModDownloaderHandler(BaseHandler):
+class ModDownloaderHandler(MoonlightBaseHandler):
     """
     renders the page_index.html template
     """
-    url_pattern = r'/mod_downloader'
     url = '/mod_downloader'
 
     @authenticated
@@ -47,7 +46,7 @@ class Page_ModDownloaderHandler(BaseHandler):
         job = DownloadModsJob(mod_ids, user, password, auth_code)
         JobExecuter.add_job(job)
 
-        self.redirect(Page_JobsHandler.url)
+        self.redirect(JobsHandler.url)
 
     def post_delete(self):
         mod_id = self.get_argument('mod_id', None)
@@ -55,17 +54,14 @@ class Page_ModDownloaderHandler(BaseHandler):
             self.redirect(self.url)
             return
 
-        job = DeleteModsJob([mod_id])
-        JobExecuter.add_job(job)
-
-        self.redirect(Page_JobsHandler.url)
+        delete_downloaded_mods([mod_id])
+        self.redirect(self.url)
         
     def post_delete_all(self):
         mod_ids = get_downloaded_mods()
-        job = DeleteModsJob(mod_ids)
-        JobExecuter.add_job(job)
+        delete_downloaded_mods(mod_ids)
 
-        self.redirect(Page_JobsHandler.url)
+        self.redirect(self.url)
 
     @authenticated
     def post(self):
