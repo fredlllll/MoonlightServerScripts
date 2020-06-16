@@ -4,7 +4,6 @@ from tornado.web import authenticated
 from APIs.SteamAPI import get_downloaded_mods, get_mod_name, get_collection_mod_ids, delete_downloaded_mods
 import logging
 from JobSystem.Jobs.DownloadModsJob import DownloadModsJob
-from JobSystem.Jobs.DeleteModsJob import DeleteModsJob
 from JobSystem.JobExecuter import JobExecuter
 
 logger = logging.getLogger(__name__)
