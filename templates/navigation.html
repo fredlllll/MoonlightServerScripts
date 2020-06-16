@@ -3,19 +3,19 @@
     <a href="/login_signup?logout">Logout</a>
 </li>
 <li>
-    <a href="/">Index</a>
+    <a href="/{% include current_server_query.html.inc %}">Index</a>
 </li>
 <li>
-    <a href="/jobs">Jobs</a>
+    <a href="/jobs{% include current_server_query.html.inc %}">Jobs</a>
 </li>
 <li>
-    <a href="/mod_downloader">Mod Downloader</a>
+    <a href="/mod_downloader{% include current_server_query.html.inc %}">Mod Downloader</a>
 </li>
 <li>
-    <a href="/mod_linker">Mod Linker</a>
+    <a href="/mod_linker{% include current_server_query.html.inc %}">Mod Linker</a>
 </li>
 <li>
-    <a href="/startup_script_maker">Startup Script Maker</a>
+    <a href="/startup_script_maker{% include current_server_query.html.inc %}">Startup Script Maker</a>
 </li>
 {%else%}
 <li>

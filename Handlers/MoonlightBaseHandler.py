@@ -1,6 +1,6 @@
 import tornado.escape
 from tornado.web import RequestHandler
-from TornadoBaseFramework.Util import generate_random_string,urlencode
+from TornadoBaseFramework.Util import generate_random_string, urlencode
 from Models.Session import Session
 from Models.User import User
 from TornadoBaseFramework.Settings import Settings
@@ -55,5 +55,7 @@ class MoonlightBaseHandler(RequestHandler):
         if is_authenticated:
             kwargs["user"] = self.current_user
             kwargs["has_permission"] = self._has_permission
+            kwargs["servers"] = []  # TODO
+            kwargs["current_server"] = self.get_argument('server', None)
 
         super().render(template_name, **kwargs)

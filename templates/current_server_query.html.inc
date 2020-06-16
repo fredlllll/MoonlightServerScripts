@@ -1,0 +1,1 @@
+{% if current_server is not None and len(current_server) > 0 %}?server={{current_server}}{% end %}

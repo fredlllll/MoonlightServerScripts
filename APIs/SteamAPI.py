@@ -32,7 +32,7 @@ def get_mod_name(mod_id, dont_use_cache=False):
 
 
 def escape_mod_name(mod_name):
-    # best guess are that these are escaped: / < > : " \ | ? * with a dash cause they dont work on windows
+    # best guess is that these are escaped: / < > : " \ | ? * with a dash cause they dont work on windows
     to_escape = ['/', '<', '>', ':', '"', '\\', '|', '?', '*']
 
     for c in to_escape:

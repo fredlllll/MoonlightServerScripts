@@ -1,7 +1,6 @@
 #!/bin/bash
-#authbind is necessary so the application can bind to port 80 without root rights on linux
+#authbind would be necessary if the application binds to port 80 without root rights on linux
 source venv/bin/activate
-#authbind --deep python3.8 -m main.py
-#dont need authbind for moonlight cause we use other port
-python3.8 -m main.py
+#TODO: i know having this process in sudo is risky, but i have some functionality that needs sudo rights and it dont have time to make a clean solution for now
+sudo python3.8 -m main.py
 deactivate
