@@ -106,7 +106,7 @@ def run_steam_cmd(parameters, user=None, password=None, auth_code=None):
 def get_downloaded_mods():
     mods = []
 
-    workshop_mods_folder = os.path.join(STEAMFOLDER, 'SteamApps/workshop/content/', str(ARMA3APPID))
+    workshop_mods_folder = os.path.join(STEAMFOLDER, 'steamapps/workshop/content/', str(ARMA3APPID))
     if os.path.exists(workshop_mods_folder):
         for entry in os.listdir(workshop_mods_folder):
             if os.path.isdir(os.path.join(workshop_mods_folder, entry)):
@@ -116,7 +116,7 @@ def get_downloaded_mods():
 
 
 def delete_mods(mod_ids):
-    workshop_mods_folder = os.path.join(STEAMFOLDER, 'SteamApps/workshop/content/', str(ARMA3APPID))
+    workshop_mods_folder = os.path.join(STEAMFOLDER, 'steamapps/workshop/content/', str(ARMA3APPID))
     for mod_id in mod_ids:
         mod_folder = os.path.join(workshop_mods_folder, mod_id)
         if os.path.exists(mod_folder):

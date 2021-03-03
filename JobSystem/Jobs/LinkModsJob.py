@@ -11,7 +11,7 @@ class LinkModsJob(Job):
         self.mod_ids = mod_ids
 
     def _run(self):
-        workshop_mods_folder = os.path.join(STEAMFOLDER, 'SteamApps/workshop/content/', str(ARMA3APPID))
+        workshop_mods_folder = os.path.join(STEAMFOLDER, 'steamapps/workshop/content/', str(ARMA3APPID))
 
         delete_folder_contents(ARMA3MODSDIR)
 
