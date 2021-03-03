@@ -24,7 +24,11 @@ def get_mod_name(mod_id, dont_use_cache=False):
     if resp.status_code != 200:  # just return id if the call failed
         name = str(mod_id)
     else:
-        name = resp.json()['response']['publishedfiledetails'][0]['title']
+        try:
+            name = resp.json()['response']['publishedfiledetails'][0]['title']
+        except:
+            logger.warning(resp.json())
+            name = str(mod_id)
 
     MOD_NAME_CACHE[mod_id] = name
 
