@@ -1,5 +1,5 @@
-from JobSystem.Job import Job
-from APIs.SteamAPI import download_mods
+from job_system.Job import Job
+from apis.SteamAPI import download_mods
 
 
 class DownloadModsJob(Job):

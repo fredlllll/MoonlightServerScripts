@@ -1,8 +1,8 @@
 import tornado.escape
 from tornado.web import RequestHandler
 from TornadoBaseFramework.Util import generate_random_string, urlencode
-from Models.Session import Session
-from Models.User import User
+from models.Session import Session
+from models.User import User
 from TornadoBaseFramework.Settings import Settings
 import logging
 

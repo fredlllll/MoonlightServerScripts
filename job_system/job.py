@@ -1,6 +1,6 @@
 import time
 import traceback
-from Models.JobInfo import JobInfo, WAITING, EXECUTING, FAILED, FINISHED
+from models.JobInfo import JobInfo, WAITING, EXECUTING, FAILED, FINISHED
 
 
 class Job:

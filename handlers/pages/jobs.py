@@ -1,7 +1,7 @@
-from Handlers.MoonlightBaseHandler import MoonlightBaseHandler
+from handlers.MoonlightBaseHandler import MoonlightBaseHandler
 from tornado.web import authenticated
 import logging
-from Models.JobInfo import JobInfo, WAITING, EXECUTING
+from models.JobInfo import JobInfo, WAITING, EXECUTING
 
 logger = logging.getLogger(__name__)
 

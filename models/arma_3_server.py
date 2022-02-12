@@ -1,6 +1,6 @@
 from TornadoBaseFramework.Storage.Model import Model
 from TornadoBaseFramework.Settings import Settings
-from APIs.Arma3ServerAPI import create_service, create_startup_script
+from apis.Arma3ServerAPI import create_service, create_startup_script
 import shutil
 import os
 

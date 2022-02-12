@@ -1,5 +1,5 @@
 from TornadoBaseFramework.Settings import Settings
-from Settings import AppSettings
+from settings import AppSettings
 
 Settings.register_module(AppSettings)
 try:
@@ -24,7 +24,7 @@ logger.info("Creating Tornado Applications")
 app = TornadoApplication(Settings.TORNADO_APPLICATIONS['tornado'])
 
 logger.info("Adding Pages")
-from Handlers.AppPages import pages
+from handlers.AppPages import pages
 
 for page in pages:
     app.add_handler(page.url, page)

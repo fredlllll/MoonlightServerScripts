@@ -1,6 +1,6 @@
-from Handlers.MoonlightBaseHandler import MoonlightBaseHandler
+from handlers.MoonlightBaseHandler import MoonlightBaseHandler
 from tornado.web import authenticated
-from APIs.SteamAPI import get_downloaded_mods, get_mod_name, escape_mod_name
+from apis.SteamAPI import get_downloaded_mods, get_mod_name, escape_mod_name
 from .Jobs import JobsHandler
 from TornadoBaseFramework.Settings import Settings
 from Util import delete_folder_contents

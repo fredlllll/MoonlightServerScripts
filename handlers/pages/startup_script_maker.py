@@ -1,4 +1,4 @@
-from Handlers.MoonlightBaseHandler import MoonlightBaseHandler
+from handlers.MoonlightBaseHandler import MoonlightBaseHandler
 from tornado.web import authenticated
 from TornadoBaseFramework.Settings import Settings
 import logging

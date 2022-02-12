@@ -1,6 +1,6 @@
 from ..MoonlightBaseHandler import MoonlightBaseHandler
 from tornado.web import authenticated
-from APIs.Arma3ServerAPI import Arma3ServerController
+from apis.Arma3ServerAPI import Arma3ServerController
 import logging
 
 logger = logging.getLogger(__name__)

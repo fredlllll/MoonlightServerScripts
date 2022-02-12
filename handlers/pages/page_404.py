@@ -1,4 +1,4 @@
-from Handlers.MoonlightBaseHandler import MoonlightBaseHandler
+from handlers.MoonlightBaseHandler import MoonlightBaseHandler
 import logging
 
 logger = logging.getLogger(__name__)

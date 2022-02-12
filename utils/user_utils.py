@@ -1,4 +1,4 @@
-from Models.User import *
+from models.User import *
 from passlib.apps import custom_app_context
 import logging
 

@@ -1,10 +1,10 @@
-from Handlers.MoonlightBaseHandler import MoonlightBaseHandler
+from handlers.MoonlightBaseHandler import MoonlightBaseHandler
 from .Jobs import JobsHandler
 from tornado.web import authenticated
-from APIs.SteamAPI import get_downloaded_mods, get_mod_name, get_collection_mod_ids, delete_downloaded_mods
+from apis.SteamAPI import get_downloaded_mods, get_mod_name, get_collection_mod_ids, delete_downloaded_mods
 import logging
-from JobSystem.Jobs.DownloadModsJob import DownloadModsJob
-from JobSystem.JobExecuter import JobExecuter
+from job_system.jobs.DownloadModsJob import DownloadModsJob
+from job_system.JobExecuter import JobExecuter
 
 logger = logging.getLogger(__name__)
 
