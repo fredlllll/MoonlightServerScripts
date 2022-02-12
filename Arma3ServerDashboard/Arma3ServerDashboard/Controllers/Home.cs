@@ -4,22 +4,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Arma3ServerDashboard.Controllers
 {
-    public class HomeController : Controller
+    public class Home : Controller
     {
-        private readonly DashboardDbContext dbContext;
+        //private readonly DashboardDbContext dbContext;
 
-        public HomeController(DashboardDbContext dbContext)
+        public Home(/*DashboardDbContext dbContext*/)
         {
-            this.dbContext = dbContext;
+            //this.dbContext = dbContext;
         }
         
         public IActionResult Index()
         {
+            
+
             ViewData["Title"] = "dis a title";
-            ViewData["Users"] = dbContext.Users.All(x => true);
+            //ViewData["Users"] = dbContext.Users.All(x => true);
 
             return View();
         }

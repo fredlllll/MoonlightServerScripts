@@ -1,0 +1,28 @@
+﻿@using Arma3ServerDashboard.Middlewares;
+@if (Context.IsLoggedIn())
+{
+    <li>
+        <a href="~/Account/Logout?logout">Logout</a>
+    </li>
+    <li>
+        <a href="/">Index</a>
+    </li>
+    <li>
+        <a href="/jobs{% include current_server_query.html.inc %}">Jobs</a>
+    </li>
+    <li>
+        <a href="/mod_downloader{% include current_server_query.html.inc %}">Mod Downloader</a>
+    </li>
+    <li>
+        <a href="/mod_linker{% include current_server_query.html.inc %}">Mod Linker</a>
+    </li>
+    <li>
+        <a href="/startup_script_maker{% include current_server_query.html.inc %}">Startup Script Maker</a>
+    </li>
+}
+else
+{
+    <li>
+        <a href="~/Account">Login/Sign up</a>
+    </li>
+}

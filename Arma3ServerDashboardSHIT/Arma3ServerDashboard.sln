@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arma3ServerDashboard", "Arma3ServerDashboard\Arma3ServerDashboard.csproj", "{EBE8B4D0-0F86-4FA1-918C-D5E3681C8D11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBE8B4D0-0F86-4FA1-918C-D5E3681C8D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBE8B4D0-0F86-4FA1-918C-D5E3681C8D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBE8B4D0-0F86-4FA1-918C-D5E3681C8D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBE8B4D0-0F86-4FA1-918C-D5E3681C8D11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {42FA080D-E53C-4CE2-A5D2-02FDB8C35E97}
+	EndGlobalSection
+EndGlobal

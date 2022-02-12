@@ -1,0 +1,77 @@
+﻿@{
+    Layout = "_Layout";
+}
+@if (ViewData.ContainsKey("error"))
+{
+    @: Error: @ViewData["error"]
+}
+
+<div>
+    Login
+    <form asp-action="Login" id="login-form" method="POST">
+        <table>
+            <tr>
+                <td>
+                    User
+                </td>
+                <td>
+                    <input type="text" name="user" placeholder="User" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password
+                </td>
+                <td>
+                    <input type="Password" name="password" placeholder="Password" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="submit" name="login" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<hr>
+<div>
+    Sign Up
+    <form asp-action="Register" id="sign-up-form" method="POST">
+        <table>
+            <tr>
+                <td>
+                    User
+                </td>
+                <td>
+                    <input type="text" name="user" placeholder="User">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password
+                </td>
+                <td>
+                    <input type="Password" name="password" placeholder="Password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Confirm Password
+                </td>
+                <td>
+                    <input type="Password" name="password1" placeholder="Confirm Password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="submit" name="signup" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

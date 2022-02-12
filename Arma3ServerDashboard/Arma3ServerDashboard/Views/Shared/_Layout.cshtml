@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Arma 3 Server Dashboard</title>
+    <link rel="stylesheet" href="~/css/style.css" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="container">
+        <nav class="navigation">
+            <ul class="nav">
+                @await RenderSectionAsync("Navigation", required:false)
+                @if (!IsSectionDefined("Navigation"))
+                {
+                    await Html.RenderPartialAsync("_Navigation");
+                }
+            </ul>
+        </nav>
+        <main class="main">
+            @RenderBody()
+        </main>
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
