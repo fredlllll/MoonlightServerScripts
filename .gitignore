@@ -72,6 +72,9 @@ fabric.properties
 .idea/**/misc.xml
 
 venv/
+.venv/
 __pycache__/
 *.log
 LocalSettings.py
+local_settings.py
+.idea/
