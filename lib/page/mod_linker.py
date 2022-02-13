@@ -2,6 +2,7 @@ from lib.apis.steam import get_downloaded_mods, get_mod_name, escape_mod_name
 from lib.settings import Settings
 from lib.util import delete_folder_contents
 from lib.jinja_templates import get_template
+from lib.constants import ARMA3APPID
 from sanic.response import html, redirect
 import os
 import logging
@@ -22,14 +23,14 @@ def get_mod_infos():
 
 
 def link_mods(mod_ids):
-    workshop_mods_folder = os.path.join(Settings.STEAMFOLDER, 'steamapps/workshop/content/', str(Settings.ARMA3APPID))
+    workshop_mods_folder = os.path.join(Settings.steam_folder, 'steamapps/workshop/content/', str(ARMA3APPID))
 
-    delete_folder_contents(Settings.ARMA3MODSDIR)
+    delete_folder_contents(Settings.arma_3_mods_dir)
 
     for mod_id in mod_ids:
         mod_folder = os.path.join(workshop_mods_folder, mod_id)
         mod_name = get_mod_name(mod_id)
-        target_folder = os.path.join(Settings.ARMA3MODSDIR, '@' + escape_mod_name(mod_name))  # escape mod name
+        target_folder = os.path.join(Settings.arma_3_mods_dir, '@' + escape_mod_name(mod_name))  # escape mod name
         os.makedirs(target_folder, exist_ok=True)  # create the @modname folder
         for abs_dir_path, sub_dirs, files in os.walk(mod_folder):
             rel_dir_path = os.path.relpath(abs_dir_path, mod_folder).lower()  # make folder names inside mod lowercase
