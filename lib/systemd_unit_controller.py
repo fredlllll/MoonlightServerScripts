@@ -1,6 +1,7 @@
 import subprocess
 from lib.service_controller import ServiceController
 
+
 class SystemdUnitController(ServiceController):
     def __init__(self, unit_name):
         self.unit_name = unit_name
@@ -24,9 +25,9 @@ class SystemdUnitController(ServiceController):
         results = subprocess.check_output(['systemctl', 'show', self.unit_name, '--no-page'], universal_newlines=True).split('\n')
         results_dict = {}
         for entry in results:
-            kv = entry.split(b"=", 1)
+            kv = entry.split("=", 1)  # Pycharm says the entry is bytes, but when running on linux its str. no idea why
             if len(kv) == 2:
-                results_dict[kv[0].decode()] = kv[1].decode()
+                results_dict[kv[0]] = kv[1]
         return results_dict
 
     def get_state(self):
