@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block title %}Mod Downloader{% endblock %}
+{% block main %}
+Downloaded mods({{mod_infos|length}}):<br/>
+{% if mod_infos|length > 0 %}
+<table class="mods">
+    <tr>
+        <th>Mod ID</th>
+        <th>Mod name</th>
+        <th>Delete</th>
+    </tr>
+    {% for mod_info in mod_infos %}
+    <tr>
+        <td>{{ mod_info['id'] }}</td>
+        <td>{{ mod_info['name'] }}</td>
+        <td><form method="post">
+            <input type="submit" value="Delete"/>
+            <input type="hidden" name="action" value="delete"/>
+            <input type="hidden" name="mod_id" value="{{mod_info['id']}}" />
+        </form></td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+No Mods downloaded at the moment
+{% endif %}
+
+Delete Mods:
+<form method="post">
+    <input type="hidden" name="action" value="delete-all"/>
+    <input type="submit" value="Delete All Mods"/>
+</form>
+
+<br/>
+<br/>
+Download Mods:
+<form method="post">
+    <table>
+        <tr>
+            <td>
+                a) Collection id
+            </td>
+            <td>
+                <input type="text" name="collection_id" placeholder="collection id"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                b) Mod Ids
+            </td>
+            <td>
+                <input type="text" name="mod_ids" placeholder="123,5656,12331234,..."/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                User
+            </td>
+            <td>
+                <input type="text" name="user" placeholder="User"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Password
+            </td>
+            <td>
+                <input type="password" name="password" placeholder="Password"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2FA code
+            </td>
+            <td>
+                <input type="text" name="auth_code" placeholder="2FA code"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+            <td>
+                <input type="submit" name="download_mods" value="Download Mods">
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" name="action" value="download"/>
+</form>
+{% endblock %}

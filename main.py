@@ -1,34 +1,29 @@
-from TornadoBaseFramework.Settings import Settings
-from settings import AppSettings
+from lib.settings import Settings
 
-Settings.register_module(AppSettings)
-try:
-    import LocalSettings
 
-    Settings.register_module(LocalSettings)
-except Exception as e:
-    print(str(e))
+def main():
+    import os
+    import json
+    with open('settings.json', 'r') as f:
+        Settings.register_module_or_dict(json.load(f))
+    if os.path.exists('local_settings.json'):
+        with open('local_settings.json', 'r') as f:
+            Settings.register_module_or_dict(json.load(f))
 
-from TornadoBaseFramework.Logging import init_logging
+    from lib.log import init_logging
+    init_logging()
 
-init_logging()
+    import logging
+    logger = logging.getLogger(__name__)
 
-import logging
+    from lib.sanic_app import SanicApp
+    logger.info("Creating App")
+    app = SanicApp()
+    logger.info("Setting up App")
+    app.setup()
+    logger.info("Running App")
+    app.run()
 
-logger = logging.getLogger(__name__)
-logger.info("Moonlight dashboard Startup")
 
-from TornadoBaseFramework.TornadoApplication import TornadoApplication
-
-logger.info("Creating Tornado Applications")
-app = TornadoApplication(Settings.TORNADO_APPLICATIONS['tornado'])
-
-logger.info("Adding Pages")
-from handlers.AppPages import pages
-
-for page in pages:
-    app.add_handler(page.url, page)
-
-logger.info("Starting app")
-app.start()
-app.run_loop()
+if __name__ == '__main__':
+    main()

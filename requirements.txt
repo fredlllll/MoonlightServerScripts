@@ -1,1 +1,6 @@
-passlib==1.7.2
+passlib==1.7.4
+sanic==21.12.1
+motor==2.5.1
+jinja2==3.0.3
+requests==2.27.1
+diskcache==5.4.0

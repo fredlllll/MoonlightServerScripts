@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Jobs{% endblock %}
+{% block main %}
+Jobs({{job_infos|length}}):<br/>
+<form method="post">
+    <input type="submit" name="clear_jobs" value="Clear Done Jobs"/>
+</form>
+{% if job_infos|length > 0 %}
+<table class="jobs">
+    <tr>
+        <th>Job Name</th>
+        <th>Job Status</th>
+        <th>Job Info</th>
+        <th>Job Error</th>
+    </tr>
+    {% for job_info in job_infos %}
+    <tr>
+        <td>{{ job_info['name'] }}</td>
+        <td>{{ job_info['status'] }}</td>
+        <td>{{ job_info['info'] }}</td>
+        <td>{{ job_info.get('error','') }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+No Jobs here yet
+{% endif %}
+{% endblock %}

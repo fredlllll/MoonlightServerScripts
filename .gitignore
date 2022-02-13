@@ -76,5 +76,6 @@ venv/
 __pycache__/
 *.log
 LocalSettings.py
-local_settings.py
+local_settings.json
 .idea/
+caches/

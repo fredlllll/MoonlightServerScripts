@@ -1,24 +1,27 @@
-{% if is_authenticated %}
+{% if user %}
 <li>
     <a href="/login_signup?logout">Logout</a>
 </li>
 <li>
-    <a href="/{% include current_server_query.html.inc %}">Index</a>
+    <a href="/">Index</a>
 </li>
 <li>
-    <a href="/jobs{% include current_server_query.html.inc %}">Jobs</a>
+    <a href="/jobs">Jobs</a>
 </li>
 <li>
-    <a href="/mod_downloader{% include current_server_query.html.inc %}">Mod Downloader</a>
+    <a href="/mod_downloader">Mod Downloader</a>
 </li>
 <li>
-    <a href="/mod_linker{% include current_server_query.html.inc %}">Mod Linker</a>
+    <a href="/mod_linker">Mod Linker</a>
 </li>
 <li>
-    <a href="/startup_script_maker{% include current_server_query.html.inc %}">Startup Script Maker</a>
+    <a href="/startup_script_maker">Startup Script Maker</a>
 </li>
-{%else%}
+{% else %}
 <li>
-    <a href="/login_signup">Login/Sign up</a>
+    <a href="/login">Login</a>
 </li>
-{%end%}
+<li>
+    <a href="/register">Register</a>
+</li>
+{% endif %}

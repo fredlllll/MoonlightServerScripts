@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}Register{% endblock %}
+{% block main %}
+<div>
+    Sign Up
+    <form id="sign-up-form" method="POST">
+        <table>
+            <tr>
+                <td>
+                    User
+                </td>
+                <td>
+                    <input type="text" name="user" placeholder="User">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password
+                </td>
+                <td>
+                    <input type="Password" name="password" placeholder="Password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Confirm Password
+                </td>
+                <td>
+                    <input type="Password" name="password1" placeholder="Confirm Password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td>
+                    <input type="submit" name="signup"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+{% endblock %}

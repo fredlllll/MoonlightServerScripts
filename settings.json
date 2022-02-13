@@ -1,0 +1,20 @@
+{
+  "sanic_host": "0.0.0.0",
+  "sanic_port": 8080,
+  "sanic_workers": 1,
+  "mongo_db_host": "127.0.0.1",
+  "mongo_db_port": 27017,
+  "mongo_db_db_name": "moondash",
+  "mongo_db_user": null,
+  "mongo_db_password": null,
+  "mongo_db_auth_db": "admin",
+  "access_log": true,
+  "log_file_location": "moondash.log",
+  "session_cookie_name": "moonlight-dashboard-session",
+  "arma_3_server_dir": "/home/moonlight/.steam/steamapps/common/Arma 3 Server",
+  "arma_3_mods_dir": "/home/moonlight/.steam/steamapps/common/Arma 3 Server/mods",
+  "arma_3_server_service_name": "arma3server",
+  "arma_3_server_additional_commandline": "-cfg=basic.cfg -config=server.cfg -name=server -loadMissionToMemory",
+  "arma_3_server_run_script": "/home/moonlight/runarma3server.sh",
+  "steam_folder": "/home/moonlight/.steam"
+}
