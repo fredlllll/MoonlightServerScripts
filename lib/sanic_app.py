@@ -3,6 +3,7 @@ from lib.middleware.user_session import user_session
 from lib.middleware.logged_in_out import logged_in, logged_out
 from lib.settings import Settings
 from lib.db.migrations.migrations import run_migrations
+from lib.log_timestamper import LogTimestamper
 
 # pages
 from lib.page.index import index, index_post
@@ -20,6 +21,9 @@ from lib.page.startup_script_maker import startup_script_maker, startup_script_m
 async def main_process_start(app, loop):
     print('running migrations')
     await run_migrations()
+
+
+log_timestamper = LogTimestamper(600)
 
 
 class SanicApp:
@@ -66,17 +70,17 @@ class SanicApp:
         self.bp_logged_out.add_route(login_post, '/login', methods=('POST',))
         self.bp_logged_in.add_route(logout, '/logout', methods=('GET',))
 
-        self.bp_logged_in.add_route(mod_downloader,'/mod_downloader', methods=('GET',))
-        self.bp_logged_in.add_route(mod_downloader_post,'/mod_downloader', methods=('POST',))
+        self.bp_logged_in.add_route(mod_downloader, '/mod_downloader', methods=('GET',))
+        self.bp_logged_in.add_route(mod_downloader_post, '/mod_downloader', methods=('POST',))
 
-        self.bp_logged_in.add_route(mod_linker,'/mod_linker', methods=('GET',))
-        self.bp_logged_in.add_route(mod_linker_post,'/mod_linker', methods=('POST',))
+        self.bp_logged_in.add_route(mod_linker, '/mod_linker', methods=('GET',))
+        self.bp_logged_in.add_route(mod_linker_post, '/mod_linker', methods=('POST',))
 
         self.bp_logged_out.add_route(register, '/register', methods=('GET',))
         self.bp_logged_out.add_route(register_post, '/register', methods=('POST',))
 
-        self.bp_logged_in.add_route(startup_script_maker,'/startup_script_maker', methods=('GET',))
-        self.bp_logged_in.add_route(startup_script_maker_post,'/startup_script_maker', methods=('POST',))
+        self.bp_logged_in.add_route(startup_script_maker, '/startup_script_maker', methods=('GET',))
+        self.bp_logged_in.add_route(startup_script_maker_post, '/startup_script_maker', methods=('POST',))
 
     def _setup_apis(self):
         pass
@@ -94,4 +98,5 @@ class SanicApp:
         self._add_blueprints()
 
     def run(self):
+        # TODO: somehow add the fucking log timestamper to this shit
         self.app.run(host=Settings.sanic_host, port=Settings.sanic_port, access_log=Settings.access_log, workers=Settings.sanic_workers, auto_reload=False)

@@ -1,9 +1,6 @@
 import logging
 import logging.handlers
 import queue
-from lib.log_timestamper import LogTimestamper
-
-timestamper = LogTimestamper(600)
 
 
 def init_logging():
@@ -14,4 +11,3 @@ def init_logging():
     queue_listener.start()
     logging.root.level = logging.INFO
     logging.root.addHandler(queue_handler)
-    timestamper.start()
