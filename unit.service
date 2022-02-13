@@ -2,8 +2,8 @@
 Description=__servicedescription__
 
 [Service]
-User=root
-Group=root
+User=__user__
+Group=__group__
 WorkingDirectory=__workingdir__
 ExecStart=/bin/bash __workingdir__/run.sh
 Restart=always
