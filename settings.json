@@ -16,5 +16,6 @@
   "arma_3_server_service_name": "arma3server",
   "arma_3_server_additional_commandline": "-cfg=basic.cfg -config=server.cfg -name=server -loadMissionToMemory",
   "arma_3_server_run_script": "/home/moonlight/runarma3server.sh",
-  "steam_folder": "/home/moonlight/.steam"
+  "steam_folder": "/home/moonlight/.steam",
+  "arma_3_server_user": "moonlight"
 }

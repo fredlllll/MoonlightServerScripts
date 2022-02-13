@@ -9,7 +9,7 @@ class Session(Model):
 
     def _get_fields(self):
         return [
-            'user_id'
+            'user_id',
         ]
 
     @classmethod
