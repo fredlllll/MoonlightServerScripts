@@ -19,6 +19,6 @@ class Arma3Server(Model):
 
     def create_files(self):
         create_service(self.id)
-        create_startup_script(self)
+        await create_startup_script(self)
         shutil.copy("ArmaServerDefaultFiles/basic.cfg", os.path.join(Settings.arma_3_server_dir, self.id + "_basic.cfg"))
         shutil.copy("ArmaServerDefaultFiles/server.cfg", os.path.join(Settings.arma_3_server_dir, self.id + "_server.cfg"))

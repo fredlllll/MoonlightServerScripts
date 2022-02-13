@@ -26,7 +26,7 @@ def get_server_controller(server):
     return cont
 
 
-def create_startup_script(server):
+async def create_startup_script(server):
     user = Settings.arma_3_server_user
     file_name = "/home/" + user + "/arma3server_" + server.id + "_startup.sh"
 
