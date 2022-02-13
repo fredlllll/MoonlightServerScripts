@@ -1,5 +1,6 @@
 import threading
 import time
+import signal
 
 
 class JobExecuter:
@@ -39,3 +40,5 @@ class JobExecuter:
 
 JobExecuter.init()
 JobExecuter.start()
+
+signal.signal(signal.SIGINT, lambda signo, frame: JobExecuter.stop())

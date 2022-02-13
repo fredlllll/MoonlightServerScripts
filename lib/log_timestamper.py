@@ -6,8 +6,8 @@ logger = logging.getLogger(__name__)
 
 
 class LogTimestamper:
-    def __init__(self, interval = 60):
-        self.thread = threading.Thread(target=self._run)
+    def __init__(self, interval=60):
+        self.thread = threading.Thread(target=self._run, daemon=True)
         self.interval = interval
 
     def start(self):
