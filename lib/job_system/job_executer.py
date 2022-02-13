@@ -9,20 +9,15 @@ class JobExecuter:
     running = False
 
     @classmethod
-    def init(cls):
-        cls.t = threading.Thread(target=cls._run)
-
-    @classmethod
-    def start(cls):
-        cls.running = True
-        cls.t.start()
-
-    @classmethod
     def stop(cls):
         cls.running = False
 
     @classmethod
     def add_job(cls, job):
+        if cls.t is None:
+            cls.t = threading.Thread(target=cls._run)
+            cls.running = True
+            cls.t.start()
         cls.jobs.append(job)
 
     @classmethod
@@ -37,9 +32,6 @@ class JobExecuter:
             else:
                 time.sleep(1)
 
-
-JobExecuter.init()
-JobExecuter.start()
 
 signal.signal(signal.SIGINT, lambda signo, frame: JobExecuter.stop())
 signal.signal(signal.SIGTERM, lambda signo, frame: JobExecuter.stop())
