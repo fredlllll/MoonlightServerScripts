@@ -42,3 +42,4 @@ JobExecuter.init()
 JobExecuter.start()
 
 signal.signal(signal.SIGINT, lambda signo, frame: JobExecuter.stop())
+signal.signal(signal.SIGTERM, lambda signo, frame: JobExecuter.stop())
