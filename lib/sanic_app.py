@@ -3,7 +3,6 @@ from lib.middleware.user_session import user_session
 from lib.middleware.logged_in_out import logged_in, logged_out
 from lib.settings import Settings
 from lib.db.migrations.migrations import run_migrations
-from lib.log_timestamper import LogTimestamper
 
 # pages
 from lib.page.index import index, index_post
@@ -21,9 +20,6 @@ from lib.page.startup_script_maker import startup_script_maker, startup_script_m
 async def main_process_start(app, loop):
     print('running migrations')
     await run_migrations()
-
-
-log_timestamper = LogTimestamper(600)
 
 
 class SanicApp:
@@ -98,5 +94,4 @@ class SanicApp:
         self._add_blueprints()
 
     def run(self):
-        # TODO: somehow add the fucking log timestamper to this shit
         self.app.run(host=Settings.sanic_host, port=Settings.sanic_port, access_log=Settings.access_log, workers=Settings.sanic_workers, auto_reload=False)
