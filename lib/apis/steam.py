@@ -112,7 +112,7 @@ def get_downloaded_mods():
 
 def delete_downloaded_mods(mod_ids):
     #TODO: change contents in that one steam file so it knows these are deleted
-    workshop_mods_folder = os.path.join(Settings.steam_folder, 'steamspps/workshop/content/', str(ARMA3APPID))
+    workshop_mods_folder = os.path.join(Settings.steam_folder, 'steamapps/workshop/content/', str(ARMA3APPID))
     for mod_id in mod_ids:
         mod_folder = os.path.join(workshop_mods_folder, mod_id)
         if os.path.exists(mod_folder):

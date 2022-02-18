@@ -49,7 +49,6 @@ async def post_delete(request):
 async def post_delete_all(request):
     mod_ids = get_downloaded_mods()
     delete_downloaded_mods(mod_ids)
-    return text(f"{mod_ids}")
 
 
 async def mod_downloader_post(request):
