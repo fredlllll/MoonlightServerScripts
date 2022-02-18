@@ -1,6 +1,6 @@
 from lib.apis.steam import get_downloaded_mods, get_mod_name, get_collection_mod_ids, delete_downloaded_mods
 from lib.jinja_templates import get_template
-from sanic.response import html, redirect
+from sanic.response import html, redirect, text
 from lib.job_system.jobs.download_mods_job import DownloadModsJob
 from lib.job_system.job_executer import JobExecuter
 
@@ -49,6 +49,7 @@ async def post_delete(request):
 async def post_delete_all(request):
     mod_ids = get_downloaded_mods()
     delete_downloaded_mods(mod_ids)
+    return text(f"{mod_ids}")
 
 
 async def mod_downloader_post(request):
