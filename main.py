@@ -1,5 +1,6 @@
 from lib.settings import Settings
 
+sanic_app = None
 
 def main():
     import os
@@ -18,11 +19,12 @@ def main():
 
     from lib.sanic_app import SanicApp
     logger.info("Creating App")
-    app = SanicApp()
+    global sanic_app
+    sanic_app = SanicApp()
     logger.info("Setting up App")
-    app.setup()
+    sanic_app.setup()
     logger.info("Running App")
-    app.run()
+    sanic_app.run()
 
 
 if __name__ == '__main__':
