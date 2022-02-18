@@ -4,9 +4,9 @@ from sanic.response import html, redirect
 
 
 async def jobs(request):
-    jobs = await JobInfo.all()
+    js = await JobInfo.all()
     job_infos = []
-    for job in jobs:
+    for job in js:
         job_infos.append({
             'name': job.name,
             'info': job.info,
