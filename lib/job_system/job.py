@@ -14,14 +14,14 @@ class Job:
         self._job_info.output = ''
         self._job_info.progress = 0
 
-        task = asyncio.get_event_loop().create_task(self._job_info.save())
+        task = asyncio.run_coroutine_threadsafe(self._job_info.save(), asyncio.get_event_loop())
         while not task.done():
             pass
 
     def execute(self):
         self._job_info.start_timestamp = time.time()
         self._job_info.status = EXECUTING
-        task = asyncio.get_event_loop().create_task(self._job_info.save())
+        task = asyncio.run_coroutine_threadsafe(self._job_info.save(), asyncio.get_event_loop())
         while not task.done():
             pass
         try:
@@ -32,13 +32,13 @@ class Job:
             self._job_info.error = traceback.format_exc()
         self._job_info.end_timestamp = time.time()
         self._job_info.progress = 1
-        task = asyncio.get_event_loop().create_task(self._job_info.save())
+        task = asyncio.run_coroutine_threadsafe(self._job_info.save(), asyncio.get_event_loop())
         while not task.done():
             pass
 
     def _update_progress(self, progress=0):
         self._job_info.progress = progress
-        task = asyncio.get_event_loop().create_task(self._job_info.save())
+        task = asyncio.run_coroutine_threadsafe(self._job_info.save(), asyncio.get_event_loop())
         while not task.done():
             pass
 
