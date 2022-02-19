@@ -17,7 +17,7 @@ class Job:
         self._save_info()
 
     def _save_info(self):
-        self._task = asyncio.run_coroutine_threadsafe(self._job_info.save(), asyncio.get_event_loop())
+        self._task = asyncio.create_task(self._job_info.save())
         time.sleep(0.1)
 
     def execute(self):
