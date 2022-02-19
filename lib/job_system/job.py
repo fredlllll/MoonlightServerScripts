@@ -17,8 +17,12 @@ class Job:
         self._save_info()
 
     def _save_info(self):
-        self._task = asyncio.create_task(self._job_info.save())
-        time.sleep(0.1)
+        task = asyncio.ensure_future(self._job_info.save())
+        while not task.done():
+            time.sleep(0.0001)
+        # self._task = asyncio.create_task(self._job_info.save())
+        # time.sleep(0.1)
+        pass  # TODO: find a way to fucking save this
 
     def execute(self):
         self._job_info.start_timestamp = time.time()
