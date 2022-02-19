@@ -4,7 +4,7 @@ from sanic.response import html, redirect
 
 
 async def jobs(request):
-    js = await JobInfo.all()
+    js = JobInfo.all()
     job_infos = []
     for job in js:
         job_infos.append({
@@ -21,7 +21,7 @@ async def jobs(request):
 
 async def jobs_post(request):
     if request.form.get('clear_jobs', None) is not None:
-        await JobInfo.delete_where({'$and': [{
+        JobInfo.delete_where({'$and': [{
             'status': {
                 '$ne': WAITING
             }

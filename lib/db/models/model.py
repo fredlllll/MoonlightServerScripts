@@ -45,9 +45,9 @@ class Model(ABC):
         return get_collection(cls._get_collection_name())
 
     @classmethod
-    async def _load_one_record_by_query(cls, query):
+    def _load_one_record_by_query(cls, query):
         coll = cls._get_collection()
-        record = await coll.find_one(query)
+        record = coll.find_one(query)
         return record
 
     @classmethod
@@ -63,50 +63,50 @@ class Model(ABC):
         return cursor
 
     @classmethod
-    async def _delete_one_by_query(cls, query):
+    def _delete_one_by_query(cls, query):
         coll = cls._get_collection()
-        await coll.delete_one(query)
+        return coll.delete_one(query)
 
     @classmethod
-    async def _delete_many_by_query(cls, query):
+    def _delete_many_by_query(cls, query):
         coll = cls._get_collection()
-        await coll.delete_many(query)
+        return coll.delete_many(query)
 
     @classmethod
-    async def delete_by_key(cls, key):
+    def delete_by_key(cls, key):
         if key is None:
             return
-        return await cls._delete_one_by_query({cls._get_key(): {"$eq": key}})
+        return cls._delete_one_by_query({cls._get_key(): {"$eq": key}})
 
     @classmethod
-    async def find(cls, key):
+    def find(cls, key):
         if key is None:
             return None
-        record = await cls._load_one_record_by_query({cls._get_key(): {"$eq": key}})
+        record = cls._load_one_record_by_query({cls._get_key(): {"$eq": key}})
         if record is None:
             return None
         return cls(**record)
 
     @classmethod
-    async def all(cls):
-        return await cls.where({})
+    def all(cls):
+        return cls.where({})
 
     @classmethod
-    async def where(cls, query, skip=None, limit=None, sort=None, sort_dir=pymongo.ASCENDING):
+    def where(cls, query, skip=None, limit=None, sort=None, sort_dir=pymongo.ASCENDING):
         models = []
-        async for record in cls._load_many_records_by_query(query, skip, limit, sort, sort_dir):
+        for record in cls._load_many_records_by_query(query, skip, limit, sort, sort_dir):
             models.append(cls(**record))
         return models
 
     @classmethod
-    async def delete_where(cls, query):
-        await cls._delete_many_by_query(query)
+    def delete_where(cls, query):
+        cls._delete_many_by_query(query)
 
     @classmethod
-    async def modify_numeric_field(cls, key, field, change):
+    def modify_numeric_field(cls, key, field, change):
         coll = cls._get_collection()
         # cause mongodb is a bit stoopid i have to do some extra magic here
-        await coll.update_one({cls._get_key(): {'$eq': key}}, [{'$set': {
+        coll.update_one({cls._get_key(): {'$eq': key}}, [{'$set': {
             field: {
                 "$add": [
                     {"$ifNull": ['$' + field, 0]},
@@ -116,7 +116,7 @@ class Model(ABC):
         }}])
 
     @classmethod
-    async def create_index(cls, keys, unique=True, **kwargs):
+    def create_index(cls, keys, unique=True, **kwargs):
         """
         create_index([("mike", pymongo.DESCENDING),...,("eliot", pymongo.ASCENDING)])
         :param keys:
@@ -140,11 +140,11 @@ class Model(ABC):
             if f in record:
                 self.__dict__[f] = record.get(f)
 
-    async def reload(self):
-        record = await self._load_one_record_by_query({self._get_key(): {"$eq": self.__dict__[self._get_key()]}})
+    def reload(self):
+        record = self._load_one_record_by_query({self._get_key(): {"$eq": self.__dict__[self._get_key()]}})
         self._load_from_record(record)
 
-    async def save(self, only_if_not_exists=False, not_exists_fields=None):
+    def save(self, only_if_not_exists=False, not_exists_fields=None):
         if self.__dict__[self._get_key()] is None:
             self.__dict__[self._get_key()] = get_resource_id(self._get_type_id())
         if self.__dict__[CREATED_TIMESTAMP_FIELD] is None:
@@ -162,11 +162,11 @@ class Model(ABC):
             for f in not_exists_fields:
                 _filter[f] = record[f]
 
-            result = await coll.update_one(_filter, {"$setOnInsert": record}, upsert=True)
+            result = coll.update_one(_filter, {"$setOnInsert": record}, upsert=True)
             return result.upserted_id is not None
         else:
             _filter[self._get_key()] = record[self._get_key()]
-            await coll.update_one(_filter, {"$set": record}, upsert=True)
+            coll.update_one(_filter, {"$set": record}, upsert=True)
         return True
 
     def to_record(self, special_fields=True, normal_fields=True):
@@ -179,5 +179,5 @@ class Model(ABC):
                 record[f] = self.__dict__.get(f, None)
         return record
 
-    async def delete(self):
-        await self._delete_one_by_query({self._get_key(): {"$eq": self.__dict__[self._get_key()]}})
+    def delete(self):
+        self._delete_one_by_query({self._get_key(): {"$eq": self.__dict__[self._get_key()]}})

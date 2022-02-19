@@ -1,7 +1,7 @@
 from lib.settings import Settings
-from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo import MongoClient
 
-instance: AsyncIOMotorClient = None
+instance: MongoClient = None
 
 
 def get_client():
@@ -12,7 +12,7 @@ def get_client():
             kwargs['username'] = Settings.mongo_db_user
             kwargs['password'] = Settings.mongo_db_password
             kwargs['authSource'] = Settings.mongo_db_auth_db
-        instance = AsyncIOMotorClient(Settings.mongo_db_host, Settings.mongo_db_port, **kwargs)
+        instance = MongoClient(Settings.mongo_db_host, Settings.mongo_db_port, **kwargs)
     return instance
 
 

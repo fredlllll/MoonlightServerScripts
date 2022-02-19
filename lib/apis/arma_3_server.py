@@ -34,7 +34,7 @@ async def create_startup_script(server):
     content += 'cd "' + Settings.arma_3_server_dir + '"\n'
     content += f'./arma3server -cfg={server.id}_basic.cfg -config={server.id}_server.cfg ' + server.additional_commandline + ' -mod="\\\n'
 
-    mods = await Arma3ServerMod.where({'server_id':server.id})
+    mods = Arma3ServerMod.where({'server_id':server.id})
 
     for mod in mods:
         mod_name = get_mod_name(mod.mod_id)

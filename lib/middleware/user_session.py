@@ -10,9 +10,9 @@ async def user_session(request):
     session_id = request.cookies.get(Settings.session_cookie_name, None)
     if session_id is None:
         return
-    sess = await Session.find(session_id)
+    sess = Session.find(session_id)
     if sess is None:
         return
 
     request.ctx.session = sess
-    request.ctx.user = await User.find(sess.user_id)
+    request.ctx.user = User.find(sess.user_id)

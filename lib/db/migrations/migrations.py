@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 
 async def run_migrations():
-    done_migs = await Migration.all()
+    done_migs = Migration.all()
     done_migs = [m.timestamp for m in done_migs]
 
     for m in migrations:
@@ -14,4 +14,4 @@ async def run_migrations():
             await m.run(None)
             mig = Migration()
             mig.timestamp = m.timestamp
-            await mig.save()
+            mig.save()

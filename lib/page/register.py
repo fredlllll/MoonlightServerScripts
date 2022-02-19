@@ -19,15 +19,15 @@ async def register_post(request):
     if password != password1:
         return html(template.render(error='passwords dont match'))
 
-    if await User.is_user_name_taken(user_name):
+    if User.is_user_name_taken(user_name):
         return html(template.render(error='user already exists'))
 
-    if len(await User.all()) == 0:  # automatically activate the first user who registers
+    if len(User.all()) == 0:  # automatically activate the first user who registers
         auto_activate = True
     else:
         auto_activate = False
     user = User(name=user_name, password=hash_password(password), permissions=['admin'])
     if auto_activate:
         user.activation_timestamp = time.time()
-    await user.save()
+    user.save()
     return redirect('/login')  # to login
