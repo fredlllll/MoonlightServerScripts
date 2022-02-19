@@ -17,9 +17,8 @@ class Job:
         self._save_info()
 
     def _save_info(self):
-        task = asyncio.run_coroutine_threadsafe(self._job_info.save(), asyncio.get_event_loop())
-        while not task.done():
-            time.sleep(0.1)
+        self._task = asyncio.run_coroutine_threadsafe(self._job_info.save(), asyncio.get_event_loop())
+        time.sleep(0.1)
 
     def execute(self):
         self._job_info.start_timestamp = time.time()
