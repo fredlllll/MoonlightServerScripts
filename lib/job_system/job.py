@@ -1,6 +1,5 @@
 import time
 import traceback
-import asyncio
 from lib.db.models.job_info import JobInfo, WAITING, EXECUTING, FAILED, FINISHED
 
 
@@ -26,7 +25,7 @@ class Job:
         try:
             self._run()
             self._job_info.status = FINISHED
-        except Exception as e:
+        except:
             self._job_info.status = FAILED
             self._job_info.error = traceback.format_exc()
         self._job_info.end_timestamp = time.time()
