@@ -14,10 +14,11 @@ class Arma3Server(Model):
         return [
             'name',
             'port',
+            'modset_id',
             'additional_commandline',
         ]
 
-    def create_files(self):
+    async def create_files(self):  # TODO: move this into the creation function
         create_service(self.id)
         await create_startup_script(self)
         shutil.copy("ArmaServerDefaultFiles/basic.cfg", os.path.join(Settings.arma_3_server_dir, self.id + "_basic.cfg"))

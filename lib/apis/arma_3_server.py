@@ -1,28 +1,24 @@
 from lib.settings import Settings
 from lib.systemd_unit_controller import SystemdUnitController
 from lib.mock_service_controller import MockServiceController
-from lib.db.models.arma_3_server_mod import Arma3ServerMod
+from lib.db.models.arma_3_modset import Arma3Modset
+from lib.db.models.arma_3_modset_mod import Arma3ModsetMod
 from lib.apis.steam import get_mod_name
 import os
 import subprocess
 import platform
 
-if "Windows" in platform.platform():
-    Arma3ServerController = MockServiceController()
-else:
-    Arma3ServerController = SystemdUnitController(Settings.arma_3_server_service_name)
-
 controllers = {}
 
 
-def get_server_controller(server):
-    cont = controllers.get(server.id, None)
+def get_server_controller(server_id):
+    cont = controllers.get(server_id, None)
     if cont is None:
         if "Windows" in platform.platform():
             cont = MockServiceController()
         else:
-            cont = SystemdUnitController("arma3server_" + server.id + ".service")
-        controllers[server.id] = cont
+            cont = SystemdUnitController("arma3server_" + server_id + ".service")
+        controllers[server_id] = cont
     return cont
 
 
@@ -34,13 +30,15 @@ async def create_startup_script(server):
     content += 'cd "' + Settings.arma_3_server_dir + '"\n'
     content += f'./arma3server -cfg={server.id}_basic.cfg -config={server.id}_server.cfg ' + server.additional_commandline + ' -mod="\\\n'
 
-    mods = Arma3ServerMod.where({'server_id':server.id})
+    if server.modset_id:
+        modset = Arma3Modset.find(server.modset_id)
+        mods = Arma3ModsetMod.where({'modset_id': modset.id})
 
-    for mod in mods:
-        mod_name = get_mod_name(mod.mod_id)
-        abs_path = os.path.join(Settings.arma_3_mods_dir, mod_name)
-        rel_path = os.path.relpath(abs_path, Settings.arma_3_server_dir)
-        content += rel_path + ';\\\n'
+        for mod in mods:
+            mod_name = get_mod_name(mod.mod_steam_id)
+            abs_path = os.path.join(Settings.arma_3_mods_dir, mod_name)
+            rel_path = os.path.relpath(abs_path, Settings.arma_3_server_dir)
+            content += rel_path + ';\\\n'
 
     content += '"'
 

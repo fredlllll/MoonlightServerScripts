@@ -1,8 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Index{% endblock %}
 {% block main %}
-Server status: {{status}}<br/>
+{% for i in range(servers|length) %}
+Server {{ servers[i].name }}<br/>
+Status: {{statuses[i]}}<br/>
 <form method="post">
+    <input type="hidden" name="server-id" value="{{servers[i].id}}"/>
     <input type="submit" name="start" value="Start"/>
     <input type="submit" name="stop" value="Stop"/>
     <input type="submit" name="restart" value="Restart"/>
@@ -12,6 +15,9 @@ Server status: {{status}}<br/>
 <br/>
 Log (not live, refresh page):<br/>
 <textarea class="log">
-{{log}}
+{{logs[i]}}
 </textarea>
+{% else %}
+No servers created yet. Create one on the <a href="/servers">servers</a> page
+{% endfor %}
 {% endblock %}
