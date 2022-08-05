@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}Server{% endblock %}
+{% block main %}
+<h3>Modset Info:</h3>
+<table>
+    <tr>
+        <td>Modset Name</td>
+        <td>{{modset.name}}</td>
+    </tr>
+</table>
+<h3>Mods:</h3>
+<form method="post">
+    <table>
+        <tr>
+            <th>Mod Id</th>
+            <th>Mod Name</th>
+            <th>Active</th>
+        </tr>
+    {% for mod_id, mod_name in all_mods.items() %}
+        <tr>
+            <td>{{mod_id}}</td>
+            <td>{{mod_name}}</td>
+            <td><input type="checkbox" name="mod_{{mod_id}}"{% if mod_id in modset.active_mods %} checked{% endif %}></td>
+        </tr>
+    {% endfor %}
+    </table>
+    <input type="submit" value="Save Modset">
+</form>
+{% endblock %}
