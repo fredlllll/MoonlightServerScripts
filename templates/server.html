@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}Server{% endblock %}
+{% block main %}
+<h3>Server Info:</h3>
+<table>
+    <tr>
+        <td>Server Name</td>
+        <td>{{server.name}}</td>
+    </tr>
+    <tr>
+        <td>Server Port</td>
+        <td>{{server.port}}</td>
+    </tr>
+    <tr>
+        <td>Modset</td>
+        <td>
+            <form method="POST">
+                <select name="modset">
+                    <option value="">None</option>
+                    {% for modset in modsets %}
+                    {% if modset.id == server.modset_id %}
+                    <option selected value="{{modset.id}}">{{modset.name}}[{{modset.id}}]</option>
+                    {% else %}
+                    <option value="{{modset.id}}">{{modset.name}}[{{modset.id}}]</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <input type="hidden" name="action" value="set_modset"/>
+                <input type="submit" value="Set Modset"/>
+            </form>
+        </td>
+    </tr>
+</table>
+<h3>Log:</h3>
+<textarea class="log">
+{{log}}
+</textarea>
+{% endblock %}
