@@ -11,6 +11,7 @@ from lib.page.login import login, login_post, logout
 from lib.page.mod_downloader import mod_downloader, mod_downloader_post
 from lib.page.mod_linker import mod_linker, mod_linker_post
 from lib.page.modsets import modsets, modsets_post
+from lib.page.new_modset import new_modset, new_modset_post
 from lib.page.new_server import new_server, new_server_post
 from lib.page.register import register, register_post
 from lib.page.server import server, server_post
@@ -78,6 +79,9 @@ class SanicApp:
 
         self.bp_logged_in.add_route(modsets, '/modsets', methods=('GET',))
         self.bp_logged_in.add_route(modsets_post, '/modsets', methods=('POST',))
+
+        self.bp_logged_in.add_route(new_modset, '/new_modset', methods=('GET',))
+        self.bp_logged_in.add_route(new_modset_post, '/new_modset', methods=('POST',))
 
         self.bp_logged_in.add_route(new_server, '/new_server', methods=('GET',))
         self.bp_logged_in.add_route(new_server_post, '/new_server', methods=('POST',))

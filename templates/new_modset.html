@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}New Modset{% endblock %}
+{% block main %}
+<h3>New Modset</h3>
+<form method="POST">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" name="name"/></td>
+        </tr>
+    </table>
+    <input type="submit" value="Create new Modset"/>
+</form>
+{% endblock %}
