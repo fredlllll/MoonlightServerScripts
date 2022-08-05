@@ -6,12 +6,12 @@ import time
 
 
 async def register(request):
-    template = await get_template('register.html', request)
+    template = get_template('register.html', request)
     return html(template.render())
 
 
 async def register_post(request):
-    template = await get_template('register.html', request)
+    template = get_template('register.html', request)
 
     user_name = request.form.get("user")
     password = request.form.get("password")

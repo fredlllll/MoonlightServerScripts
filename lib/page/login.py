@@ -5,7 +5,7 @@ from lib.db.models.session import Session
 
 
 async def login(request):
-    template = await get_template('login.html', request)
+    template = get_template('login.html', request)
     return html(template.render())
 
 

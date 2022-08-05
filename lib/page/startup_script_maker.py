@@ -29,7 +29,7 @@ def get_mod_infos():
 async def startup_script_maker(request):
     mod_infos = get_mod_infos()
 
-    template = await get_template("startup_script_maker.html", request)
+    template = get_template("startup_script_maker.html", request)
 
     return html(template.render(mod_infos=mod_infos))
 

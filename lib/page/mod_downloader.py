@@ -14,7 +14,7 @@ async def mod_downloader(request):
             'name': get_mod_name(mod_id)
         })
 
-    template = await get_template('mod_downloader.html', request)
+    template = get_template('mod_downloader.html', request)
     return html(template.render(mod_infos=mod_infos))
 
 

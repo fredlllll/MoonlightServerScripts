@@ -46,7 +46,7 @@ def link_mods(mod_ids):
 
 async def mod_linker(request):
     mod_infos = get_mod_infos()
-    template = await get_template('mod_linker.html', request)
+    template = get_template('mod_linker.html', request)
     return html(template.render(mod_infos=mod_infos))
 
 

@@ -1,7 +1,7 @@
 from jinja2 import Environment, FileSystemLoader
 
 
-async def get_template(name, request):
+def get_template(name, request):
     env = Environment(loader=FileSystemLoader('templates'))
     user = request.ctx.user
 

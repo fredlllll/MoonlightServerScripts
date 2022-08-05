@@ -15,7 +15,7 @@ async def jobs(request):
             'output': job.output
         })
 
-    template = await get_template('jobs.html', request)
+    template = get_template('jobs.html', request)
     return html(template.render(job_infos=job_infos))
 
 

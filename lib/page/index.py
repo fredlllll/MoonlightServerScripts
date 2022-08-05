@@ -16,7 +16,7 @@ async def index(request):
         statuses.append(cont.get_state())
         logs.append(cont.get_log(100))
 
-    template = await get_template("index.html", request)
+    template = get_template("index.html", request)
     return html(template.render(statuses=statuses, logs=logs, servers=servers))
 
 

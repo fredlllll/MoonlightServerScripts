@@ -9,5 +9,4 @@ logger = logging.getLogger(__name__)
 async def servers(request):
     servers_ = Arma3Server.all()
 
-    template = await get_template("servers.html", request)
-    return html(template.render(servers=servers_))
+    return html(template.render(servers=servers_))    template = get_template("servers.html", request)
