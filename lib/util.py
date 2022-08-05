@@ -42,3 +42,8 @@ def delete_folder_contents(folder):
             shutil.rmtree(path)
         elif os.path.isfile(path):
             os.unlink(path)
+
+
+def copy(source_file, dst_file):
+    os.makedirs(os.path.dirname(dst_file), exist_ok=True)
+    shutil.copy(source_file, dst_file)

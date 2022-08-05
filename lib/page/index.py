@@ -26,6 +26,7 @@ async def index_post(request):
     if server_id is None:
         return redirect('/')
     cont = get_server_controller(server_id)
+    # TODO: link mods and create startup script
     if args.get('start', None) is not None:
         cont.start()
     elif args.get('stop', None) is not None:

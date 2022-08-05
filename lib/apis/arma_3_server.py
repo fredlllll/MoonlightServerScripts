@@ -4,9 +4,12 @@ from lib.mock_service_controller import MockServiceController
 from lib.db.models.arma_3_modset import Arma3Modset
 from lib.db.models.arma_3_modset_mod import Arma3ModsetMod
 from lib.apis.steam import get_mod_name
+from lib.arma_3_server_util import get_service_file_name, get_startup_script_file_name
 import os
 import subprocess
-import platform
+import logging
+
+logger = logging.getLogger(__name__)
 
 controllers = {}
 
@@ -22,13 +25,15 @@ def get_server_controller(server_id):
     return cont
 
 
-async def create_startup_script(server):
-    user = Settings.arma_3_server_user
-    file_name = "/home/" + user + "/arma3server_" + server.id + "_startup.sh"
+def create_startup_script(server):
+    file_name = get_startup_script_file_name(server.id)
 
     content = "#!/bin/bash\n"
     content += 'cd "' + Settings.arma_3_server_dir + '"\n'
-    content += f'./arma3server -cfg={server.id}_basic.cfg -config={server.id}_server.cfg ' + server.additional_commandline + ' -mod="\\\n'
+    content += f'./arma3server -cfg={server.id}_basic.cfg -config={server.id}_server.cfg -name={server.id}'
+    if server.additional_commandline:
+        content += " " + server.additional_commandline
+    content += ' -mod="\\\n'
 
     if server.modset_id:
         modset = Arma3Modset.find(server.modset_id)
@@ -47,15 +52,15 @@ async def create_startup_script(server):
 
 
 def create_service(server):
-    '''creates a service file for the server, and calls daemon-reload'''
-    file_name = "/etc/systemd/system/arma3server_" + server.id + ".service"
+    """creates a service file for the server, and calls daemon-reload"""
+    file_name = get_service_file_name(server.id)
     user = Settings.arma_3_server_user
 
     content = "[Unit]\nDescription=Arma 3 Server\n\n[Service]\nUser="
     content += user
     content += "\nGroup=" + user
     content += "\nWorkingDirectory=/home/" + user
-    content += "\nExecStart=/bin/bash /home/" + user + "/arma3server_" + server.id + "_startup.sh"
+    content += "\nExecStart=/bin/bash " + get_startup_script_file_name(server.id)
     content += "\nRestart=always\n\n[Install]\nWantedBy=multi-user.target\n"
 
     with open(file_name, 'w') as f:
