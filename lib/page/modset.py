@@ -5,8 +5,6 @@ from lib.jinja_templates import get_template
 from lib.db.models.arma_3_modset_mod import Arma3ModsetMod
 from lib.db.models.arma_3_modset import Arma3Modset
 from lib.responses import response_404
-from lib.arma_3_server_util import get_basic_config_file_name, get_server_config_file_name, get_server_profile_file_name
-from lib.util import copy
 
 logger = logging.getLogger(__name__)
 
