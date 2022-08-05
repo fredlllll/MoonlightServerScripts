@@ -1,11 +1,12 @@
-from lib.db.models.model import Model
+from lib.db.models.model_deletion_logic import MongoModelDeletionLogic
 from lib.settings import Settings
-from lib.apis.arma_3_server import create_service, create_startup_script
-import shutil
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-class Arma3Server(Model):
+class Arma3Server(MongoModelDeletionLogic):
     @classmethod
     def _get_collection_name(cls):
         return 'arma_3_servers'
@@ -18,8 +19,10 @@ class Arma3Server(Model):
             'additional_commandline',
         ]
 
-    async def create_files(self):  # TODO: move this into the creation function
-        create_service(self.id)
-        await create_startup_script(self)
-        shutil.copy("ArmaServerDefaultFiles/basic.cfg", os.path.join(Settings.arma_3_server_dir, self.id + "_basic.cfg"))
-        shutil.copy("ArmaServerDefaultFiles/server.cfg", os.path.join(Settings.arma_3_server_dir, self.id + "_server.cfg"))
+    @classmethod
+    def _delete_from_record(cls, record):
+        server_id = record['id']
+
+        if Settings.debug_windows:
+            logger.info("windows delete server dummy")
+            return

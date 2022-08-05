@@ -14,7 +14,7 @@ controllers = {}
 def get_server_controller(server_id):
     cont = controllers.get(server_id, None)
     if cont is None:
-        if "Windows" in platform.platform():
+        if Settings.debug_windows:
             cont = MockServiceController()
         else:
             cont = SystemdUnitController("arma3server_" + server_id + ".service")
@@ -60,5 +60,9 @@ def create_service(server):
 
     with open(file_name, 'w') as f:
         f.write(content)
+
+    if Settings.debug_windows:
+        logger.info("windows create service dummy")
+        return
 
     subprocess.check_call("sudo systemctl daemon-reload")
