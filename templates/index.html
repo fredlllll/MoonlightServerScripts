@@ -2,7 +2,7 @@
 {% block title %}Index{% endblock %}
 {% block main %}
 {% for i in range(servers|length) %}
-Server {{ servers[i].name }}<br/>
+Server {{ servers[i].name }} on port {{servers[i].port }}<br/>
 Status: {{statuses[i]}}<br/>
 <form method="post">
     <input type="hidden" name="server-id" value="{{servers[i].id}}"/>
