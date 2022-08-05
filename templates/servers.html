@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Servers{% endblock %}
+{% block main %}
+<table>
+    <tr>
+        <th>Server Name</th>
+        <th>Server Port</th>
+        <th>Server Modset</th>
+    </tr>
+
+{% for server in servers %}
+<tr>
+    <td><a href="/servers/{{server.id}}">{{server.name}}</a></td>
+    <td>{{server.port}}</td>
+    <td>
+        {% if server.modset_id %}
+        <a href="/modsets/{{server.modset_id}}">{{server.modset}}</a>
+        {% else %}
+        {{server.modset}}
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</table>
+<a href="/new_server">
+    <button>Create new Server</button>
+</a>
+{% endblock %}
