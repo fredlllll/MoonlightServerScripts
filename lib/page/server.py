@@ -17,12 +17,12 @@ async def server(request, server_id):
         return response_404(request)
     template = get_template("server.html", request)
 
-    with open(get_basic_config_file_name(server_id), 'r') as f:
-        basic_config_content = f.read()
-    with open(get_server_config_file_name(server_id), 'r') as f:
-        server_config_content = f.read()
-    with open(get_server_profile_file_name(server_id), 'r') as f:
-        server_profile_content = f.read()
+    with open(get_basic_config_file_name(server_id), 'rb') as f:
+        basic_config_content = f.read().decode()
+    with open(get_server_config_file_name(server_id), 'rb') as f:
+        server_config_content = f.read().decode()
+    with open(get_server_profile_file_name(server_id), 'rb') as f:
+        server_profile_content = f.read().decode()
 
     cont = get_server_controller(server_id)
 
@@ -43,19 +43,25 @@ async def server_post(request, server_id):
 
     action = args.get('action', None)
     if action == 'set_modset':
-        modset_id = args['modset']
+        modset_id = args.get('modset', None)
         server_.modset_id = modset_id
         server_.save()
     elif action == 'update_basic_config':
-        pass
+        content = args.get('content')
+        with open(get_basic_config_file_name(server_id), 'wb') as f:
+            f.write(content.encode())
     elif action == 'update_server_config':
-        pass
+        content = args.get('content')
+        with open(get_server_config_file_name(server_id), 'wb') as f:
+            f.write(content.encode())
     elif action == 'update_server_profile':
-        pass
+        content = args.get('content')
+        with open(get_server_profile_file_name(server_id), 'wb') as f:
+            f.write(content.encode())
     elif action == 'reset_basic_config':
         copy("arma_server_default_files/basic.cfg", get_basic_config_file_name(server_id))
     elif action == 'reset_server_config':
         copy("arma_server_default_files/server.cfg", get_server_config_file_name(server_id))
     elif action == 'reset_server_profile':
         copy("arma_server_default_files/server.arma3profile", get_server_profile_file_name(server_id))
-    return redirect(f'/server/{server_id}')
+    return redirect(f'/servers/{server_id}')

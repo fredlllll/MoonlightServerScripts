@@ -19,6 +19,7 @@ nav.navigation{
 
 main.main{
   grid-column:2;
+  overflow-y: scroll;
 }
 
 ul.nav{
@@ -48,10 +49,13 @@ table.jobs td,th{
 }
 
 textarea.log{
-display: block;
-width: 98%;
-height:75%;
 background:black;
 color:white;
 font-family: monospace;
+}
+
+textarea.file{
+display: block;
+width: 98%;
+height:75%;
 }

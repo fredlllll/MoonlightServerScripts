@@ -32,7 +32,37 @@
     </tr>
 </table>
 <h3>Log:</h3>
-<textarea class="log">
+<textarea class="log file">
 {{log}}
 </textarea>
+<h3>Basic Config</h3>
+<form method="post">
+    <textarea name="content" class="file">{{basic_config_content}}</textarea>
+    <input type="hidden" name="action" value="update_basic_config"/>
+    <input type="submit" value="Update Basic Config"/>
+</form>
+<form method="post">
+    <input type="hidden" name="action" value="reset_basic_config"/>
+    <input type="submit" value="Reset Basic Config"/>
+</form>
+<h3>Server Config</h3>
+<form method="post">
+    <textarea name="content" class="file">{{server_config_content}}</textarea>
+    <input type="hidden" name="action" value="update_server_config"/>
+    <input type="submit" value="Update Server Config"/>
+</form>
+<form method="post">
+    <input type="hidden" name="action" value="reset_server_config"/>
+    <input type="submit" value="Reset Server Config"/>
+</form>
+<h3>Server Profile</h3>
+<form method="post">
+    <textarea name="content" class="file">{{server_profile_content}}</textarea>
+    <input type="hidden" name="action" value="update_server_profile"/>
+    <input type="submit" value="Update Server Profile"/>
+</form>
+<form method="post">
+    <input type="hidden" name="action" value="reset_server_profile"/>
+    <input type="submit" value="Reset Server Profile"/>
+</form>
 {% endblock %}
