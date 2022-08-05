@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Servers{% endblock %}
+{% block main %}
+<table>
+    <tr>
+        <th>Modset Name</th>
+        <th>Mods</th>
+    </tr>
+{% for modset in modsets %}
+<tr>
+    <td><a href="/modsets/{{modset.id}}">{{modset.name}}</a></td>
+    <td>{{modset.mods}}</td>
+</tr>
+{% endfor %}
+</table>
+<a href="/new_modset">
+    <button>Create new Modset</button>
+</a>
+{% endblock %}
