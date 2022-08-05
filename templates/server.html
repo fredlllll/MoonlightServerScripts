@@ -19,9 +19,9 @@
                     <option value="">None</option>
                     {% for modset in modsets %}
                     {% if modset.id == server.modset_id %}
-                    <option selected value="{{modset.id}}">{{modset.name}}[{{modset.id}}]</option>
+                    <option selected value="{{modset.id}}">{{modset.name}}</option>
                     {% else %}
-                    <option value="{{modset.id}}">{{modset.name}}[{{modset.id}}]</option>
+                    <option value="{{modset.id}}">{{modset.name}}</option>
                     {% endif %}
                     {% endfor %}
                 </select>
