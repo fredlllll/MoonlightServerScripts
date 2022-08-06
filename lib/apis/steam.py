@@ -14,8 +14,8 @@ logger = logging.getLogger(__name__)
 mod_name_cache = Cache(directory='caches/mod_names')
 
 
-def get_mod_name(mod_id, dont_use_cache=False):
-    name = None
+def get_mod_name(mod_id: str, dont_use_cache: bool = False) -> str:
+    name: str = ''
     if not dont_use_cache:
         name = mod_name_cache.get(mod_id, None)
         if name is not None:
@@ -37,7 +37,7 @@ def get_mod_name(mod_id, dont_use_cache=False):
     return name
 
 
-def escape_mod_name(mod_name):
+def escape_mod_name(mod_name: str) -> str:
     # best guess is that these are escaped: / < > : " \ | ? * with a dash cause they dont work on windows
     to_escape = ['/', '<', '>', ':', '"', '\\', '|', '?', '*']
 
@@ -46,7 +46,7 @@ def escape_mod_name(mod_name):
     return mod_name
 
 
-def get_collection_mod_ids(collection_id):
+def get_collection_mod_ids(collection_id: str) -> List[str]:
     # gives you a list of all mod ids in a workshop collection
     # info taken from https://steamapi.xpaw.me/#ISteamRemoteStorage/GetCollectionDetails
     form_data = {
@@ -61,14 +61,13 @@ def get_collection_mod_ids(collection_id):
         ids = []
         for item in items:
             mod_id = item['publishedfileid']
-            print("found file id: " + mod_id)
-            ids.append(mod_id)
+            ids.append(str(mod_id))
         return ids
     return []
 
 
-def download_mods(mod_ids, user, password, auth_code):
-    commands = []
+def download_mods(mod_ids: List[str], user: str, password: str, auth_code: str):
+    commands: List[str] = []
     for mod_id in mod_ids:
         commands.append('+workshop_download_item')
         commands.append(str(ARMA3APPID))
@@ -76,7 +75,7 @@ def download_mods(mod_ids, user, password, auth_code):
     run_steam_cmd(commands, user, password, auth_code)
 
 
-def _create_steam_cmd_call(parameters, user=None, password=None, auth_code=None):
+def _create_steam_cmd_call(parameters: List[str], user: str = None, password: str = None, auth_code: str = None) -> List[str]:
     cmdline = ["/usr/games/steamcmd"]
     if user is not None:
         cmdline.append('+login')
@@ -90,7 +89,7 @@ def _create_steam_cmd_call(parameters, user=None, password=None, auth_code=None)
     return cmdline
 
 
-def run_steam_cmd(parameters, user=None, password=None, auth_code=None):
+def run_steam_cmd(parameters: List[str], user: str = None, password: str = None, auth_code: str = None):
     cmdline = _create_steam_cmd_call(parameters, user, password, auth_code)
     cmdline_censored = _create_steam_cmd_call(parameters, 'USER', 'PASSWORD', 'AUTH_CODE')  # prevent logging user credentials
     logger.info("calling steamcmd: " + ' '.join(cmdline_censored))
