@@ -43,6 +43,10 @@
     <input type="submit" name="enable" value="Enable"/>
     <input type="submit" name="disable" value="Disable"/>
 </form>
+<form method="post">
+    <input type="hidden" name="action" value="delete"/>
+    <input type="submit" style="color:red;" value="Delete Server"/>
+</form>
 <h3>Log:</h3>
 <textarea class="log file">
 {{log}}

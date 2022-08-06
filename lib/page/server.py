@@ -75,5 +75,8 @@ async def server_post(request, server_id):
             enable_server(server_)
         elif args.get('disable', None) is not None:
             disable_server(server_)
+    elif action == 'delete':
+        server_.delete()
+        return redirect('/servers')
 
     return redirect(f'/servers/{server_id}')
