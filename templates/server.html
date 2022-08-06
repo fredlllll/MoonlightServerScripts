@@ -12,6 +12,10 @@
         <td>{{server.port}}</td>
     </tr>
     <tr>
+        <td>Status</td>
+        <td>{{status}}</td>
+    </tr>
+    <tr>
         <td>Modset</td>
         <td>
             <form method="POST">
@@ -25,12 +29,20 @@
                     {% endif %}
                     {% endfor %}
                 </select>
-                <input type="hidden" name="action" value="set_modset"/>
+                <input type="hidden" name="action" value="set-modset"/>
                 <input type="submit" value="Set Modset"/>
             </form>
         </td>
     </tr>
 </table>
+<form method="post">
+    <input type="hidden" name="action" value="state-change"/>
+    <input type="submit" name="start" value="Start"/>
+    <input type="submit" name="stop" value="Stop"/>
+    <input type="submit" name="restart" value="Restart"/>
+    <input type="submit" name="enable" value="Enable"/>
+    <input type="submit" name="disable" value="Disable"/>
+</form>
 <h3>Log:</h3>
 <textarea class="log file">
 {{log}}
@@ -38,31 +50,31 @@
 <h3>Basic Config</h3>
 <form method="post">
     <textarea name="content" class="file">{{basic_config_content}}</textarea>
-    <input type="hidden" name="action" value="update_basic_config"/>
+    <input type="hidden" name="action" value="update-basic-config"/>
     <input type="submit" value="Update Basic Config"/>
 </form>
 <form method="post">
-    <input type="hidden" name="action" value="reset_basic_config"/>
+    <input type="hidden" name="action" value="reset-basic-config"/>
     <input type="submit" value="Reset Basic Config"/>
 </form>
 <h3>Server Config</h3>
 <form method="post">
     <textarea name="content" class="file">{{server_config_content}}</textarea>
-    <input type="hidden" name="action" value="update_server_config"/>
+    <input type="hidden" name="action" value="update-server-config"/>
     <input type="submit" value="Update Server Config"/>
 </form>
 <form method="post">
-    <input type="hidden" name="action" value="reset_server_config"/>
+    <input type="hidden" name="action" value="reset-server-config"/>
     <input type="submit" value="Reset Server Config"/>
 </form>
 <h3>Server Profile</h3>
 <form method="post">
     <textarea name="content" class="file">{{server_profile_content}}</textarea>
-    <input type="hidden" name="action" value="update_server_profile"/>
+    <input type="hidden" name="action" value="update-server-profile"/>
     <input type="submit" value="Update Server Profile"/>
 </form>
 <form method="post">
-    <input type="hidden" name="action" value="reset_server_profile"/>
+    <input type="hidden" name="action" value="reset-server-profile"/>
     <input type="submit" value="Reset Server Profile"/>
 </form>
 {% endblock %}

@@ -1,4 +1,4 @@
-from lib.apis.arma_3_server import get_server_controller, link_mods, create_startup_script
+from lib.apis.arma_3_server import get_server_controller, start_server, stop_server, restart_server, enable_server, disable_server
 import logging
 from sanic.response import html, redirect
 from lib.jinja_templates import get_template
@@ -29,21 +29,14 @@ async def index_post(request):
     server = Arma3Server.find(server_id)
     if server is None:
         return response_404(request)
-    cont = get_server_controller(server_id)
-    # TODO: link mods and create startup script
     if args.get('start', None) is not None:
-        link_mods(server)
-        create_startup_script(server)
-        cont.start()
+        start_server(server)
     elif args.get('stop', None) is not None:
-        cont.stop()
+        stop_server(server)
     elif args.get('restart', None) is not None:
-        cont.stop()
-        link_mods(server)
-        create_startup_script(server)
-        cont.start()
+        restart_server(server)
     elif args.get('enable', None) is not None:
-        cont.enable()
+        enable_server(server)
     elif args.get('disable', None) is not None:
-        cont.disable()
+        disable_server(server)
     return redirect('/')

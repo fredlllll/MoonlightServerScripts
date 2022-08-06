@@ -4,7 +4,7 @@ from lib.mock_service_controller import MockServiceController
 from lib.db.models.arma_3_modset import Arma3Modset
 from lib.db.models.arma_3_modset_mod import Arma3ModsetMod
 from lib.apis.steam import get_mod_name, escape_mod_name
-from lib.arma_3_server_util import get_service_file_name, get_startup_script_file_name, get_server_mods_folder, get_basic_config_file_name,get_server_config_file_name
+from lib.arma_3_server_util import get_service_file_name, get_startup_script_file_name, get_server_mods_folder, get_basic_config_file_name, get_server_config_file_name
 from lib.constants import ARMA3APPID
 from lib.util import delete_folder_contents
 import os
@@ -107,3 +107,33 @@ def link_mods(server):
                 abs_file_path = os.path.join(abs_dir_path, file)
                 abs_target_file_path = os.path.join(abs_target_dir_path, file.lower())
                 os.symlink(abs_file_path, abs_target_file_path)
+
+
+def start_server(server):
+    cont = get_server_controller(server.id)
+    link_mods(server)
+    create_startup_script(server)
+    cont.start()
+
+
+def stop_server(server):
+    cont = get_server_controller(server.id)
+    cont.stop()
+
+
+def restart_server(server):
+    cont = get_server_controller(server.id)
+    cont.stop()
+    link_mods(server)
+    create_startup_script(server)
+    cont.start()
+
+
+def disable_server(server):
+    cont = get_server_controller(server.id)
+    cont.disable()
+
+
+def enable_server(server):
+    cont = get_server_controller(server.id)
+    cont.enable()
