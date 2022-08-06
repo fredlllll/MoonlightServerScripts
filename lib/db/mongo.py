@@ -1,10 +1,13 @@
 from lib.settings import Settings
 from pymongo import MongoClient
+from pymongo.collection import Collection
+from pymongo.database import Database
+from typing import Optional
 
-instance: MongoClient = None
+instance: Optional[MongoClient] = None
 
 
-def get_client():
+def get_client() -> MongoClient:
     global instance
     if instance is None:
         kwargs = {}
@@ -16,11 +19,11 @@ def get_client():
     return instance
 
 
-def get_database(db=Settings.mongo_db_db_name):
+def get_database(db=Settings.mongo_db_db_name) -> Database:
     client = get_client()
     return client[db]
 
 
-def get_collection(name, db=Settings.mongo_db_db_name):
+def get_collection(name, db=Settings.mongo_db_db_name) -> Collection:
     client = get_client()
     return client[db][name]

@@ -21,16 +21,16 @@ class MockServiceController(ServiceController):
     def restart(self):
         self.sub_state = "started"
 
-    def get_info(self):
+    def get_info(self) -> dict:
         results_dict = {"ActiveState": self.active_state, "SubState": self.sub_state}
         return results_dict
 
-    def get_state(self):
+    def get_state(self) -> str:
         info = self.get_info()
 
         active_state = info.get('ActiveState', 'unknown')
         sub_state = info.get('SubState', 'unknown')
         return active_state + ', ' + sub_state
 
-    def get_log(self, lines):
+    def get_log(self, lines) -> str:
         return "this is a log or so"

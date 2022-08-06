@@ -4,7 +4,7 @@ from lib.db.models.job_info import JobInfo, WAITING, EXECUTING, FAILED, FINISHED
 
 
 class Job:
-    def __init__(self, name=None, info=None):
+    def __init__(self, name: str = None, info: str = None):
         self._job_info = JobInfo()
         self._job_info.name = name
         self._job_info.info = info

@@ -23,13 +23,13 @@ class ServiceController(ABC):
         pass
 
     @abstractmethod
-    def get_info(self):
+    def get_info(self) -> dict:
         pass
 
     @abstractmethod
-    def get_state(self):
+    def get_state(self) -> str:
         pass
 
     @abstractmethod
-    def get_log(self, lines):
+    def get_log(self, lines) -> str:
         pass

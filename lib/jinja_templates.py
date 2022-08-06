@@ -1,7 +1,8 @@
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, Template
+from sanic import Request
 
 
-def get_template(name, request):
+def get_template(name: str, request: Request) -> Template:
     env = Environment(loader=FileSystemLoader('templates'))
     user = request.ctx.user
 
