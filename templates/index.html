@@ -2,7 +2,8 @@
 {% block title %}Index{% endblock %}
 {% block main %}
 {% for i in range(servers|length) %}
-Server {{ servers[i].name }} on port {{servers[i].port }}<br/>
+<h3>Server <a href="/servers/{{servers[i].id}}">{{ servers[i].name }}</a></h3>
+running on port {{servers[i].port }}<br/>
 Status: {{statuses[i]}}<br/>
 <form method="post">
     <input type="hidden" name="server-id" value="{{servers[i].id}}"/>
@@ -13,10 +14,6 @@ Status: {{statuses[i]}}<br/>
     <input type="submit" name="disable" value="Disable"/>
 </form>
 <br/>
-Log (not live, refresh page):<br/>
-<textarea class="log file">
-{{logs[i]}}
-</textarea>
 {% else %}
 No servers created yet. Create one on the <a href="/servers">servers</a> page
 {% endfor %}
