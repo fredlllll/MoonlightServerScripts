@@ -33,19 +33,13 @@ ul.nav li{
   padding:5px 10px;
 }
 
-table.mods{
+table{
 border: 1px solid black;
+border-collapse: collapse;
 }
 
-table.mods td,th{
+table td,th{
 border: 1px solid black;
-}
-
-table.jobs{
- border: 1px solid black;
-}
-table.jobs td,th{
- border: 1px solid black;
 }
 
 textarea.log{
