@@ -8,7 +8,7 @@ from lib.db.migrations.migrations import run_migrations
 from lib.page.index import index, index_post
 from lib.page.jobs import jobs, jobs_post
 from lib.page.login import login, login_post, logout
-from lib.page.mod_downloader import mod_downloader, mod_downloader_post
+from lib.page.mods import mods, mods_post
 from lib.page.mod_linker import mod_linker, mod_linker_post
 from lib.page.modset import modset, modset_post
 from lib.page.modsets import modsets, modsets_post
@@ -72,8 +72,8 @@ class SanicApp:
         self.bp_logged_out.add_route(login_post, '/login', methods=('POST',))
         self.bp_logged_in.add_route(logout, '/logout', methods=('GET',))
 
-        self.bp_logged_in.add_route(mod_downloader, '/mod_downloader', methods=('GET',))
-        self.bp_logged_in.add_route(mod_downloader_post, '/mod_downloader', methods=('POST',))
+        self.bp_logged_in.add_route(mods, '/mods', methods=('GET',))
+        self.bp_logged_in.add_route(mods_post, '/mods', methods=('POST',))
 
         self.bp_logged_in.add_route(mod_linker, '/mod_linker', methods=('GET',))
         self.bp_logged_in.add_route(mod_linker_post, '/mod_linker', methods=('POST',))
