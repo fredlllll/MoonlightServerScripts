@@ -1,12 +1,14 @@
 from lib.settings import Settings
 from lib.systemd_unit_controller import SystemdUnitController
 from lib.mock_service_controller import MockServiceController
+from lib.db.models.arma_3_server import Arma3Server
 from lib.db.models.arma_3_modset import Arma3Modset
 from lib.db.models.arma_3_modset_mod import Arma3ModsetMod
 from lib.apis.steam import get_mod_name, escape_mod_name
 from lib.arma_3_server_util import get_service_file_name, get_startup_script_file_name, get_server_mods_folder, get_basic_config_file_name, get_server_config_file_name
 from lib.constants import ARMA3APPID
 from lib.util import delete_folder_contents
+from lib.service_controller import ServiceController
 import os
 import subprocess
 import logging
@@ -16,7 +18,7 @@ logger = logging.getLogger(__name__)
 controllers = {}
 
 
-def get_server_controller(server_id):
+def get_server_controller(server_id: str) -> ServiceController:
     cont = controllers.get(server_id, None)
     if cont is None:
         if Settings.debug_windows:
@@ -27,7 +29,7 @@ def get_server_controller(server_id):
     return cont
 
 
-def create_startup_script(server):
+def create_startup_script(server: Arma3Server):
     file_name = get_startup_script_file_name(server.id)
     basic_config = os.path.basename(get_basic_config_file_name(server.id))
     server_config = os.path.basename(get_server_config_file_name(server.id))
@@ -55,7 +57,7 @@ def create_startup_script(server):
         f.write(content)
 
 
-def create_service(server):
+def create_service(server: Arma3Server):
     """creates a service file for the server, and calls daemon-reload"""
     file_name = get_service_file_name(server.id)
     user = Settings.arma_3_server_user
@@ -77,7 +79,7 @@ def create_service(server):
     subprocess.check_call("sudo systemctl daemon-reload")
 
 
-def link_mods(server):
+def link_mods(server: Arma3Server):
     if Settings.debug_windows:
         return
 
@@ -109,19 +111,19 @@ def link_mods(server):
                 os.symlink(abs_file_path, abs_target_file_path)
 
 
-def start_server(server):
+def start_server(server: Arma3Server):
     cont = get_server_controller(server.id)
     link_mods(server)
     create_startup_script(server)
     cont.start()
 
 
-def stop_server(server):
+def stop_server(server: Arma3Server):
     cont = get_server_controller(server.id)
     cont.stop()
 
 
-def restart_server(server):
+def restart_server(server: Arma3Server):
     cont = get_server_controller(server.id)
     cont.stop()
     link_mods(server)
@@ -129,11 +131,11 @@ def restart_server(server):
     cont.start()
 
 
-def disable_server(server):
+def disable_server(server: Arma3Server):
     cont = get_server_controller(server.id)
     cont.disable()
 
 
-def enable_server(server):
+def enable_server(server: Arma3Server):
     cont = get_server_controller(server.id)
     cont.enable()

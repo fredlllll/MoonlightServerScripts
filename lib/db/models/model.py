@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from lib.db.mongo import get_collection
 from lib.util import get_resource_id
+from types import SimpleNamespace
 import pymongo
 import time
 
@@ -8,8 +9,9 @@ CREATED_TIMESTAMP_FIELD = 'created_timestamp'
 UPDATED_TIMESTAMP_FIELD = 'updated_timestamp'
 
 
-class Model(ABC):
+class Model(ABC, SimpleNamespace):
     def __init__(self, **kwargs):
+        super().__init__()
         self._load_from_record(kwargs)
 
     @classmethod
