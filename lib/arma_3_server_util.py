@@ -31,3 +31,8 @@ def get_server_profile_file_name(server_id):
     if Settings.debug_windows:
         return f"C:\\moondash_debug\\{server_id}.arma3profile"
     return os.path.join(Settings.arma_3_server_dir, server_id, server_id + ".arma3profile")
+
+
+def get_server_mods_folder(server_id):
+    return os.path.join(Settings.arma_3_mods_dir, server_id)
+
