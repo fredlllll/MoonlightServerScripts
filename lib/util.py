@@ -47,3 +47,7 @@ def delete_folder_contents(folder):
 def copy(source_file, dst_file):
     os.makedirs(os.path.dirname(dst_file), exist_ok=True)
     shutil.copy(source_file, dst_file)
+
+
+def indent(value: str, indent_str='  '):
+    return indent_str + value.replace('\n', '\n' + indent_str).rstrip(indent_str)

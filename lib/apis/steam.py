@@ -5,7 +5,9 @@ import subprocess
 import os
 import logging
 import shutil
-from diskcache import  Cache
+from diskcache import Cache
+from lib.acf import AcfFile
+from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +30,7 @@ def get_mod_name(mod_id, dont_use_cache=False):
     else:
         try:
             name = resp.json()['response']['publishedfiledetails'][0]['title']
-            mod_name_cache.set(mod_id,name)
+            mod_name_cache.set(mod_id, name)
         except KeyError:
             name = str(mod_id)
 
@@ -98,7 +100,7 @@ def run_steam_cmd(parameters, user=None, password=None, auth_code=None):
         logger.warning("received non zero return code from steamcmd command: " + str(e.returncode))
 
 
-def get_downloaded_mods():
+def get_downloaded_mods() -> List[str]:
     mods = []
 
     workshop_mods_folder = os.path.join(Settings.steam_folder, 'steamapps/workshop/content/', str(ARMA3APPID))
@@ -110,8 +112,18 @@ def get_downloaded_mods():
     return mods
 
 
-def delete_downloaded_mods(mod_ids):
-    #TODO: change contents in that one steam file so it knows these are deleted
+def delete_downloaded_mods(mod_ids: List[str]):
+    # delete mods from the steams acf file
+    arma_acf_file = os.path.join(Settings.steam_folder, f'steamapps/workshop/appworkshop_{ARMA3APPID}.acf')
+    acf = AcfFile(arma_acf_file)
+    items_installed = acf.root.nodes["WorkshopItemsInstalled"]
+    item_details = acf.root.nodes["WorkshopItemDetails"]
+    keys = items_installed.nodes.keys()
+    for k in keys:
+        if k in mod_ids:
+            del items_installed.nodes[k]
+            del item_details.nodes[k]
+
     workshop_mods_folder = os.path.join(Settings.steam_folder, 'steamapps/workshop/content/', str(ARMA3APPID))
     for mod_id in mod_ids:
         mod_folder = os.path.join(workshop_mods_folder, mod_id)

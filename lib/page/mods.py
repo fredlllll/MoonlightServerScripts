@@ -46,7 +46,7 @@ async def post_delete(request):
     if mod_id is None:
         return
 
-    delete_downloaded_mods([mod_id])
+    delete_downloaded_mods([str(mod_id)])
 
 
 async def post_delete_all(request):
