@@ -2,12 +2,12 @@
 {% block title %}Server{% endblock %}
 {% block main %}
 <h3>Modset Info:</h3>
-<table>
-    <tr>
-        <td>Modset Name</td>
-        <td>{{modset.name}}</td>
-    </tr>
-</table>
+Name: {{modset.name}}<br/>
+Active Mods: {{ modset.active_mods | length }}
+<form method="POST">
+    <input type="hidden" name="action" value="delete"/>
+    <input type="submit" style="color:red;" value="Delete Modset">
+</form>
 <h3>Mods:</h3>
 <form method="post">
     <table>
@@ -24,6 +24,7 @@
         </tr>
     {% endfor %}
     </table>
+    <input type="hidden" name="action" value="update"/>
     <input type="submit" value="Save Modset">
 </form>
 {% endblock %}
