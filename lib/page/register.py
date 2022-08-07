@@ -26,8 +26,9 @@ async def register_post(request):
         auto_activate = True
     else:
         auto_activate = False
-    user = User(name=user_name, password=hash_password(password), permissions=['admin'])
+    user = User(name=user_name, password=hash_password(password), permissions=[])
     if auto_activate:
+        user.permissions = ['admin']
         user.activation_timestamp = time.time()
     user.save()
     return redirect('/login')  # to login
