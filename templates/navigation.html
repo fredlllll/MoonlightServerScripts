@@ -17,9 +17,11 @@
 <li>
     <a href="/jobs">Jobs</a>
 </li>
+{% if has_permission('admin') %}
 <li>
     <a href="/users">Users</a>
 </li>
+{% endif %}
 {% else %}
 <li>
     <a href="/login">Login</a>
