@@ -16,9 +16,9 @@ class User(Model):
         ]
 
     def has_permission(self, permission):
-        if self.permissions is None:
-            return False
-        return permission in self.permissions
+        if self.permissions:
+            return permission in self.permissions
+        return False
 
     @classmethod
     def user_has_permission(cls, user_id, permission):
