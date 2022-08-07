@@ -11,12 +11,12 @@ from lib.page.jobs import jobs, jobs_post
 from lib.page.login import login, login_post, logout
 from lib.page.mods import mods, mods_post
 from lib.page.modset import modset, modset_post
-from lib.page.modsets import modsets, modsets_post
+from lib.page.modsets import modsets
 from lib.page.new_modset import new_modset, new_modset_post
 from lib.page.new_server import new_server, new_server_post
 from lib.page.register import register, register_post
 from lib.page.server import server, server_post
-from lib.page.servers import servers, servers_post
+from lib.page.servers import servers
 
 
 # apis
@@ -82,7 +82,6 @@ class SanicApp:
         self.bp_logged_in.add_route(modset_post, '/modsets/<modset_id:str>', methods=('POST',))
 
         self.bp_logged_in.add_route(modsets, '/modsets', methods=('GET',))
-        self.bp_logged_in.add_route(modsets_post, '/modsets', methods=('POST',))
 
         self.bp_logged_in.add_route(new_modset, '/new_modset', methods=('GET',))
         self.bp_logged_in.add_route(new_modset_post, '/new_modset', methods=('POST',))
@@ -97,7 +96,6 @@ class SanicApp:
         self.bp_logged_in.add_route(server_post, '/servers/<server_id:str>', methods=('POST',))
 
         self.bp_logged_in.add_route(servers, '/servers', methods=('GET',))
-        self.bp_logged_in.add_route(servers_post, '/servers', methods=('POST',))
 
     def _setup_apis(self):
         pass

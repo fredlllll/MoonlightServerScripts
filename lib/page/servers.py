@@ -21,6 +21,3 @@ async def servers(request):
 
     template = get_template("servers.html", request)
     return html(template.render(servers=servers_))
-
-async def servers_post(request):
-    pass

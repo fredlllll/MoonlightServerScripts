@@ -16,7 +16,3 @@ async def modsets(request):
 
     template = get_template("modsets.html", request)
     return html(template.render(modsets=modsets_))
-
-
-async def modsets_post(request):
-    pass
