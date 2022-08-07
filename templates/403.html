@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
 {% block title %}403{% endblock %}
 {% block main %}
-    Moonlight Dashboard - 403
+Moonlight Dashboard - 403
+{% if message %}
+{{message}}
+{% endif %}
 {% end %}
