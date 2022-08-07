@@ -1,6 +1,7 @@
 from sanic import Sanic, Blueprint
 from lib.middleware.user_session import user_session
 from lib.middleware.logged_in_out import logged_in, logged_out
+from lib.middleware.permissions import permissions
 from lib.settings import Settings
 from lib.db.migrations.migrations import run_migrations
 
@@ -50,14 +51,18 @@ class SanicApp:
     def _setup_middleware(self):
         self.bp_api_logged_in.middleware(user_session, 'request')
         self.bp_api_logged_in.middleware(logged_in, 'request')
+        self.bp_api_logged_in.middleware(permissions, 'request')
 
         self.bp_logged_in.middleware(user_session, 'request')
         self.bp_logged_in.middleware(logged_in, 'request')
+        self.bp_logged_in.middleware(permissions, 'request')
 
         self.bp_logged_out.middleware(user_session, 'request')
         self.bp_logged_out.middleware(logged_out, 'request')
+        self.bp_logged_out.middleware(permissions, 'request')
 
         self.bp.middleware(user_session, 'request')
+        self.bp.middleware(permissions, 'request')
 
     def _setup_pages(self):
         self.bp_logged_in.add_route(index, '/', methods=('GET',))
