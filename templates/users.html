@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}Users{% endblock %}
+{% block main %}
+<table>
+    <tr>
+        <th>User Name</th>
+        <th>Permissions</th>
+        <th>Activated</th>
+    </tr>
+
+{% for user in users %}
+<tr>
+    <td><a href="/users/{{user.id}}">{{user.name}}</a></td>
+    <td>{{ ', '.join(user.permissions or [])}}</td>
+    <td>
+        {% if user.activation_timestamp %}
+        {{user.activation_timestamp_str}}
+        {% else %}
+        False
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

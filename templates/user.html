@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block title %}User{% endblock %}
+{% block main %}
+<h3>User Info:</h3>
+<table>
+    <tr>
+        <td>User Name</td>
+        <td>{{user.name}}</td>
+    </tr>
+    <tr>
+        <td>Permissions</td>
+        <td>
+            <form method="post">
+                <input type="hidden" name="action" value="set-permissions"/>
+                <input type="text" autocomplete="off" name="permissions" value="{{', '.join(user.permissions or [])}}"/>
+                <input type="submit" value="Set Permissions"/>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>Activated</td>
+        <td>
+            {% if user.activation_timestamp %}
+            {{user.activation_timestamp_str}}
+            {% else %}
+            <form method="post">
+                <input type="hidden" name="action" value="activate"/>
+                <input type="submit" value="Activate"/>
+            </form>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+{% endblock %}

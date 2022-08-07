@@ -17,6 +17,8 @@ from lib.page.new_server import new_server, new_server_post
 from lib.page.register import register, register_post
 from lib.page.server import server, server_post
 from lib.page.servers import servers
+from lib.page.user import user, user_post
+from lib.page.users import users
 
 
 # apis
@@ -96,6 +98,11 @@ class SanicApp:
         self.bp_logged_in.add_route(server_post, '/servers/<server_id:str>', methods=('POST',))
 
         self.bp_logged_in.add_route(servers, '/servers', methods=('GET',))
+
+        self.bp_logged_in.add_route(users, '/users', methods=('GET',))
+
+        self.bp_logged_in.add_route(user, '/users/<user_id:str>', methods=('GET',))
+        self.bp_logged_in.add_route(user_post, '/users/<user_id:str>', methods=('POST',))
 
     def _setup_apis(self):
         pass
