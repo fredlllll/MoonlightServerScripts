@@ -36,6 +36,8 @@ def rename_in_place(file_path: str, new_file_name: str):
 
 
 def delete_folder_contents(folder: str):
+    if not os.path.exists(folder):
+        return
     for entry in os.listdir(folder):
         path = os.path.join(folder, entry)
         if os.path.isdir(path):
