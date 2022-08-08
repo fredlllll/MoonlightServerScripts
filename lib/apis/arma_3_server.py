@@ -76,7 +76,7 @@ def create_service(server: Arma3Server):
         logger.info("windows create service dummy")
         return
 
-    subprocess.check_call("sudo systemctl daemon-reload")
+    subprocess.check_call(["sudo", "systemctl", "daemon-reload"])
 
 
 def link_mods(server: Arma3Server):

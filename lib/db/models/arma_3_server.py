@@ -31,11 +31,11 @@ class Arma3Server(MongoModelDeletionLogic):
 
         # remove service
         service_file_name = get_service_file_name(server_id)
-        subprocess.check_call(f"sudo systemctl stop {os.path.basename(service_file_name)}")
-        subprocess.check_call(f"sudo systemctl disable {os.path.basename(service_file_name)}")
+        subprocess.check_call(["sudo", "systemctl", "stop", os.path.basename(service_file_name)])
+        subprocess.check_call(["sudo", "systemctl", "disable", os.path.basename(service_file_name)])
         os.unlink(service_file_name)
-        subprocess.check_call("sudo systemctl daemon-reload")
-        subprocess.check_call("sudo systemctl reset-failed")
+        subprocess.check_call(["sudo", "systemctl", "daemon-reload"])
+        subprocess.check_call(["sudo", "systemctl", "reset-failed"])
 
         # delete files
         os.unlink(get_startup_script_file_name(server_id))
