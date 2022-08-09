@@ -38,7 +38,7 @@ def create_startup_script(server: Arma3Server):
 
     content = "#!/bin/bash\n"
     content += 'cd "' + Settings.arma_3_server_dir + '"\n'
-    content += f'./arma3server -cfg={basic_config} -config={server_config} -name={server.id}'
+    content += f'./arma3server -cfg={basic_config} -config={server_config} -port={server.port} -name={server.id}'
     if server.additional_commandline:
         content += " " + server.additional_commandline
     content += ' -mod="\\\n'
