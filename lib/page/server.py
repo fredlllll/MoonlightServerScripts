@@ -4,6 +4,7 @@ from lib.jinja_templates import get_template
 from lib.db.models.arma_3_server import Arma3Server
 from lib.db.models.arma_3_modset import Arma3Modset
 from lib.responses import response_404
+from lib.settings import Settings
 from lib.arma_3_server_util import get_basic_config_file_name, get_server_config_file_name, get_server_profile_file_name
 from lib.apis.arma_3_server import get_server_controller, start_server, stop_server, restart_server, enable_server, disable_server
 from lib.util import copy
@@ -59,11 +60,11 @@ async def server_post(request, server_id):
         with open(get_server_profile_file_name(server_id), 'wb') as f:
             f.write(content.encode())
     elif action == 'reset-basic-config':
-        copy("arma_server_default_files/basic.cfg", get_basic_config_file_name(server_id))
+        copy("arma_server_default_files/basic.cfg", get_basic_config_file_name(server_id), Settings.arma_3_server_user, Settings.arma_3_server_user)
     elif action == 'reset-server-config':
-        copy("arma_server_default_files/server.cfg", get_server_config_file_name(server_id))
+        copy("arma_server_default_files/server.cfg", get_server_config_file_name(server_id), Settings.arma_3_server_user, Settings.arma_3_server_user)
     elif action == 'reset-server-profile':
-        copy("arma_server_default_files/server.arma3profile", get_server_profile_file_name(server_id))
+        copy("arma_server_default_files/server.arma3profile", get_server_profile_file_name(server_id), Settings.arma_3_server_user, Settings.arma_3_server_user)
     elif action == 'state-change':
         if args.get('start', None) is not None:
             start_server(server_)

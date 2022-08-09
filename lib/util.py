@@ -46,9 +46,11 @@ def delete_folder_contents(folder: str):
             os.unlink(path)
 
 
-def copy(source_file: str, dst_file: str):
+def copy(source_file: str, dst_file: str, user: str = None, group: str = None):
     os.makedirs(os.path.dirname(dst_file), exist_ok=True)
     shutil.copy(source_file, dst_file)
+    if user is not None:
+        shutil.chown(dst_file, user, group)
 
 
 def indent(value: str, indent_str: str = '  ') -> str:

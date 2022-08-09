@@ -3,6 +3,7 @@ from lib.util import copy
 from sanic.response import html, redirect
 from lib.jinja_templates import get_template
 from lib.db.models.arma_3_server import Arma3Server
+from lib.settings import Settings
 from lib.apis.arma_3_server import create_service, create_startup_script
 from lib.arma_3_server_util import get_basic_config_file_name, get_server_config_file_name, get_server_profile_file_name
 
@@ -33,8 +34,8 @@ async def new_server_post(request):
     # create files
     create_service(server)
     create_startup_script(server)
-    copy("arma_server_default_files/basic.cfg", get_basic_config_file_name(server.id))
-    copy("arma_server_default_files/server.cfg", get_server_config_file_name(server.id))
-    copy("arma_server_default_files/server.arma3profile", get_server_profile_file_name(server.id))
+    copy("arma_server_default_files/basic.cfg", get_basic_config_file_name(server.id),  Settings.arma_3_server_user,  Settings.arma_3_server_user)
+    copy("arma_server_default_files/server.cfg", get_server_config_file_name(server.id),  Settings.arma_3_server_user,  Settings.arma_3_server_user)
+    copy("arma_server_default_files/server.arma3profile", get_server_profile_file_name(server.id),  Settings.arma_3_server_user,  Settings.arma_3_server_user)
 
     return redirect(f'/servers/{server.id}')
