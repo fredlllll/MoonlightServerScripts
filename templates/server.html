@@ -9,7 +9,13 @@
     </tr>
     <tr>
         <td>Server Port</td>
-        <td>{{server.port}}</td>
+        <td>
+            <form method="POST">
+                <input type="number" name="port" value="{{server.port}}" placeholder="{{server.port}}" step="1"/>
+                <input type="hidden" name="action" value="set-port"/>
+                <input type="submit" value="Set Port"/>
+            </form>
+        </td>
     </tr>
     <tr>
         <td>Status</td>

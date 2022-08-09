@@ -47,6 +47,13 @@ async def server_post(request, server_id):
         modset_id = args.get('modset', None)
         server_.modset_id = modset_id
         server_.save()
+    if action == 'set-port':
+        try:
+            port = int(args.get('port', 2302))
+            server_.port = port
+            server_.save()
+        except ValueError:
+            pass
     elif action == 'update-basic-config':
         content = args.get('content')
         with open(get_basic_config_file_name(server_id), 'wb') as f:
