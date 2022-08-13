@@ -11,9 +11,11 @@ from lib.arma_3_server_util import get_service_file_name, get_startup_script_fil
 from lib.constants import ARMA3APPID
 from lib.util import delete_folder_contents
 from lib.service_controller import ServiceController
+from typing import List
 import os
 import subprocess
 import logging
+import a2s
 
 logger = logging.getLogger(__name__)
 
@@ -145,3 +147,18 @@ def disable_server(server: Arma3Server):
 def enable_server(server: Arma3Server):
     cont = get_server_controller(server.id)
     cont.enable()
+
+
+def get_server_info(server: Arma3Server) -> a2s.SourceInfo:
+    address = ("127.0.0.1", server.port)
+    return a2s.info(address)
+
+
+def get_server_players(server: Arma3Server) -> List[a2s.Player]:
+    address = ("127.0.0.1", server.port)
+    return a2s.players(address)
+
+
+def get_server_rules(server: Arma3Server) -> dict:
+    address = ("127.0.0.1", server.port)
+    return a2s.rules(address)
