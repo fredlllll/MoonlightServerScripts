@@ -16,10 +16,12 @@ async def index(request):
         try:
             server.info = get_server_info(server)
         except:
+            logger.exception("failed get_server_info")
             server.info = None
         try:
             server.players = get_server_players(server)
         except:
+            logger.exception("failed get_server_players")
             server.players = None
 
     template = get_template("index.html", request)
