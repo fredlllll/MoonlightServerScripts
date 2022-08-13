@@ -1,12 +1,26 @@
 {% extends "layout.html" %}
 {% block title %}Index{% endblock %}
 {% block main %}
-{% for i in range(servers|length) %}
-<h3>Server <a href="/servers/{{servers[i].id}}">{{ servers[i].name }}</a></h3>
-running on port {{servers[i].port }}<br/>
-Status: {{statuses[i]}}<br/>
+{% for server in servers %}
+<h3>Server <a href="/servers/{{server.id}}">{{ server.name }}</a></h3>
+running on port {{server.port }}<br/>
+Status: {{server.status}}<br/>
+{% if server.info %}
+Server Name: {{server.info['server_name']}}<br/>
+Map: {{server.info.get('map_name','None')}}<br/>
+Mission: {{server.info.get('game','None')}}<br/>
+Player Count: {{server.info.get('player_count',0)}}/{{server.info.get('max_players',0)}}<br/>
+{% endif %}
+{% if server.players %}
+Players:<br/>
+<ul>
+    {% for player in server.players %}
+    <li>player.name</li>
+    {% endfor %}
+</ul>
+{% endif %}
 <form method="post">
-    <input type="hidden" name="server-id" value="{{servers[i].id}}"/>
+    <input type="hidden" name="server-id" value="{{server.id}}"/>
     <input type="submit" name="start" value="Start"/>
     <input type="submit" name="stop" value="Stop"/>
     <input type="submit" name="restart" value="Restart"/>

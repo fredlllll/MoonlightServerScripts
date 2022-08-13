@@ -1,4 +1,4 @@
-from lib.apis.arma_3_server import get_server_controller, start_server, stop_server, restart_server, enable_server, disable_server
+from lib.apis.arma_3_server import get_server_controller, start_server, stop_server, restart_server, enable_server, disable_server, get_server_info, get_server_players
 import logging
 from sanic.response import html, redirect
 from lib.jinja_templates import get_template
@@ -10,15 +10,20 @@ logger = logging.getLogger(__name__)
 
 async def index(request):
     servers = Arma3Server.all()
-    statuses = []
-    logs = []
     for server in servers:
         cont = get_server_controller(server.id)
-        statuses.append(cont.get_state())
-        logs.append(cont.get_log(100))
+        server.status = cont.get_state()
+        try:
+            server.info = get_server_info(server)
+        except:
+            server.info = None
+        try:
+            server.players = get_server_players(server)
+        except:
+            server.players = None
 
     template = get_template("index.html", request)
-    return html(template.render(statuses=statuses, logs=logs, servers=servers))
+    return html(template.render(servers=servers))
 
 
 async def index_post(request):
