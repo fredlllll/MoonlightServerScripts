@@ -6,10 +6,10 @@
 running on port {{server.port }}<br/>
 Status: {{server.status}}<br/>
 {% if server.info %}
-Server Name: {{server.info['server_name']}}<br/>
-Map: {{server.info.get('map_name','None')}}<br/>
-Mission: {{server.info.get('game','None')}}<br/>
-Player Count: {{server.info.get('player_count',0)}}/{{server.info.get('max_players',0)}}<br/>
+Server Name: {{server.info.server_name}}<br/>
+Map: {{server.info.map_name}}<br/>
+Mission: {{server.info.game}}<br/>
+Player Count: {{server.info.player_count}}/{{server.info.max_players}}<br/>
 {% endif %}
 {% if server.players %}
 Players:<br/>
