@@ -1,5 +1,5 @@
 import logging
-from sanic.response import html
+from sanic.response import html, redirect
 from lib.jinja_templates import get_template
 from lib.db.models.arma_3_server import Arma3Server
 from lib.db.models.arma_3_modset import Arma3Modset
@@ -41,3 +41,5 @@ async def servers_post(request):
 
         update_thread = Thread(target=do_it, daemon=True)
         update_thread.start()
+
+    return redirect('/servers')
