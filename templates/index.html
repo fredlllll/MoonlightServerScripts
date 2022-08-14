@@ -15,7 +15,7 @@ Player Count: {{server.info.player_count}}/{{server.info.max_players}}<br/>
 Players:<br/>
 <ul>
     {% for player in server.players %}
-    <li>player.name</li>
+    <li>{{player.name}}</li>
     {% endfor %}
 </ul>
 {% endif %}
