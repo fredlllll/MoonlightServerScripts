@@ -122,6 +122,7 @@ def delete_downloaded_mods(mod_ids: List[str]):
         if k in mod_ids:
             del items_installed.nodes[k]
             del item_details.nodes[k]
+    acf.save()
 
     workshop_mods_folder = os.path.join(Settings.steam_folder, 'steamapps/workshop/content/', str(ARMA3APPID))
     for mod_id in mod_ids:
