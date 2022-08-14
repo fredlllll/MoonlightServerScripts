@@ -1,6 +1,6 @@
 import requests
 from lib.settings import Settings
-from lib.constants import ARMA3APPID
+from lib.constants import ARMA3APPID, ARMA3SERVERAPPID
 import subprocess
 import os
 import logging
@@ -135,3 +135,10 @@ def delete_downloaded_mods(mod_ids: List[str]):
         mod_folder = os.path.join(workshop_mods_folder, mod_id)
         if os.path.exists(mod_folder):
             shutil.rmtree(mod_folder, ignore_errors=True)
+
+
+def update_server(user: str = None, password: str = None, auth_code: str = None):
+    commands: List[str] = [
+        f'+app_update {ARMA3SERVERAPPID} validate'
+    ]
+    run_steam_cmd(commands, user, password, auth_code)

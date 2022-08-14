@@ -25,4 +25,40 @@
 <a href="/new_server">
     <button>Create new Server</button>
 </a>
+<form method="POST">
+    <table>
+        <tr>
+            <td>
+                User
+            </td>
+            <td>
+                <input type="text" name="user" placeholder="User"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Password
+            </td>
+            <td>
+                <input type="password" name="password" placeholder="Password"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2FA code
+            </td>
+            <td>
+                <input type="text" autocomplete="off" name="auth_code" placeholder="2FA code"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+            <td>
+                <input type="submit" name="update-server" value="Update Server Software"/>
+            </td>
+        </tr>
+    </table>
+</form>
 {% endblock %}
