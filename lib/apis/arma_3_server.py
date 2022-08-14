@@ -152,14 +152,14 @@ def enable_server(server: Arma3Server):
 
 def get_server_info(server: Arma3Server) -> a2s.SourceInfo:
     address = ("127.0.0.1", server.port + 1)
-    return a2s.info(address)
+    return a2s.info(address, 0.3)
 
 
 def get_server_players(server: Arma3Server) -> List[a2s.Player]:
     address = ("127.0.0.1", server.port + 1)
-    return a2s.players(address)
+    return a2s.players(address, 0.3)
 
 
 def get_server_rules(server: Arma3Server) -> dict:
     address = ("127.0.0.1", server.port + 1)
-    return a2s.rules(address)
+    return a2s.rules(address, 0.3)
