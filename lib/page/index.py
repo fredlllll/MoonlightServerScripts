@@ -13,15 +13,19 @@ async def index(request):
     for server in servers:
         cont = get_server_controller(server.id)
         server.status = cont.get_state()
-        try:
-            server.info = get_server_info(server)
-        except:
-            logger.exception("failed get_server_info")
+        if server.status != 'inactive, dead':
+            try:
+                server.info = get_server_info(server)
+            except:
+                logger.exception("failed get_server_info")
+                server.info = None
+            try:
+                server.players = get_server_players(server)
+            except:
+                logger.exception("failed get_server_players")
+                server.players = None
+        else:
             server.info = None
-        try:
-            server.players = get_server_players(server)
-        except:
-            logger.exception("failed get_server_players")
             server.players = None
 
     template = get_template("index.html", request)
