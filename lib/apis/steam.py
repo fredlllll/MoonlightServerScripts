@@ -117,7 +117,7 @@ def delete_downloaded_mods(mod_ids: List[str]):
     acf = AcfFile(arma_acf_file)
     items_installed = acf.root.nodes["WorkshopItemsInstalled"]
     item_details = acf.root.nodes["WorkshopItemDetails"]
-    keys = items_installed.nodes.keys()
+    keys = list(items_installed.nodes.keys())
     for k in keys:
         if k in mod_ids:
             del items_installed.nodes[k]
