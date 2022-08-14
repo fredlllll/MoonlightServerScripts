@@ -116,7 +116,7 @@ def link_mods(server: Arma3Server):
                 abs_target_file_path = os.path.join(abs_target_dir_path, file.lower())
                 os.symlink(abs_file_path, abs_target_file_path)
 
-    subprocess.check_call(['sudo', 'chown', '-R', f"{Settings.arma_3_server_user}:{Settings.arma_3_server_user}", server_mods_folder])
+    subprocess.check_call(['sudo', 'chown', f"{Settings.arma_3_server_user}:{Settings.arma_3_server_user}", server_mods_folder, '-R'])
 
 
 def start_server(server: Arma3Server):
