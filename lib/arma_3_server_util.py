@@ -1,5 +1,5 @@
 from lib.settings import Settings
-from apis.steam import get_arma_3_server_folder
+from lib.apis.steam import get_arma_3_server_folder
 import os
 
 

@@ -8,7 +8,6 @@ from lib.db.models.arma_3_modset import Arma3Modset
 from lib.db.models.arma_3_modset_mod import Arma3ModsetMod
 from lib.apis.steam import get_mod_name, escape_mod_name, get_workshop_mods_folder, get_arma_3_server_folder
 from lib.arma_3_server_util import get_service_file_name, get_startup_script_file_name, get_server_mods_folder, get_basic_config_file_name, get_server_config_file_name
-from lib.constants import ARMA3APPID
 from lib.util import delete_folder_contents
 from lib.service_controller import ServiceController
 from typing import List
