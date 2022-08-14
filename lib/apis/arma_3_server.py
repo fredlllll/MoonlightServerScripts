@@ -6,7 +6,7 @@ from lib.mock_service_controller import MockServiceController
 from lib.db.models.arma_3_server import Arma3Server
 from lib.db.models.arma_3_modset import Arma3Modset
 from lib.db.models.arma_3_modset_mod import Arma3ModsetMod
-from lib.apis.steam import get_mod_name, escape_mod_name, get_workshop_mods_folder
+from lib.apis.steam import get_mod_name, escape_mod_name, get_workshop_mods_folder, get_arma_3_server_folder
 from lib.arma_3_server_util import get_service_file_name, get_startup_script_file_name, get_server_mods_folder, get_basic_config_file_name, get_server_config_file_name
 from lib.constants import ARMA3APPID
 from lib.util import delete_folder_contents
@@ -37,9 +37,11 @@ def create_startup_script(server: Arma3Server):
     file_name = get_startup_script_file_name(server.id)
     basic_config = os.path.basename(get_basic_config_file_name(server.id))
     server_config = os.path.basename(get_server_config_file_name(server.id))
+    arma_3_server_dir = get_arma_3_server_folder()
+    server_mods_folder = get_server_mods_folder(server.id)
 
     content = "#!/bin/bash\n"
-    content += 'cd "' + Settings.arma_3_server_dir + '"\n'
+    content += 'cd "' + arma_3_server_dir + '"\n'
     content += f'./arma3server -cfg={basic_config} -config={server_config} -port={server.port} -name={server.id}'
     if server.additional_commandline:
         content += " " + server.additional_commandline
@@ -51,8 +53,8 @@ def create_startup_script(server: Arma3Server):
 
         for mod in mods:
             mod_name = get_mod_name(mod.mod_steam_id)
-            abs_path = os.path.join(Settings.arma_3_mods_dir, server.id, '@' + mod_name)
-            rel_path = os.path.relpath(abs_path, Settings.arma_3_server_dir)
+            abs_path = os.path.join(server_mods_folder, '@' + mod_name)
+            rel_path = os.path.relpath(abs_path, arma_3_server_dir)
             content += rel_path + ';\\\n'
 
     content += '"'

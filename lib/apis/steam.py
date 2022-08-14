@@ -1,5 +1,4 @@
 import requests
-from lib.settings import Settings
 from lib.constants import ARMA3APPID, ARMA3SERVERAPPID
 import subprocess
 import os
@@ -15,9 +14,11 @@ mod_name_cache = Cache(directory='caches/mod_names')
 
 
 def get_workshop_mods_folder():
-    # used to be
-    # workshop_mods_folder = os.path.join(Settings.steam_folder, 'steamapps/workshop/content/', str(ARMA3APPID))
     return os.path.join(os.path.expanduser('~'), '.steam/steamapps/workshop/content/', str(ARMA3APPID))
+
+
+def get_arma_3_server_folder():
+    return os.path.join(os.path.expanduser('~'), '.steam/steamapps/common/Arma 3 Server')
 
 
 def get_mod_name(mod_id: str, dont_use_cache: bool = False) -> str:
