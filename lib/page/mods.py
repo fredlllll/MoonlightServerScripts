@@ -67,5 +67,5 @@ async def mods_post(request):
         response = await post_delete_all(request)
 
     if response is None:
-        response = redirect('/mod_downloader')
+        response = redirect('/mods')
     return response
