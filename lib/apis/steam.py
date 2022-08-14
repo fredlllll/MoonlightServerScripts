@@ -14,6 +14,12 @@ logger = logging.getLogger(__name__)
 mod_name_cache = Cache(directory='caches/mod_names')
 
 
+def get_workshop_mods_folder():
+    # used to be
+    # workshop_mods_folder = os.path.join(Settings.steam_folder, 'steamapps/workshop/content/', str(ARMA3APPID))
+    return os.path.join(os.path.expanduser('~'), '.steam/steamapps/workshop/content/', str(ARMA3APPID))
+
+
 def get_mod_name(mod_id: str, dont_use_cache: bool = False) -> str:
     name: str = ''
     if not dont_use_cache:
@@ -102,7 +108,7 @@ def run_steam_cmd(parameters: List[str], user: str = None, password: str = None,
 def get_downloaded_mods() -> List[str]:
     mods = []
 
-    workshop_mods_folder = os.path.join(Settings.steam_folder, 'steamapps/workshop/content/', str(ARMA3APPID))
+    workshop_mods_folder = get_workshop_mods_folder()
     if os.path.exists(workshop_mods_folder):
         for entry in os.listdir(workshop_mods_folder):
             if os.path.isdir(os.path.join(workshop_mods_folder, entry)):
@@ -113,7 +119,7 @@ def get_downloaded_mods() -> List[str]:
 
 def delete_downloaded_mods(mod_ids: List[str]):
     # delete mods from the steams acf file
-    arma_acf_file = os.path.join(Settings.steam_folder, f'steamapps/workshop/appworkshop_{ARMA3APPID}.acf')
+    arma_acf_file = os.path.join(os.path.expanduser('~'), f'.steam/steamapps/workshop/appworkshop_{ARMA3APPID}.acf')
     acf = AcfFile(arma_acf_file)
     items_installed = acf.root.nodes["WorkshopItemsInstalled"]
     item_details = acf.root.nodes["WorkshopItemDetails"]
@@ -124,7 +130,7 @@ def delete_downloaded_mods(mod_ids: List[str]):
             del item_details.nodes[k]
     acf.save()
 
-    workshop_mods_folder = os.path.join(Settings.steam_folder, 'steamapps/workshop/content/', str(ARMA3APPID))
+    workshop_mods_folder = get_workshop_mods_folder()
     for mod_id in mod_ids:
         mod_folder = os.path.join(workshop_mods_folder, mod_id)
         if os.path.exists(mod_folder):
