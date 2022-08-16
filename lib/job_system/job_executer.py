@@ -13,11 +13,11 @@ class JobExecuter:
 
     @classmethod
     def add_job(cls, job):
+        cls.jobs.append(job)
         if cls.t is None or not cls.t.is_alive() or not cls.running:
             cls.t = threading.Thread(target=cls._run, daemon=True)
             cls.running = True
             cls.t.start()
-        cls.jobs.append(job)
 
     @classmethod
     def _run(cls):
