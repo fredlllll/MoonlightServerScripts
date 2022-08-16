@@ -12,7 +12,7 @@ def get_service_file_name(server_id: str):
 def get_startup_script_file_name(server_id: str):
     if Settings.debug_windows:
         return f"C:\\moondash_debug\\arma3server_{server_id}_startup.sh"
-    homedir = os.path.expanduser('~')
+    homedir = os.path.expanduser(f'~{Settings.local_steam_user}')
     return f"{homedir}/arma3server_{server_id}_startup.sh"
 
 

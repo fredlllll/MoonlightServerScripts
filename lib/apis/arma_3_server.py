@@ -61,13 +61,13 @@ def create_startup_script(server: Arma3Server):
     with open(file_name, 'w') as f:
         f.write(content)
 
-    shutil.chown(file_name, Settings.arma_3_server_user, Settings.arma_3_server_user)
+    shutil.chown(file_name, Settings.local_steam_user, Settings.local_steam_user)
 
 
 def create_service(server: Arma3Server):
     """creates a service file for the server, and calls daemon-reload"""
     file_name = get_service_file_name(server.id)
-    user = Settings.arma_3_server_user
+    user = Settings.local_steam_user
 
     content = "[Unit]\nDescription=Arma 3 Server\n\n[Service]\nUser="
     content += user
@@ -117,7 +117,7 @@ def link_mods(server: Arma3Server):
                 abs_target_file_path = os.path.join(abs_target_dir_path, file.lower())
                 os.symlink(abs_file_path, abs_target_file_path)
 
-    subprocess.check_call(['sudo', 'chown', f"{Settings.arma_3_server_user}:{Settings.arma_3_server_user}", server_mods_folder, '-R'])
+    subprocess.check_call(['sudo', 'chown', f"{Settings.local_steam_user}:{Settings.local_steam_user}", server_mods_folder, '-R'])
 
 
 def start_server(server: Arma3Server):

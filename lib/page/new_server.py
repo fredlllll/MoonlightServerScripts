@@ -34,8 +34,8 @@ async def new_server_post(request):
     # create files
     create_service(server)
     create_startup_script(server)
-    copy("arma_server_default_files/basic.cfg", get_basic_config_file_name(server.id),  Settings.arma_3_server_user,  Settings.arma_3_server_user)
-    copy("arma_server_default_files/server.cfg", get_server_config_file_name(server.id),  Settings.arma_3_server_user,  Settings.arma_3_server_user)
-    copy("arma_server_default_files/server.arma3profile", get_server_profile_file_name(server.id),  Settings.arma_3_server_user,  Settings.arma_3_server_user)
+    copy("arma_server_default_files/basic.cfg", get_basic_config_file_name(server.id),  Settings.local_steam_user,  Settings.local_steam_user)
+    copy("arma_server_default_files/server.cfg", get_server_config_file_name(server.id),  Settings.local_steam_user,  Settings.local_steam_user)
+    copy("arma_server_default_files/server.arma3profile", get_server_profile_file_name(server.id),  Settings.local_steam_user,  Settings.local_steam_user)
 
     return redirect(f'/servers/{server.id}')

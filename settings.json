@@ -11,6 +11,6 @@
   "access_log": true,
   "log_file_location": "moondash.log",
   "session_cookie_name": "moonlight-dashboard-session",
-  "arma_3_server_user": "root",
+  "steam_user": "moonlight",
   "debug_windows": false
 }

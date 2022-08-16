@@ -67,11 +67,11 @@ async def server_post(request, server_id):
         with open(get_server_profile_file_name(server_id), 'wb') as f:
             f.write(content.encode())
     elif action == 'reset-basic-config':
-        copy("arma_server_default_files/basic.cfg", get_basic_config_file_name(server_id), Settings.arma_3_server_user, Settings.arma_3_server_user)
+        copy("arma_server_default_files/basic.cfg", get_basic_config_file_name(server_id), Settings.local_steam_user, Settings.local_steam_user)
     elif action == 'reset-server-config':
-        copy("arma_server_default_files/server.cfg", get_server_config_file_name(server_id), Settings.arma_3_server_user, Settings.arma_3_server_user)
+        copy("arma_server_default_files/server.cfg", get_server_config_file_name(server_id), Settings.local_steam_user, Settings.local_steam_user)
     elif action == 'reset-server-profile':
-        copy("arma_server_default_files/server.arma3profile", get_server_profile_file_name(server_id), Settings.arma_3_server_user, Settings.arma_3_server_user)
+        copy("arma_server_default_files/server.arma3profile", get_server_profile_file_name(server_id), Settings.local_steam_user, Settings.local_steam_user)
     elif action == 'state-change':
         if args.get('start', None) is not None:
             start_server(server_)

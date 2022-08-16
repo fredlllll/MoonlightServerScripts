@@ -7,6 +7,7 @@ import shutil
 from diskcache import Cache
 from lib.acf import AcfFile
 from typing import List
+from lib.settings import Settings
 
 logger = logging.getLogger(__name__)
 
@@ -14,11 +15,11 @@ mod_name_cache = Cache(directory='caches/mod_names')
 
 
 def get_workshop_mods_folder():
-    return os.path.join(os.path.expanduser('~'), '.steam/steamapps/workshop/content/', str(ARMA3APPID))
+    return os.path.join(os.path.expanduser(f'~{Settings.local_steam_user}'), '.steam/steamapps/workshop/content/', str(ARMA3APPID))
 
 
 def get_arma_3_server_folder():
-    return os.path.join(os.path.expanduser('~'), '.steam/steamapps/common/Arma 3 Server')
+    return os.path.join(os.path.expanduser(f'~{Settings.local_steam_user}'), '.steam/steamapps/common/Arma 3 Server')
 
 
 def get_mod_name(mod_id: str, dont_use_cache: bool = False) -> str:
@@ -101,7 +102,7 @@ def run_steam_cmd(parameters: List[str], user: str = None, password: str = None,
     cmdline_censored = _create_steam_cmd_call(parameters, 'USER', 'PASSWORD', 'AUTH_CODE')  # prevent logging user credentials
     logger.info("calling steamcmd: " + ' '.join(cmdline_censored))
     try:
-        subprocess.check_call(cmdline)
+        subprocess.check_call(cmdline, user=Settings.local_steam_user, group=Settings.local_steam_user)
     except subprocess.CalledProcessError as e:
         logger.warning("received non zero return code from steamcmd command: " + str(e.returncode))
 
@@ -120,7 +121,7 @@ def get_downloaded_mods() -> List[str]:
 
 def delete_downloaded_mods(mod_ids: List[str]):
     # delete mods from the steams acf file
-    arma_acf_file = os.path.join(os.path.expanduser('~'), f'.steam/steamapps/workshop/appworkshop_{ARMA3APPID}.acf')
+    arma_acf_file = os.path.join(os.path.expanduser(f'~{Settings.local_steam_user}'), f'.steam/steamapps/workshop/appworkshop_{ARMA3APPID}.acf')
     acf = AcfFile(arma_acf_file)
     items_installed = acf.root.nodes["WorkshopItemsInstalled"]
     item_details = acf.root.nodes["WorkshopItemDetails"]
