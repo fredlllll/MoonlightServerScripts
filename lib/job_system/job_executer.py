@@ -1,11 +1,10 @@
 import threading
-import time
 import signal
 
 
 class JobExecuter:
     jobs = []
-    t = None
+    t: threading.Thread = None
     running = False
 
     @classmethod
@@ -14,8 +13,8 @@ class JobExecuter:
 
     @classmethod
     def add_job(cls, job):
-        if cls.t is None:
-            cls.t = threading.Thread(target=cls._run)
+        if cls.t is None or not cls.t.is_alive() or not cls.running:
+            cls.t = threading.Thread(target=cls._run, daemon=True)
             cls.running = True
             cls.t.start()
         cls.jobs.append(job)
@@ -30,7 +29,7 @@ class JobExecuter:
                 except:  # so we dont crash accidentally
                     pass
             else:
-                time.sleep(1)
+                cls.running = False  # end thread if no jobs
 
 
 signal.signal(signal.SIGINT, lambda signo, frame: JobExecuter.stop())
