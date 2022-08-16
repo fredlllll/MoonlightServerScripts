@@ -26,7 +26,7 @@ class JobExecuter:
                 j = cls.jobs.pop(0)
                 try:
                     j.execute()
-                except:  # so we dont crash accidentally
+                except:  # so we don't crash accidentally
                     pass
             else:
                 cls.running = False  # end thread if no jobs
