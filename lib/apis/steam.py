@@ -102,7 +102,12 @@ def run_steam_cmd(parameters: List[str], user: str = None, password: str = None,
     cmdline_censored = _create_steam_cmd_call(parameters, 'USER', 'PASSWORD', 'AUTH_CODE')  # prevent logging user credentials
     logger.info("calling steamcmd: " + ' '.join(cmdline_censored))
     try:
-        subprocess.check_call(cmdline, user=Settings.local_steam_user, group=Settings.local_steam_user)
+        env = os.environ.copy()
+        env['HOME'] = os.path.expanduser(f'~{Settings.local_steam_user}')
+        env['LOGNAME'] = Settings.local_steam_user
+        env['PWD'] = os.getcwd()
+        env['USER'] = Settings.local_steam_user
+        subprocess.check_call(cmdline, user=Settings.local_steam_user, group=Settings.local_steam_user, env=env)
     except subprocess.CalledProcessError as e:
         logger.warning("received non zero return code from steamcmd command: " + str(e.returncode))
 
