@@ -24,8 +24,8 @@ Active Mods: {{ modset.active_mods | length }}
         </tr>
         {% endfor %}
     </table>
-    <button onclick="deselectAll('normal-mod')">Deselect All</button>
-    <button onclick="selectAll('normal-mod')">Select All</button>
+    <button type="button" onclick="deselectAll('normal-mod'); return false;">Deselect All</button>
+    <button type="button" onclick="selectAll('normal-mod'); return false;">Select All</button>
     {% if modset.active_uninstalled_mods %}
     <h4>active but not installed:</h4>
     <table>
@@ -42,8 +42,8 @@ Active Mods: {{ modset.active_mods | length }}
         </tr>
         {% endfor %}
     </table>
-    <button onclick="deselectAll('uninstalled-mod')">Deselect All</button>
-    <button onclick="selectAll('uninstalled-mod')">Select All</button>
+    <button type="button" onclick="deselectAll('uninstalled-mod'); return false;">Deselect All</button>
+    <button type="button" onclick="selectAll('uninstalled-mod'); return false;">Select All</button>
     {% endif %}
     <br/><br/>
     <input type="hidden" name="action" value="update"/>
