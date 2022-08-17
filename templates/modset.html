@@ -16,15 +16,51 @@ Active Mods: {{ modset.active_mods | length }}
             <th>Mod Name</th>
             <th>Active</th>
         </tr>
-    {% for mod_id, mod_name in all_mods.items() %}
+        {% for mod_id, mod_name in all_mods.items() %}
         <tr>
             <td>{{mod_id}}</td>
             <td>{{mod_name}}</td>
-            <td><input type="checkbox" name="mod_{{mod_id}}"{% if mod_id in modset.active_mods %} checked{% endif %}></td>
+            <td><input type="checkbox" class="normal-mod" name="mod_{{mod_id}}" {% if mod_id in modset.active_mods %} checked{% endif %}></td>
         </tr>
-    {% endfor %}
+        {% endfor %}
     </table>
+    <button onclick="deselectAll('normal-mod')">Deselect All</button>
+    <button onclick="selectAll('normal-mod')">Select All</button>
+    <h4>active but not installed:</h4>
+    <table>
+        <tr>
+            <th>Mod Id</th>
+            <th>Mod Name</th>
+            <th>Active</th>
+        </tr>
+        {% for mod_id in set(modset.active_mods)-set(all_mods.values()) %}
+        <tr>
+            <td>{{mod_id}}</td>
+            <td></td>
+            <td><input type="checkbox" class="uninstalled-mod" name="mod_{{mod_id}}" checked></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <button onclick="deselectAll('uninstalled-mod')">Deselect All</button>
+    <button onclick="selectAll('normal-mod')">Select All</button>
     <input type="hidden" name="action" value="update"/>
     <input type="submit" value="Save Modset">
 </form>
+<script>
+
+    function selectAll(className){
+        let chkbxs = document.querySelectorAll("input."+className);
+        for(chkbx of chkbxs){
+            chkbx.checked = true;
+        }
+    }
+
+    function deselectAll(className){
+        let chkbxs = document.querySelectorAll("input."+className);
+        for(chkbx of chkbxs){
+            chkbx.checked = false;
+        }
+    }
+
+</script>
 {% endblock %}
