@@ -16,8 +16,10 @@ async def modset(request, modset_id):
         return response_404(request)
     template = get_template("modset.html", request)
 
-    modset_.active_mods = [m.mod_steam_id for m in Arma3ModsetMod.where({'modset_id': modset_.id})]
     all_mods = {i: get_mod_name(i) for i in get_downloaded_mods()}
+
+    modset_.active_mods = [m.mod_steam_id for m in Arma3ModsetMod.where({'modset_id': modset_.id})]
+    modset_.active_uninstalled_mods = {k: v for k, v in modset_.active_mods if k not in all_mods}
 
     return html(template.render(modset=modset_, all_mods=all_mods))
 

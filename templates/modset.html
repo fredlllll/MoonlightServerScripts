@@ -33,7 +33,7 @@ Active Mods: {{ modset.active_mods | length }}
             <th>Mod Name</th>
             <th>Active</th>
         </tr>
-        {% for mod_id in set(modset.active_mods)-set(all_mods.values()) %}
+        {% for mod_id,mod_name in active_uninstalled_mods.items() %}
         <tr>
             <td>{{mod_id}}</td>
             <td></td>
