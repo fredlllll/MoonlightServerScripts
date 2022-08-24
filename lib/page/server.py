@@ -5,6 +5,7 @@ from lib.db.models.arma_3_server import Arma3Server
 from lib.db.models.arma_3_modset import Arma3Modset
 from lib.responses import response_404
 from lib.settings import Settings
+from lib.arma_3_server_util import get_basic_config_content, set_basic_config_content, get_server_config_content, set_server_config_content, get_server_profile_content, set_server_profile_content
 from lib.arma_3_server_util import get_basic_config_file_name, get_server_config_file_name, get_server_profile_file_name
 from lib.apis.arma_3_server import get_server_controller, start_server, stop_server, restart_server, enable_server, disable_server
 from lib.util import copy
@@ -18,12 +19,9 @@ async def server(request, server_id):
         return response_404(request)
     template = get_template("server.html", request)
 
-    with open(get_basic_config_file_name(server_id), 'rb') as f:
-        basic_config_content = f.read().decode()
-    with open(get_server_config_file_name(server_id), 'rb') as f:
-        server_config_content = f.read().decode()
-    with open(get_server_profile_file_name(server_id), 'rb') as f:
-        server_profile_content = f.read().decode()
+    basic_config_content = get_basic_config_content(server_id)
+    server_config_content = get_server_config_content(server_id)
+    server_profile_content = get_server_profile_content(server_id)
 
     cont = get_server_controller(server_id)
 
@@ -56,16 +54,13 @@ async def server_post(request, server_id):
             pass
     elif action == 'update-basic-config':
         content = args.get('content')
-        with open(get_basic_config_file_name(server_id), 'wb') as f:
-            f.write(content.encode())
+        set_basic_config_content(server_id, content)
     elif action == 'update-server-config':
         content = args.get('content')
-        with open(get_server_config_file_name(server_id), 'wb') as f:
-            f.write(content.encode())
+        set_server_config_content(server_id, content)
     elif action == 'update-server-profile':
         content = args.get('content')
-        with open(get_server_profile_file_name(server_id), 'wb') as f:
-            f.write(content.encode())
+        set_server_profile_content(server_id, content)
     elif action == 'reset-basic-config':
         copy("arma_server_default_files/basic.cfg", get_basic_config_file_name(server_id), Settings.local_steam_user, Settings.local_steam_user)
     elif action == 'reset-server-config':
