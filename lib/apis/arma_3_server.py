@@ -100,6 +100,7 @@ def link_mods(server: Arma3Server):
     server_mods_folder = get_server_mods_folder(server.id)
 
     delete_folder_contents(server_mods_folder)
+    os.makedirs(server_mods_folder, exist_ok=True)
 
     for mod_id in mod_ids:
         mod_folder = os.path.join(workshop_mods_folder, mod_id)
