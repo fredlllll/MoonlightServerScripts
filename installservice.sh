@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o errexit
+
 source include.sh
 
 cp unit.service /tmp/unit.service
