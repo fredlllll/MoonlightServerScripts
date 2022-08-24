@@ -11,6 +11,7 @@
   "access_log": true,
   "log_file_location": "moondash.log",
   "session_cookie_name": "moonlight-dashboard-session",
+  "steam_dir_name": ".steam",
   "local_steam_user": "moonlight",
   "debug_windows": false
 }
