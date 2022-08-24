@@ -15,4 +15,4 @@ sed -i -e "s~__servicedescription__~${servicedescription}~g" /tmp/unit.service
 sudo cp /tmp/unit.service /etc/systemd/system/${servicename}.service
 rm /tmp/unit.service
 
-systemctl daemon-reload
+sudo systemctl daemon-reload
