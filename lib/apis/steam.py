@@ -6,7 +6,7 @@ import logging
 import shutil
 from diskcache import Cache
 from lib.acf import AcfFile
-from typing import List
+from typing import List, Tuple
 from lib.settings import Settings
 
 logger = logging.getLogger(__name__)
@@ -84,6 +84,16 @@ def download_mods(mod_ids: List[str], user: str, password: str, auth_code: str):
         commands.append('+workshop_download_item')
         commands.append(str(ARMA3APPID))
         commands.append(str(mod_id))
+    run_steam_cmd(commands, user, password, auth_code)
+
+
+def download_depots(depot_manifest_pairs: List[Tuple[str, str]], user: str, password: str, auth_code: str):
+    commands: List[str] = []
+    for depot_id, manifest_id in depot_manifest_pairs:
+        commands.append('+download_depot')
+        commands.append(str(ARMA3SERVERAPPID))
+        commands.append(str(depot_id))
+        commands.append(str(manifest_id))
     run_steam_cmd(commands, user, password, auth_code)
 
 

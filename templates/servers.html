@@ -8,19 +8,19 @@
         <th>Server Modset</th>
     </tr>
 
-{% for server in servers %}
-<tr>
-    <td><a href="/servers/{{server.id}}">{{server.name}}</a></td>
-    <td>{{server.port}}</td>
-    <td>
-        {% if server.modset_id %}
-        <a href="/modsets/{{server.modset_id}}">{{server.modset}}</a>
-        {% else %}
-        {{server.modset}}
-        {% endif %}
-    </td>
-</tr>
-{% endfor %}
+    {% for server in servers %}
+    <tr>
+        <td><a href="/servers/{{server.id}}">{{server.name}}</a></td>
+        <td>{{server.port}}</td>
+        <td>
+            {% if server.modset_id %}
+            <a href="/modsets/{{server.modset_id}}">{{server.modset}}</a>
+            {% else %}
+            {{server.modset}}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
 </table>
 <a href="/new_server">
     <button>Create new Server</button>
@@ -52,11 +52,33 @@
             </td>
         </tr>
         <tr>
-            <td>
-
-            </td>
+            <td></td>
             <td>
                 <input type="submit" name="update-server" value="Update Server Software"/>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" name="download-vn" value="Download S.O.G. Prairie Fire"/>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" name="download-gm" value="Download Global Mobilization - Cold War Germany"/>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" name="download-ws" value="Download Western Sahara"/>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" name="download-csla" value="Download CSLA Iron Curtain"/>
             </td>
         </tr>
     </table>
