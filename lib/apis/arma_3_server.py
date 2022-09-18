@@ -55,6 +55,9 @@ def create_startup_script(server: Arma3Server):
             abs_path = os.path.join(server_mods_folder, '@' + mod_name)
             rel_path = os.path.relpath(abs_path, arma_3_server_dir)
             content += rel_path + ';\\\n'
+            
+    for abbrv in server.creator_dlcs:
+        content += abbrv + ';\\\n'
 
     content += '"'
 
