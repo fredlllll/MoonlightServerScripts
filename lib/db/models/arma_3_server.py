@@ -19,6 +19,7 @@ class Arma3Server(MongoModelDeletionLogic):
             'port',
             'modset_id',
             'additional_commandline',
+            'creator_dlcs',
         ]
 
     @classmethod

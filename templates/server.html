@@ -18,6 +18,18 @@
         </td>
     </tr>
     <tr>
+        <td>Community DLCs</td>
+        <td>
+            <form method="POST">
+                {% for abbrv, cdlc in cdlcs.items() %}
+                <input type="checkbox" title="{{cdlc['name']}}" name="cdlc-{{abbrv}}" {% if server.creator_dlcs is not none and abbrv in server.creator_dlcs %} checked{% endif %}/> {{cdlc['name']}}<br>
+                {% endfor %}
+                <input type="hidden" name="action" value="set-cdlcs"/>
+                <input type="submit" value="Set Creator DLCs"/>
+            </form>
+        </td>
+    </tr>
+    <tr>
         <td>Status</td>
         <td>{{status}}</td>
     </tr>

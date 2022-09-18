@@ -9,6 +9,7 @@ from lib.arma_3_server_util import get_basic_config_content, set_basic_config_co
 from lib.arma_3_server_util import get_basic_config_file_name, get_server_config_file_name, get_server_profile_file_name
 from lib.apis.arma_3_server import get_server_controller, start_server, stop_server, restart_server, enable_server, disable_server
 from lib.util import copy
+from lib.constants import CREATORDLCS
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +31,7 @@ async def server(request, server_id):
 
     modsets = Arma3Modset.all()
 
-    return html(template.render(server=server_, basic_config_content=basic_config_content, server_config_content=server_config_content, server_profile_content=server_profile_content, status=status, log=log, modsets=modsets))
+    return html(template.render(server=server_, basic_config_content=basic_config_content, server_config_content=server_config_content, server_profile_content=server_profile_content, status=status, log=log, modsets=modsets, cdlcs=CREATORDLCS))
 
 
 async def server_post(request, server_id):
@@ -45,13 +46,20 @@ async def server_post(request, server_id):
         modset_id = args.get('modset', None)
         server_.modset_id = modset_id
         server_.save()
-    if action == 'set-port':
+    elif action == 'set-port':
         try:
             port = int(args.get('port', 2302))
             server_.port = port
             server_.save()
         except ValueError:
             pass
+    elif action == 'set-cdlcs':
+        dlcs = []
+        for abbrv, cdlc in CREATORDLCS.items():
+            if args.get(f'cdlc-{abbrv}', None) is not None:
+                dlcs.append(abbrv)
+        server_.creator_dlcs = dlcs
+        server_.save()
     elif action == 'update-basic-config':
         content = args.get('content')
         set_basic_config_content(server_id, content)
