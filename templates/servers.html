@@ -57,30 +57,14 @@
                 <input type="submit" name="update-server" value="Update Server Software"/>
             </td>
         </tr>
+        {% for abbrv, cdlc in cdlcs.items() %}
         <tr>
             <td></td>
             <td>
-                <input type="submit" name="download-vn" value="Download S.O.G. Prairie Fire"/>
+                <input type="submit" name="download-{{abbrv}}" value="Download {{cdlc['name']}}"/>
             </td>
         </tr>
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" name="download-gm" value="Download Global Mobilization - Cold War Germany"/>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" name="download-ws" value="Download Western Sahara"/>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" name="download-csla" value="Download CSLA Iron Curtain"/>
-            </td>
-        </tr>
+        {% endfor %}
     </table>
 </form>
 {% endblock %}

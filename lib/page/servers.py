@@ -24,7 +24,7 @@ async def servers(request):
             s.modset = 'None'
 
     template = get_template("servers.html", request)
-    return html(template.render(servers=servers_))
+    return html(template.render(servers=servers_, cdlcs=CREATORDLCS))
 
 
 async def servers_post(request):
@@ -35,21 +35,11 @@ async def servers_post(request):
     if args.get('update-server', None) is not None:
         job = UpdateServerJob(user, password, auth_code)
         JobExecuter.add_job(job)
-    elif args.get('download-gm', None) is not None:
-        dlc = CREATORDLCS['gm']
-        job = DownloadDepotsJob([(dlc['depot'], dlc['manifest'])], user, password, auth_code)
-        JobExecuter.add_job(job)
-    elif args.get('download-vn', None) is not None:
-        dlc = CREATORDLCS['vn']
-        job = DownloadDepotsJob([(dlc['depot'], dlc['manifest'])], user, password, auth_code)
-        JobExecuter.add_job(job)
-    elif args.get('download-csla', None) is not None:
-        dlc = CREATORDLCS['csla']
-        job = DownloadDepotsJob([(dlc['depot'], dlc['manifest'])], user, password, auth_code)
-        JobExecuter.add_job(job)
-    elif args.get('download-ws', None) is not None:
-        dlc = CREATORDLCS['ws']
-        job = DownloadDepotsJob([(dlc['depot'], dlc['manifest'])], user, password, auth_code)
-        JobExecuter.add_job(job)
+    else:
+        for abbrv, cdlc in CREATORDLCS.items():
+            if args.get(f'download-{abbrv}', None) is not None:
+                job = DownloadDepotsJob([(cdlc['depot'], cdlc['manifest'])], user, password, auth_code)
+                JobExecuter.add_job(job)
+                break
 
     return redirect('/servers')
