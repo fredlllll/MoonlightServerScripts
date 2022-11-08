@@ -10,4 +10,4 @@ then
 fi
 
 docker volume create local-mongo-data
-docker run -d --name local-mongo -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD_FILE=mongorootpasswd -v local-mongo-data:/data/db
+docker run -d --name local-mongo -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD_FILE=mongorootpasswd -v local-mongo-data:/data/db mongo
