@@ -52,7 +52,7 @@ def create_startup_script(server: Arma3Server):
 
         for mod in mods:
             mod_name = get_mod_name(mod.mod_steam_id)
-            abs_path = os.path.join(server_mods_folder, '@' + mod_name)
+            abs_path = os.path.join(server_mods_folder, '@' + escape_mod_name(mod_name))
             rel_path = os.path.relpath(abs_path, arma_3_server_dir)
             content += rel_path + ';\\\n'
             
