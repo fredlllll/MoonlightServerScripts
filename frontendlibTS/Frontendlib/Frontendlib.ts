@@ -14,7 +14,7 @@ class Frontendlib {
         this.socket.handlers.push(this.messageHandler);
     }
 
-    private getNextAnswerCounter() {
+    private getNextAnswerId() {
         let val = this.answerCounter + 1;
         this.answerCounter += 1;
         if (this.answerCounter > 1000000) {
@@ -24,17 +24,17 @@ class Frontendlib {
     }
 
     public async callFunction(functionName: string, ...args: any[]): Promise<any> {
-        let answerId = this.getNextAnswerCounter()
+        let answerId = this.getNextAnswerId()
         let msg: FrontendlibSocketOutgoingMessage = {
             message_type: "call",
-            answer_id: answerId,
             payload: {
+                answer_id: answerId,
                 function_name: functionName,
                 "args": args
             }
         }
-        this.socket.sendMessage(msg);
         let a = this.answerPromises[answerId] = new FlagEvent();
+        this.socket.sendMessage(msg);
         let timeout = setTimeout(() => {
             a.reject();
         }, 1000);
@@ -48,9 +48,17 @@ class Frontendlib {
 
     private messageHandler = (socket: FrontendlibSocket, message: FrontendlibSocketIncomingMessage): void => {
         if (message.message_type == "answer") {
-            let answerId = message.answer_id as number;
-            this.answers[answerId] = message.payload;
+            let payload = message.payload;
+            let answerId = payload.answer_id as number;
+            this.answers[answerId] = payload.result;
             this.answerPromises[answerId].resolve();
+        } else if (message.message_type == "exception") {
+            //TODO: similar to answer, but make it throw an exception instead of return a result
+        } else if (message.message_type == "channel") {
+            let payload = message.payload;
+            let channel = payload.channel;
+            let data = payload.data;
+            //TODO: need to call channel handler
         }
         //TODO: other types of messages?
     }

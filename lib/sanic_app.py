@@ -22,6 +22,7 @@ from lib.page.users import users
 
 
 # apis
+from lib.websocket.frontendlib import frontendlib
 
 
 async def main_process_start(app, loop):
@@ -106,7 +107,7 @@ class SanicApp:
         self.bp_logged_in.add_route(user_post, '/users/<user_id:str>', methods=('POST',))
 
     def _setup_apis(self):
-        pass
+        self.bp_api_logged_in.add_websocket_route(frontendlib, "/websocket/frontendlib")
 
     def _setup_statics(self):
         self.bp_static.static('/static', './static', stream_large_files=True)
