@@ -13,11 +13,13 @@ Downloaded mods({{mod_infos|length}}):<br/>
     <tr>
         <td>{{ mod_info['id'] }}</td>
         <td>{{ mod_info['name'] }}</td>
-        <td><form method="post">
-            <input type="submit" value="Delete"/>
-            <input type="hidden" name="action" value="delete"/>
-            <input type="hidden" name="mod_id" value="{{mod_info['id']}}" />
-        </form></td>
+        <td>
+            <form method="post">
+                <input type="submit" value="Delete"/>
+                <input type="hidden" name="action" value="delete"/>
+                <input type="hidden" name="mod_id" value="{{mod_info['id']}}"/>
+            </form>
+        </td>
     </tr>
     {% endfor %}
 </table>
@@ -50,30 +52,6 @@ Download Mods:
             </td>
             <td>
                 <input type="text" name="mod_ids" placeholder="123,5656,12331234,..."/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                User
-            </td>
-            <td>
-                <input type="text" name="user" placeholder="User"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Password
-            </td>
-            <td>
-                <input type="password" name="password" placeholder="Password"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                2FA code
-            </td>
-            <td>
-                <input type="text" autocomplete="off" name="auth_code" placeholder="2FA code"/>
             </td>
         </tr>
         <tr>

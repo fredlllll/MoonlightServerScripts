@@ -8,6 +8,7 @@ from diskcache import Cache
 from lib.acf import AcfFile
 from typing import List, Tuple
 from lib.settings import Settings
+from lib.apis.steamcmd import SteamCmd
 
 logger = logging.getLogger(__name__)
 
@@ -75,55 +76,20 @@ def get_collection_mod_ids(collection_id: str) -> List[str]:
             mod_id = item['publishedfileid']
             ids.append(str(mod_id))
         return ids
+    else:
+        logger.warning(resp.content)
     return []
 
 
-def download_mods(mod_ids: List[str], user: str, password: str, auth_code: str):
+def download_mods(mod_ids: List[str]):
     commands: List[str] = []
     for mod_id in mod_ids:
         commands.append('+workshop_download_item')
         commands.append(str(ARMA3APPID))
         commands.append(str(mod_id))
-    run_steam_cmd(commands, user, password, auth_code)
-
-
-def download_depots(depot_manifest_pairs: List[Tuple[str, str]], user: str, password: str, auth_code: str):
-    commands: List[str] = []
-    for depot_id, manifest_id in depot_manifest_pairs:
-        commands.append('+download_depot')
-        commands.append(str(ARMA3SERVERAPPID))
-        commands.append(str(depot_id))
-        commands.append(str(manifest_id))
-    run_steam_cmd(commands, user, password, auth_code)
-
-
-def _create_steam_cmd_call(parameters: List[str], user: str = None, password: str = None, auth_code: str = None) -> List[str]:
-    cmdline = ["/usr/games/steamcmd"]
-    if user is not None:
-        cmdline.append('+login')
-        cmdline.append(user)
-        if password is not None:
-            cmdline.append(password)
-            if auth_code is not None:
-                cmdline.append(auth_code)
-    cmdline += parameters
-    cmdline.append('+quit')
-    return cmdline
-
-
-def run_steam_cmd(parameters: List[str], user: str = None, password: str = None, auth_code: str = None):
-    cmdline = _create_steam_cmd_call(parameters, user, password, auth_code)
-    cmdline_censored = _create_steam_cmd_call(parameters, 'USER', 'PASSWORD', 'AUTH_CODE')  # prevent logging user credentials
-    logger.info("calling steamcmd: " + ' '.join(cmdline_censored))
-    try:
-        env = os.environ.copy()
-        env['HOME'] = os.path.expanduser(f'~{Settings.local_steam_user}')
-        env['LOGNAME'] = Settings.local_steam_user
-        env['PWD'] = os.getcwd()
-        env['USER'] = Settings.local_steam_user
-        subprocess.check_call(cmdline, user=Settings.local_steam_user, group=Settings.local_steam_user, env=env)
-    except subprocess.CalledProcessError as e:
-        logger.warning("received non zero return code from steamcmd command: " + str(e.returncode))
+    steamcmd = SteamCmd()
+    steamcmd.run(commands)
+    steamcmd.wait()
 
 
 def get_downloaded_mods() -> List[str]:
@@ -158,8 +124,15 @@ def delete_downloaded_mods(mod_ids: List[str]):
             shutil.rmtree(mod_folder, ignore_errors=True)
 
 
-def update_server(user: str = None, password: str = None, auth_code: str = None):
+def app_update(appid: str, *, validate=True, beta: str = None):
+    beta_str = (" -beta " + beta + " ''") if beta else ""  # no idea if it works without the '' in there
     commands: List[str] = [
-        f'+app_update {ARMA3SERVERAPPID} validate'
+        f'+app_update {appid}{beta_str}{" validate" if validate else ""}'
     ]
-    run_steam_cmd(commands, user, password, auth_code)
+    steamcmd = SteamCmd()
+    steamcmd.run(commands)
+    steamcmd.wait()
+
+
+def update_server(beta: str = None):
+    app_update(ARMA3SERVERAPPID, beta=beta)

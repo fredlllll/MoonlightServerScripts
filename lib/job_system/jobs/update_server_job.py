@@ -3,11 +3,10 @@ from lib.apis.steam import update_server
 
 
 class UpdateServerJob(Job):
-    def __init__(self, user: str, password: str, auth_code: str):
+    def __init__(self, beta: str = None):
         super().__init__('Update Server', 'Update Server')
-        self.user: str = user
-        self.password: str = password
-        self.auth_code: str = auth_code
+
+        self.beta = beta
 
     def _run(self):
-        update_server(self.user, self.password, self.auth_code)
+        update_server(self.beta)

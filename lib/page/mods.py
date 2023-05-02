@@ -31,11 +31,7 @@ async def post_download(request):
     else:
         return  # TODO: error message?
 
-    user = request.form.get('user', '')
-    password = request.form.get('password', '')
-    auth_code = request.form.get('auth_code', '')
-
-    job = DownloadModsJob(mod_ids, user, password, auth_code)
+    job = DownloadModsJob(mod_ids)
     JobExecuter.add_job(job)
 
     return redirect('/jobs')

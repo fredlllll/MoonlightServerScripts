@@ -1,36 +1,31 @@
 import threading
-import signal
+import logging
+from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 
 class JobExecuter:
     jobs = []
-    t: threading.Thread = None
-    running = False
-
-    @classmethod
-    def stop(cls):
-        cls.running = False
+    t: Optional[threading.Thread] = None
 
     @classmethod
     def add_job(cls, job):
         cls.jobs.append(job)
-        if cls.t is None or not cls.t.is_alive() or not cls.running:
+        if cls.t is None or not cls.t.is_alive():
             cls.t = threading.Thread(target=cls._run, daemon=True)
             cls.running = True
             cls.t.start()
 
     @classmethod
     def _run(cls):
-        while cls.running:
+        while True:
             if len(cls.jobs) > 0:
                 j = cls.jobs.pop(0)
                 try:
                     j.execute()
                 except:  # so we don't crash accidentally
-                    pass
+                    logger.exception("Exception when executing job")
             else:
-                cls.running = False  # end thread if no jobs
-
-
-signal.signal(signal.SIGINT, lambda signo, frame: JobExecuter.stop())
-signal.signal(signal.SIGTERM, lambda signo, frame: JobExecuter.stop())
+                cls.t = None
+                break

@@ -29,42 +29,14 @@
     <table>
         <tr>
             <td>
-                User
-            </td>
-            <td>
-                <input type="text" name="user" placeholder="User"/>
+                <input type="submit" name="update-server" value="Update/Install Normal Server Software"/>
             </td>
         </tr>
         <tr>
             <td>
-                Password
-            </td>
-            <td>
-                <input type="password" name="password" placeholder="Password"/>
+                <input type="submit" name="update-server-creator-dlc" value="Update/Install Creator DLC Server Software"/>
             </td>
         </tr>
-        <tr>
-            <td>
-                2FA code
-            </td>
-            <td>
-                <input type="text" autocomplete="off" name="auth_code" placeholder="2FA code"/>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" name="update-server" value="Update Server Software"/>
-            </td>
-        </tr>
-        {% for abbrv, cdlc in cdlcs.items() %}
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" name="download-{{abbrv}}" value="Download {{cdlc['name']}}"/>
-            </td>
-        </tr>
-        {% endfor %}
     </table>
 </form>
 {% endblock %}

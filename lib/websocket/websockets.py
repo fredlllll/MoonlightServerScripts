@@ -3,6 +3,7 @@ from threading import Lock
 import json
 import traceback
 import logging
+import sanic
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +24,14 @@ class Websockets:
         cls.sockets_lock.acquire()
         cls.sockets.remove(ws)
         cls.sockets_lock.release()
+
+    @classmethod
+    def enqueue_to_channel(cls, channel: str, data):
+        async def run():
+            await Websockets.broadcast_to_channel(channel, data)
+
+        app = sanic.Sanic.get_app('sanic')
+        app.add_task(run())
 
     @classmethod
     async def broadcast_to_channel(cls, channel: str, data):

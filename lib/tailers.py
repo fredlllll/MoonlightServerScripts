@@ -38,6 +38,9 @@ class ProcessTailer:
 
         return run()
 
+    def stop(self):
+        self.running = False
+
 
 class FileTailer:
     def __init__(self, websocket_channel: str, path: str):

@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}Settings{% endblock %}
+{% block main %}
+SteamCLI Login:
+<form method="post">
+    <table>
+        <tr>
+            <td>
+                User
+            </td>
+            <td>
+                <input type="text" name="user" placeholder="User"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Password
+            </td>
+            <td>
+                <input type="password" name="password" placeholder="Password"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2FA code
+            </td>
+            <td>
+                <input type="text" autocomplete="off" name="auth_code" placeholder="2FA code"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+            <td>
+                <input type="submit" value="Login SteamCLI">
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" name="action" value="login_steamcli"/>
+</form>
+{% endblock %}
