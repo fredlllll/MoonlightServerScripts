@@ -2,6 +2,7 @@ import sanic
 import asyncio
 import asyncio.subprocess
 from lib.websocket.websockets import Websockets
+from lib.settings import Settings
 
 
 class ProcessTailer:
@@ -15,11 +16,27 @@ class ProcessTailer:
         self._done_counter = 0
         self.done_event = asyncio.Event()
 
+        self.text_handler = None
+
     def start(self):
         self.running = True
         app = sanic.Sanic.get_app('sanic')
-        app.add_task(self._create_runner(self.process.stdout))
-        app.add_task(self._create_runner(self.process.stderr))
+        if Settings.debug_windows:
+            app.add_task(self._create_debug_runner())
+        else:
+            app.add_task(self._create_runner(self.process.stdout))
+            app.add_task(self._create_runner(self.process.stderr))
+
+    def _create_debug_runner(self):
+        async def run():
+            while self.running:
+                text = "i got some log\n"
+                if self.text_handler is not None:
+                    await self.text_handler(text)
+                await Websockets.broadcast_to_channel(self.websocket_channel, text)
+                await asyncio.sleep(1)
+
+        return run()
 
     def _create_runner(self, stream: asyncio.StreamReader):
         async def run():
@@ -28,6 +45,8 @@ class ProcessTailer:
                 if not data:  # empty data indicates EOS
                     break
                 text = data.decode()
+                if self.text_handler is not None:
+                    await self.text_handler(text)
                 await Websockets.broadcast_to_channel(self.websocket_channel, text)
             if self._done_counter > 0:
                 self.done = True

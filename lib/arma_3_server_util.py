@@ -1,7 +1,22 @@
 from lib.settings import Settings
 from lib.apis.steam import get_arma_3_server_folder
 from lib.util import copy
+from lib.process_log_keeper import ProcessLogKeeper
 import os
+import logging
+
+logger = logging.getLogger(__name__)
+
+server_log_keepers = {}
+
+
+async def get_server_log_keeper(server_id: str) -> ProcessLogKeeper:
+    log_keeper = server_log_keepers.get(server_id, None)
+    if log_keeper is None:
+        log_keeper = ProcessLogKeeper(['sudo', 'journalctl', '-u', server_id, '-n 500'], server_id)
+        server_log_keepers[server_id] = log_keeper
+        await log_keeper.start()
+    return log_keeper
 
 
 def get_service_file_name(server_id: str) -> str:

@@ -3,12 +3,13 @@ import { FrontendlibSocket } from "./FrontendlibSocket";
 import { FrontendlibSocketIncomingMessage, FrontendlibSocketOutgoingMessage } from "./FrontendlibSocketMessage";
 
 
-class Frontendlib {
+export class Frontendlib {
     public readonly socket = new FrontendlibSocket();
     private answerCounter = 0;
 
     private answerPromises: Record<number, FlagEvent> = {};
     private answers: Record<number, any> = {};
+    private channelHandlers: Record<string, ((message: string) => void)[]> = {}
 
     constructor() {
         this.socket.handlers.push(this.messageHandler);
@@ -21,6 +22,24 @@ class Frontendlib {
             this.answerCounter = 0;
         }
         return val;
+    }
+
+    public addChannelHandler(channelName: string, func: (message: string) => void): void {
+        let handlers = this.channelHandlers[channelName];
+        if (handlers === undefined) {
+            handlers = this.channelHandlers[channelName] = [];
+        }
+        handlers.push(func);
+        console.log("handler registered for channel " + channelName);
+    }
+
+    public removeChannelHandler(channelName: string, func: (message: string) => void): void {
+        let handlers = this.channelHandlers[channelName];
+        if (handlers === undefined) {
+            return;
+        }
+        let index = handlers.indexOf(func);
+        handlers.splice(index, 1);
     }
 
     public async callFunction(functionName: string, ...args: any[]): Promise<any> {
@@ -58,12 +77,13 @@ class Frontendlib {
             let payload = message.payload;
             let channel = payload.channel;
             let data = payload.data;
-            //TODO: need to call channel handler
+            let handlers = this.channelHandlers[channel];
+            if (handlers) {
+                for (let handler of handlers) {
+                    handler(data)
+                }
+            }
         }
         //TODO: other types of messages?
     }
 }
-
-window.onload = () => {
-    (window as any).frontendlib = new Frontendlib();
-};

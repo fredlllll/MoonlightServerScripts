@@ -1,8 +1,25 @@
 from lib.settings import Settings
+from sanic import Sanic
+from sanic.worker.loader import AppLoader
+from functools import partial
+import logging
 
+logger = logging.getLogger(__name__)
 sanic_app = None
 
-def main():
+
+def create_app():
+    app = Sanic("sanic")
+    from lib.sanic_app import SanicApp
+    logger.info("Creating App")
+    global sanic_app
+    sanic_app = SanicApp(app)
+    logger.info("Setting up App")
+    sanic_app.setup()
+    return app
+
+
+def warmup():
     import os
     import json
     with open('settings.json', 'r') as f:
@@ -14,18 +31,16 @@ def main():
     from lib.log import init_logging
     init_logging()
 
-    import logging
-    logger = logging.getLogger(__name__)
 
-    from lib.sanic_app import SanicApp
-    logger.info("Creating App")
-    global sanic_app
-    sanic_app = SanicApp()
-    logger.info("Setting up App")
-    sanic_app.setup()
+def main():
+    warmup()
+    loader = AppLoader(factory=partial(create_app))
+    app = loader.load()
     logger.info("Running App")
-    sanic_app.run()
+    sanic_app.run(loader)
 
 
 if __name__ == '__main__':
     main()
+else:
+    warmup()

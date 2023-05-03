@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Moonlight Dashboard - {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="/static/css/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/6.14.1/system.min.js" integrity="sha512-5QtTSqKLlp9G1SmuQYBgk5t+rZ0/6yaqL/KGzq1Js66iUdLSgBBhIeOWGQa0GAe4fbo+gcw2dGzBdq2FdHGp9w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/6.14.1/extras/named-register.min.js" integrity="sha512-39r+vbVeH7CzYcOoCmhpL6ncvvKdZn2tLJ8bIZ/mrVLzW6RsKYVQk1vTJwUuOtt0l/4xYADGHWpfAW20rMhaBg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/static/js/frontendlib.js"></script>
     {% block css %}{% endblock %}
 </head>
 <body>
@@ -19,6 +22,21 @@
         {% block main %}{% endblock %}
     </main>
 </div>
+<script>
+var frontendlibPromise;
+var frontendlib;
+window.addEventListener('load',function(){
+    frontendlibPromise = System.import('Frontendlib').then(function (x){
+        return frontendlib = new x.Frontendlib();
+    });
+});
+
+window.addEventListener('load',function(){
+    frontendlibPromise.then(function(frontendlib){
+        frontendlib.addChannelHandler("ping",function(data){console.log(data);});
+    });
+});
+</script>
 {% block js %}{% endblock %}
 </body>
 </html>

@@ -33,6 +33,10 @@ async def modset_post(request, modset_id):
     action = args.get('action', None)
     if action == 'update':
         all_mods = get_downloaded_mods()
+        modset_.active_mods = [m.mod_steam_id for m in Arma3ModsetMod.where({'modset_id': modset_.id})]
+        uninstalled_mods = [m for m in modset_.active_mods if m not in all_mods]
+        all_mods.extend(uninstalled_mods)
+
         active_mods = [m.mod_steam_id for m in Arma3ModsetMod.where({'modset_id': modset_.id})]
 
         for mod_id in all_mods:

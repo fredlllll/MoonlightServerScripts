@@ -66,9 +66,7 @@
     <input type="submit" style="color:red;" value="Delete Server"/>
 </form>
 <h3>Log:</h3>
-<textarea class="log file">
-{{log}}
-</textarea>
+<textarea class="log file" id="log">{{log}}</textarea>
 <h3>Basic Config</h3>
 <form method="post">
     <textarea name="content" class="file">{{basic_config_content}}</textarea>
@@ -99,4 +97,17 @@
     <input type="hidden" name="action" value="reset-server-profile"/>
     <input type="submit" value="Reset Server Profile"/>
 </form>
+{% endblock %}
+{% block js %}
+<script>
+var log;
+window.addEventListener('load',function(){
+    log = document.getElementById('log');
+    frontendlibPromise.then(function(frontendlib){
+        frontendlib.addChannelHandler("{{server.id}}",function(data){
+            log.value += data;
+        });
+    });
+});
+</script>
 {% endblock %}

@@ -4,6 +4,7 @@ import json
 import traceback
 import logging
 import sanic
+import asyncio
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,10 @@ class Websockets:
     @classmethod
     async def remove_socket(cls, ws: Websocket):
         cls.sockets_lock.acquire()
-        cls.sockets.remove(ws)
+        try:
+            cls.sockets.remove(ws)
+        except ValueError:
+            pass  # doesnt matter if it exists or not
         cls.sockets_lock.release()
 
     @classmethod
@@ -81,4 +85,10 @@ class Websockets:
                 "message_type": 'exception',
                 "payload": payload
             }))
-            pass  # TODO: send exception
+            pass
+
+    @classmethod
+    async def pinger(cls):
+        while True:
+            await Websockets.broadcast_to_channel("ping", "ping")
+            await asyncio.sleep(2)

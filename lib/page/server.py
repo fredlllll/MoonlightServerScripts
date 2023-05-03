@@ -7,6 +7,7 @@ from lib.responses import response_404
 from lib.settings import Settings
 from lib.arma_3_server_util import get_basic_config_content, set_basic_config_content, get_server_config_content, set_server_config_content, get_server_profile_content, set_server_profile_content
 from lib.arma_3_server_util import get_basic_config_file_name, get_server_config_file_name, get_server_profile_file_name
+from lib.arma_3_server_util import get_server_log_keeper
 from lib.apis.arma_3_server import get_server_controller, start_server, stop_server, restart_server, enable_server, disable_server
 from lib.util import copy
 from lib.constants import CREATORDLCS
@@ -27,7 +28,9 @@ async def server(request, server_id):
     cont = get_server_controller(server_id)
 
     status = cont.get_state()
-    log = cont.get_log(100)
+
+    log_keeper = await get_server_log_keeper(server_id)
+    log = log_keeper.log
 
     modsets = Arma3Modset.all()
 

@@ -1,4 +1,4 @@
-from sanic import Sanic, Blueprint
+from sanic import Blueprint, Sanic
 from lib.middleware.user_session import user_session
 from lib.middleware.logged_in_out import logged_in, logged_out
 from lib.middleware.permissions import permissions
@@ -9,6 +9,7 @@ from lib.db.migrations.migrations import run_migrations
 from lib.page.index import index, index_post
 from lib.page.jobs import jobs, jobs_post
 from lib.page.login import login, login_post, logout
+from lib.page.maintenance import maintenance, maintenance_post
 from lib.page.mods import mods, mods_post
 from lib.page.modset import modset, modset_post
 from lib.page.modsets import modsets
@@ -23,6 +24,7 @@ from lib.page.users import users
 
 # apis
 from lib.websocket.frontendlib import frontendlib
+from lib.websocket.websockets import Websockets
 
 
 async def main_process_start(app, loop):
@@ -31,8 +33,8 @@ async def main_process_start(app, loop):
 
 
 class SanicApp:
-    def __init__(self):
-        self.app = Sanic('sanic')
+    def __init__(self, app):
+        self.app = app
 
     def _register_listeners(self):
         self.app.register_listener(main_process_start, 'main_process_start')
@@ -77,6 +79,9 @@ class SanicApp:
         self.bp_logged_out.add_route(login, '/login', methods=('GET',))
         self.bp_logged_out.add_route(login_post, '/login', methods=('POST',))
         self.bp_logged_in.add_route(logout, '/logout', methods=('GET',))
+
+        self.bp_logged_in.add_route(maintenance, '/maintenance', methods=('GET',))
+        self.bp_logged_in.add_route(maintenance_post, '/maintenance', methods=('POST',))
 
         self.bp_logged_in.add_route(mods, '/mods', methods=('GET',))
         self.bp_logged_in.add_route(mods_post, '/mods', methods=('POST',))
@@ -124,5 +129,9 @@ class SanicApp:
         self._setup_statics()
         self._add_blueprints()
 
-    def run(self):
-        self.app.run(host=Settings.sanic_host, port=Settings.sanic_port, access_log=Settings.access_log, workers=Settings.sanic_workers, auto_reload=False)
+        self.app.add_task(Websockets.pinger())
+
+    def run(self, app_loader):
+        self.app.prepare(host=Settings.sanic_host, port=Settings.sanic_port, access_log=Settings.access_log, auto_reload=False)
+        Sanic.serve(primary=self.app, app_loader=app_loader)
+

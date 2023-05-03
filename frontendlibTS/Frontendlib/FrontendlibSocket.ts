@@ -9,10 +9,10 @@ export class FrontendlibSocket {
     }
 
     private openSocket() {
-        if (this.socket) {
+        if (this.socket !== null) {
             this.socket.close();
         }
-        this.socket = new WebSocket("/api/websocket/frontendlib");
+        this.socket = new WebSocket("ws://" + location.host + "/api/v1/websocket/frontendlib");
         this.socket.addEventListener('close', this.onClose);
         this.socket.addEventListener('error', this.onError);
         this.socket.addEventListener('open', this.onOpen);
@@ -40,7 +40,7 @@ export class FrontendlibSocket {
             for (var h of this.handlers) {
                 try {
                     h(this, msg);
-                } catch(error) {
+                } catch (error) {
                     console.log(error);
                 }
             }
