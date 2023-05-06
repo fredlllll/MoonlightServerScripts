@@ -7,6 +7,7 @@ from lib.settings import Settings
 
 logger = logging.getLogger(__name__)
 
+
 class ProcessTailer:
     def __init__(self, process: asyncio.subprocess.Process, websocket_channel: str):
         self.websocket_channel = websocket_channel
@@ -44,8 +45,11 @@ class ProcessTailer:
     def _create_runner(self, stream: asyncio.StreamReader):
         async def run():
             while self.running:
+                logger.info("going to stream read")
                 data = await stream.read()
+                logger.info(f"got {data}")
                 if not data:  # empty data indicates EOS
+                    logger.info("end of runner")
                     break
                 text = data.decode()
                 if self.text_handler is not None:
