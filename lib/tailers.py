@@ -44,17 +44,10 @@ class ProcessTailer:
 
     def _create_runner(self, stream: asyncio.StreamReader):
         async def run():
-            while self.running:
-                logger.info("going to stream read")
-                data = await stream.read()
-                logger.info(f"got {data}")
-                if not data:  # empty data indicates EOS
-                    logger.info("end of runner")
-                    break
-                text = data.decode()
+            async for line in stream:
                 if self.text_handler is not None:
-                    await self.text_handler(text)
-                await Websockets.broadcast_to_channel(self.websocket_channel, text)
+                    await self.text_handler(line)
+                await Websockets.broadcast_to_channel(self.websocket_channel, line)
             if self._done_counter > 0:
                 self.done = True
                 self.done_event.set()
