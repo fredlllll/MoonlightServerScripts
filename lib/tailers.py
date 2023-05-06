@@ -1,9 +1,11 @@
 import sanic
 import asyncio
 import asyncio.subprocess
+import logging
 from lib.websocket.websockets import Websockets
 from lib.settings import Settings
 
+logger = logging.getLogger(__name__)
 
 class ProcessTailer:
     def __init__(self, process: asyncio.subprocess.Process, websocket_channel: str):
@@ -24,6 +26,7 @@ class ProcessTailer:
         if Settings.debug_windows:
             app.add_task(self._create_debug_runner())
         else:
+            logger.info("creating runners")
             app.add_task(self._create_runner(self.process.stdout))
             app.add_task(self._create_runner(self.process.stderr))
 

@@ -1,6 +1,9 @@
 from lib.tailers import ProcessTailer
 from lib.settings import Settings
 import asyncio
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ProcessLogKeeper:
@@ -15,6 +18,7 @@ class ProcessLogKeeper:
         slf = self
 
         async def handler(text: str):
+            logger.info(f"text handler got: {text}")
             slf.log += text
             slf.log = slf.log[-3000:]  # keep last 3000 characters
 
@@ -25,5 +29,6 @@ class ProcessLogKeeper:
             self.process_tailer = ProcessTailer(None, self.websocket_channel)
         else:
             self.process_tailer = ProcessTailer(await asyncio.create_subprocess_exec(*self.commandline, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE), self.websocket_channel)
+        logger.info(f"started process with {self.commandline}")
         self.process_tailer.text_handler = self.get_text_handler()
         self.process_tailer.start()
