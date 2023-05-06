@@ -13,7 +13,7 @@ server_log_keepers = {}
 async def get_server_log_keeper(server_id: str) -> ProcessLogKeeper:
     log_keeper = server_log_keepers.get(server_id, None)
     if log_keeper is None:
-        log_keeper = ProcessLogKeeper(['sudo', 'journalctl', '-u', server_id, '-n', '500','-f'], server_id)
+        log_keeper = ProcessLogKeeper(['sudo', 'journalctl', '-u', server_id, '-n500','-f'], server_id)
         server_log_keepers[server_id] = log_keeper
         await log_keeper.start()
     return log_keeper
