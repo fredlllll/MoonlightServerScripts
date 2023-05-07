@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 async def frontendlib(request: Request, ws: Websocket):
     await Websockets.add_socket(ws)
-    logger.info("websocket here")
     try:
         async for data in ws:
             msg = json.loads(data)
@@ -23,4 +22,3 @@ async def frontendlib(request: Request, ws: Websocket):
                 pass
     finally:
         await Websockets.remove_socket(ws)
-    logger.info("websocket gone")

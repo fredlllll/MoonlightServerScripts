@@ -13,6 +13,8 @@ class Websockets:
     sockets: list[Websocket] = []
     sockets_lock = Lock()
     callable_functions = dict[str, callable]
+    enqueued_messages_lock = Lock()
+    enqueued_messages = []
 
     @classmethod
     async def add_socket(cls, ws: Websocket):
@@ -31,11 +33,9 @@ class Websockets:
 
     @classmethod
     def enqueue_to_channel(cls, channel: str, data):
-        async def run():
-            await Websockets.broadcast_to_channel(channel, data)
-
-        app = sanic.Sanic.get_app('sanic')
-        app.add_task(run())
+        cls.enqueued_messages_lock.acquire()
+        cls.enqueued_messages.append((channel, data))
+        cls.enqueued_messages_lock.release()
 
     @classmethod
     async def broadcast_to_channel(cls, channel: str, data):
@@ -86,6 +86,16 @@ class Websockets:
                 "payload": payload
             }))
             pass
+
+    @classmethod
+    async def queue_loop(cls):
+        while True:
+            cls.enqueued_messages_lock.acquire()
+            for item in cls.enqueued_messages:
+                await cls.broadcast_to_channel(*item)
+            cls.enqueued_messages.clear()
+            cls.enqueued_messages_lock.release()
+            await asyncio.sleep(0.1)
 
     @classmethod
     async def pinger(cls):
