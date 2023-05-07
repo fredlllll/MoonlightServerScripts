@@ -3,7 +3,6 @@ from threading import Lock
 import json
 import traceback
 import logging
-import sanic
 import asyncio
 
 logger = logging.getLogger(__name__)

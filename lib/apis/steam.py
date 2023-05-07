@@ -1,6 +1,5 @@
 import requests
 from lib.constants import ARMA3APPID, ARMA3SERVERAPPID
-import subprocess
 import os
 import logging
 import shutil
@@ -25,6 +24,10 @@ def get_workshop_mods_folder():
 
 def get_arma_3_server_folder():
     return os.path.join(get_steam_folder_path(), 'steamapps/common/Arma 3 Server')
+
+
+def get_arma_workshop_acf_path():
+    return os.path.join(get_steam_folder_path(), f'steamapps/workshop/appworkshop_{ARMA3APPID}.acf')
 
 
 def get_mod_name(mod_id: str, dont_use_cache: bool = False) -> str:
@@ -106,7 +109,7 @@ def get_downloaded_mods() -> List[str]:
 
 def delete_downloaded_mods(mod_ids: List[str]):
     # delete mods from the steams acf file
-    arma_acf_file = os.path.join(get_steam_folder_path(), f'steamapps/workshop/appworkshop_{ARMA3APPID}.acf')
+    arma_acf_file = get_arma_workshop_acf_path()
     acf = AcfFile(arma_acf_file)
     items_installed = acf.root.nodes["WorkshopItemsInstalled"]
     item_details = acf.root.nodes["WorkshopItemDetails"]

@@ -1,9 +1,6 @@
 import threading
 from typing import Optional
-
-import sanic
 import subprocess
-from threading import Event
 
 from typing.io import IO
 
