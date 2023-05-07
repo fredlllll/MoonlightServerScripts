@@ -67,7 +67,7 @@
 </form>
 <h3>Log:</h3>
 <input type="checkbox" id="scroll-enabled" checked>Log Scroll Enabled<br/>
-<textarea class="log file" id="log">{{log}}</textarea>
+<textarea class="log file" id="log" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">{{log}}</textarea>
 <h3>Basic Config</h3>
 <form method="post">
     <textarea name="content" class="file">{{basic_config_content}}</textarea>
@@ -103,12 +103,17 @@
 <script>
 var log;
 var scrollEnabled;
+var maxLogLength = 100000;
 window.addEventListener('load',function(){
     log = document.getElementById('log');
     scrollEnabled = document.getElementById('scroll-enabled');
     frontendlibPromise.then(function(frontendlib){
         frontendlib.addChannelHandler("{{server.id}}",function(data){
-            log.value += data;
+            let newlog = log.value + data;
+            if(newlog.length > maxLogLength){
+                newlog = newlog.substr(newlog.length-maxLogLength);
+            }
+            log.value = newlog;
             if(scrollEnabled.checked){
                 log.scrollTop = log.scrollHeight;
             }
