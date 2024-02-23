@@ -32,7 +32,7 @@ async def server(request, server_id):
 
     # log_keeper = await get_server_log_keeper(server_id)
     # log = log_keeper.log
-    log = subprocess.check_output(['sudo', 'journalctl', '-u', f'arma3server_{server_id}', '-n1000'])
+    log = subprocess.check_output(['sudo', 'journalctl', '-u', f'arma3server_{server_id}', '-n1000']).decode()
 
     modsets = Arma3Modset.all()
 
