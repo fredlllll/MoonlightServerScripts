@@ -15,10 +15,10 @@ Jobs({{job_infos|length}}):<br/>
     </tr>
     {% for job_info in job_infos %}
     <tr>
-        <td>{{ job_info['name'] }}</td>
+        <td>{{ job_info['name']|e }}</td>
         <td>{{ job_info['status'] }}</td>
-        <td>{{ job_info['info'] }}</td>
-        <td>{{ job_info.get('error','') }}</td>
+        <td>{{ job_info['info']|e }}</td>
+        <td>{{ job_info.get('error','')|e }}</td>
     </tr>
     {% endfor %}
 </table>

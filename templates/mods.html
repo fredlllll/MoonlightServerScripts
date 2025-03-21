@@ -12,7 +12,7 @@ Downloaded mods({{mod_infos|length}}):<br/>
     {% for mod_info in mod_infos %}
     <tr>
         <td>{{ mod_info['id'] }}</td>
-        <td>{{ mod_info['name'] }}</td>
+        <td>{{ mod_info['name']|e }}</td>
         <td>
             <form method="post">
                 <input type="submit" value="Delete"/>

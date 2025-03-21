@@ -45,6 +45,9 @@ async def user_post(request, user_id):
         if not usr.activation_timestamp:
             usr.activation_timestamp = time.time()
             usr.save()
+    elif action == 'delete':
+        usr.delete()
+        return redirect(f'/users')
     else:
         pass
 

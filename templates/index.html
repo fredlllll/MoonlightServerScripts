@@ -2,20 +2,20 @@
 {% block title %}Index{% endblock %}
 {% block main %}
 {% for server in servers %}
-<h3>Server <a href="/servers/{{server.id}}">{{ server.name }}</a></h3>
+<h3>Server <a href="/servers/{{server.id}}">{{ server.name|e }}</a></h3>
 running on port {{server.port }}<br/>
 Status: {{server.status}}<br/>
 {% if server.info %}
-Server Name: {{server.info.server_name}}<br/>
-Map: {{server.info.map_name}}<br/>
-Mission: {{server.info.game}}<br/>
+Server Name: {{server.info.server_name|e}}<br/>
+Map: {{server.info.map_name|e}}<br/>
+Mission: {{server.info.game|e}}<br/>
 Player Count: {{server.info.player_count}}/{{server.info.max_players}}<br/>
 {% endif %}
 {% if server.players %}
 Players:<br/>
 <ul>
     {% for player in server.players %}
-    <li>{{player.name}}</li>
+    <li>{{player.name|e}}</li>
     {% endfor %}
 </ul>
 {% endif %}

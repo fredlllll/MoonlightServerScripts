@@ -10,13 +10,13 @@
 
     {% for server in servers %}
     <tr>
-        <td><a href="/servers/{{server.id}}">{{server.name}}</a></td>
+        <td><a href="/servers/{{server.id}}">{{server.name|e}}</a></td>
         <td>{{server.port}}</td>
         <td>
             {% if server.modset_id %}
-            <a href="/modsets/{{server.modset_id}}">{{server.modset}}</a>
+            <a href="/modsets/{{server.modset_id}}">{{server.modset|e}}</a>
             {% else %}
-            {{server.modset}}
+            {{server.modset|e}}
             {% endif %}
         </td>
     </tr>
