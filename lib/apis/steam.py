@@ -48,6 +48,7 @@ def get_mod_name(mod_id: str, dont_use_cache: bool = False) -> str:
             name = resp.json()['response']['publishedfiledetails'][0]['title']
             mod_name_cache.set(mod_id, name)
         except KeyError:
+            logger.warning(resp.json())
             name = str(mod_id)
 
     return name
