@@ -75,6 +75,11 @@ def set_server_config_content(server_id: str, content: str):
 def get_server_profile_file_name(server_id: str) -> str:
     if Settings.debug_windows:
         return f"C:\\moondash_debug\\{server_id}.arma3profile"
+    #TODO: https://community.bistudio.com/wiki/Arma_3:_Dedicated_Server
+    #TODO: The first time you run the server it will auto-create a profile file at
+    # ~/.local/share/Arma 3 - Other Profiles/server/server.Arma3Profile. Edit this file to customise difficulty settings.
+    #TODO: The -profiles= parameter is broken on Linux - you must place your profiles in this directory.
+
     return os.path.join(get_arma_3_server_folder(), server_id, server_id + ".arma3profile")
 
 
