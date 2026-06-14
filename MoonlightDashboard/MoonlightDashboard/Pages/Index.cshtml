@@ -1,0 +1,46 @@
+﻿@page
+@model MoonlightDashboard.Pages.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+{% extends "layout.html" %}
+{% block main %}
+{% for server in servers %}
+<h3>Server <a href="/servers/{{server.id}}">{{ server.name }}</a></h3>
+running on port {{server.port }}
+<br />
+Status: {{server.status}}
+<br />
+{% if server.info %}
+Server Name: {{server.info.server_name}}
+<br />
+Map: {{server.info.map_name}}
+<br />
+Mission: {{server.info.game}}
+<br />
+Player Count: {{server.info.player_count}}/{{server.info.max_players}}
+<br />
+{% endif %}
+{% if server.players %}
+Players:
+<br />
+<ul>
+    {% for player in server.players %}
+    <li>{{player.name}}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<form method="post">
+    <input type="hidden" name="server-id" value="{{server.id}}" />
+    <input type="submit" name="start" value="Start" />
+    <input type="submit" name="stop" value="Stop" />
+    <input type="submit" name="restart" value="Restart" />
+    <input type="submit" name="enable" value="Enable" />
+    <input type="submit" name="disable" value="Disable" />
+</form>
+<br />
+{% else %}
+No servers created yet. Create one on the <a href="/servers">servers</a> page
+{% endfor %}
+{% endblock %}

@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using MoonlightDashboard.Database;
+using MoonlightDashboard.Middleware;
+
 namespace MoonlightDashboard
 {
     public class Program
@@ -5,7 +10,12 @@ namespace MoonlightDashboard
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddRazorPages().AddRazorPagesOptions((o) => {
+                //extra routes go here
+            });
+            builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source=db.sqlite"));
             builder.Services.AddControllers();
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -13,8 +23,19 @@ namespace MoonlightDashboard
                 app.UseDeveloperExceptionPage();
             }
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                var context = services.GetRequiredService<DatabaseContext>();
+                context.Database.Migrate();
+            }
+
+            app.UseStaticFiles();
             app.UseWebSockets();
+            app.MapRazorPages();
             app.MapControllers();
+            app.UseUserSessions();
 
             app.Run();
         }
