@@ -1,6 +1,6 @@
 #!/bin/bash
 cd "/home/moonlight/.steam/SteamApps/common/Arma 3 Server"
-./arma3server -cfg=basic.cfg -config=server.cfg -name=server -loadMissionToMemory -mod="\
+./arma3server_x64 -cfg=basic.cfg -config=server.cfg -name=server -loadMissionToMemory -mod="\
 mods/@Breaching Charge;\
 mods/@CBA_A3;\
 mods/@CUP Units;\

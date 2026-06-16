@@ -2,7 +2,7 @@
 {% block title %}Server{% endblock %}
 {% block main %}
 <h3>Modset Info:</h3>
-Name: {{modset.name}}<br/>
+Name: {{modset.name|e}}<br/>
 Active Mods: {{ modset.active_mods | length }}
 <form method="POST">
     <input type="hidden" name="action" value="delete"/>
@@ -19,7 +19,7 @@ Active Mods: {{ modset.active_mods | length }}
         {% for mod_id, mod_name in all_mods.items() %}
         <tr>
             <td>{{mod_id}}</td>
-            <td>{{mod_name}}</td>
+            <td>{{mod_name|e}}</td>
             <td><input type="checkbox" class="normal-mod" name="mod_{{mod_id}}" {% if mod_id in modset.active_mods %} checked{% endif %}></td>
         </tr>
         {% endfor %}
@@ -37,7 +37,7 @@ Active Mods: {{ modset.active_mods | length }}
         {% for mod_id, mod_name in modset.active_uninstalled_mods.items() %}
         <tr>
             <td>{{mod_id}}</td>
-            <td>{{mod_name}}</td>
+            <td>{{mod_name|e}}</td>
             <td><input type="checkbox" class="uninstalled-mod" name="mod_{{mod_id}}" checked></td>
         </tr>
         {% endfor %}

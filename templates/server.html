@@ -5,7 +5,7 @@
 <table>
     <tr>
         <td>Server Name</td>
-        <td>{{server.name}}</td>
+        <td>{{server.name|e}}</td>
     </tr>
     <tr>
         <td>Server Port</td>
@@ -22,7 +22,7 @@
         <td>
             <form method="POST">
                 {% for abbrv, cdlc in cdlcs.items() %}
-                <input type="checkbox" title="{{cdlc['name']}}" name="cdlc-{{abbrv}}" {% if server.creator_dlcs is not none and abbrv in server.creator_dlcs %} checked{% endif %}/> {{cdlc['name']}}<br>
+                <input type="checkbox" title="{{cdlc['name']|e}}" name="cdlc-{{abbrv}}" {% if server.creator_dlcs is not none and abbrv in server.creator_dlcs %} checked{% endif %}/> {{cdlc['name']|e}}<br>
                 {% endfor %}
                 <input type="hidden" name="action" value="set-cdlcs"/>
                 <input type="submit" value="Set Creator DLCs"/>
@@ -41,9 +41,9 @@
                     <option value="">None</option>
                     {% for modset in modsets %}
                     {% if modset.id == server.modset_id %}
-                    <option selected value="{{modset.id}}">{{modset.name}}</option>
+                    <option selected value="{{modset.id}}">{{modset.name|e}}</option>
                     {% else %}
-                    <option value="{{modset.id}}">{{modset.name}}</option>
+                    <option value="{{modset.id}}">{{modset.name|e}}</option>
                     {% endif %}
                     {% endfor %}
                 </select>
@@ -67,10 +67,10 @@
 </form>
 <h3>Log:</h3>
 <input type="checkbox" id="scroll-enabled" checked>Log Scroll Enabled<br/>
-<textarea class="log file" id="log" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">{{log}}</textarea>
+<textarea class="log file" id="log" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">{{log|e}}</textarea>
 <h3>Basic Config</h3>
 <form method="post">
-    <textarea name="content" class="file">{{basic_config_content}}</textarea>
+    <textarea name="content" class="file">{{basic_config_content|e}}</textarea>
     <input type="hidden" name="action" value="update-basic-config"/>
     <input type="submit" value="Update Basic Config"/>
 </form>
@@ -80,7 +80,7 @@
 </form>
 <h3>Server Config</h3>
 <form method="post">
-    <textarea name="content" class="file">{{server_config_content}}</textarea>
+    <textarea name="content" class="file">{{server_config_content|e}}</textarea>
     <input type="hidden" name="action" value="update-server-config"/>
     <input type="submit" value="Update Server Config"/>
 </form>
@@ -90,7 +90,7 @@
 </form>
 <h3>Server Profile</h3>
 <form method="post">
-    <textarea name="content" class="file">{{server_profile_content}}</textarea>
+    <textarea name="content" class="file">{{server_profile_content|e}}</textarea>
     <input type="hidden" name="action" value="update-server-profile"/>
     <input type="submit" value="Update Server Profile"/>
 </form>

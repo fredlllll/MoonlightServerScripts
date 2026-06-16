@@ -5,14 +5,14 @@
 <table>
     <tr>
         <td>User Name</td>
-        <td>{{user.name}}</td>
+        <td>{{user.name|e}}</td>
     </tr>
     <tr>
         <td>Permissions</td>
         <td>
             <form method="post">
                 <input type="hidden" name="action" value="set-permissions"/>
-                <input type="text" autocomplete="off" name="permissions" value="{{', '.join(user.permissions or [])}}"/>
+                <input type="text" autocomplete="off" name="permissions" value="{{', '.join(user.permissions or [])|e}}"/>
                 <input type="submit" value="Set Permissions"/>
             </form>
         </td>
@@ -28,6 +28,16 @@
                 <input type="submit" value="Activate"/>
             </form>
             {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <form method="post">
+                <input type="hidden" name="action" value="delete"/>
+                <input type="submit" value="Delete"/>
+            </form>
         </td>
     </tr>
 </table>

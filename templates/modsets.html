@@ -8,8 +8,8 @@
     </tr>
 {% for modset in modsets %}
 <tr>
-    <td><a href="/modsets/{{modset.id}}">{{modset.name}}</a></td>
-    <td>{{modset.mods}}</td>
+    <td><a href="/modsets/{{modset.id}}">{{modset.name|e}}</a></td>
+    <td>{{modset.mods|e}}</td>
 </tr>
 {% endfor %}
 </table>
