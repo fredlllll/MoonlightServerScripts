@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using MoonlightDashboard.Lib
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +14,7 @@
     <div class="container">
         <nav class="navigation">
             <ul class="nav">
-                @if (Context.Items["User"] != null)
+                @if (Context.IsLoggedIn())
                 {
                     <li>
                         <a href="/logout">Logout</a>
@@ -33,7 +34,7 @@
                     <li>
                         <a href="/jobs">Jobs</a>
                     </li>
-                    @if (Context.Items["HasPermission"]("Admin"])){
+                    @if (Context.HasPermission("Admin")){
                         <li>
                             <a href="/users">Users</a>
                         </li>

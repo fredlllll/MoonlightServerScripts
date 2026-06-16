@@ -54,3 +54,7 @@ textarea.file {
     width: 98%;
     height: 75%;
 }
+
+div.error{
+    color:red;
+}

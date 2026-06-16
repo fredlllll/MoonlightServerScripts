@@ -84,5 +84,22 @@ namespace MoonlightDashboard.Database
         {
             options.UseSqlite($"Data Source=db.sqlite");
         }
+
+        public void GiveUserPermission(User user, string name)
+        {
+            var perm = Permissions.FirstOrDefault(p => string.Equals(p.Name, name, StringComparison.InvariantCultureIgnoreCase));
+            if (perm == null)
+            {
+                throw new Exception("no such permission");
+            }
+
+            var userPerm = new UserPermission
+            {
+                Id = Util.GetNewId<UserPermission>(),
+                UserId = user.Id,
+                PermissionId = perm.Id
+            };
+            UserPermissions.Add(userPerm);
+        }
     }
 }

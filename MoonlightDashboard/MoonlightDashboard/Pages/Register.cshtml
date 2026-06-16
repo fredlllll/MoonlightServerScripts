@@ -1,0 +1,49 @@
+﻿@page
+@model MoonlightDashboard.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+<div>
+    Sign Up
+    @if (Model.Error != null)
+    {
+        <div class="error">
+            @Model.Error
+        </div>
+    }
+    <form action="?handler=Register" id="sign-up-form" method="POST">
+        <table>
+            <tr>
+                <td>
+                    User
+                </td>
+                <td>
+                    <input autocomplete="off" type="text" name="user" placeholder="User">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password
+                </td>
+                <td>
+                    <input autocomplete="off" type="Password" name="password" placeholder="Password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Confirm Password
+                </td>
+                <td>
+                    <input autocomplete="off" type="Password" name="password1" placeholder="Confirm Password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="submit" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
