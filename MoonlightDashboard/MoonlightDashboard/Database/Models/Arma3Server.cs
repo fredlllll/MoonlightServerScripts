@@ -1,5 +1,9 @@
-﻿namespace MoonlightDashboard.Database.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace MoonlightDashboard.Database.Models
 {
+    [Index(nameof(Name), IsUnique = true)]
+    [Index(nameof(Port), IsUnique = true)]
     public class Arma3Server : Model
     {
         public required string Name { get; set; }

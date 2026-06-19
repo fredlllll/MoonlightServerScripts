@@ -1,0 +1,19 @@
+﻿@page
+@model MoonlightDashboard.Pages.Modsets.IndexModel
+@{
+}
+<table>
+    <tr>
+        <th>Modset Name</th>
+        <th>Mods</th>
+    </tr>
+    {% for modset in modsets %}
+    <tr>
+        <td><a href="/modsets/{{modset.id}}">{{modset.name|e}}</a></td>
+        <td>{{modset.mods|e}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="/new_modset">
+    <button>Create new Modset</button>
+</a>

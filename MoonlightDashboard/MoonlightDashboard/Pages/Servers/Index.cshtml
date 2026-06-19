@@ -1,0 +1,42 @@
+﻿@page
+@model MoonlightDashboard.Pages.Servers.IndexModel
+@{
+}
+<table>
+    <tr>
+        <th>Server Name</th>
+        <th>Server Port</th>
+        <th>Server Modset</th>
+    </tr>
+
+    {% for server in servers %}
+    <tr>
+        <td><a href="/servers/{{server.id}}">{{server.name|e}}</a></td>
+        <td>{{server.port}}</td>
+        <td>
+            {% if server.modset_id %}
+            <a href="/modsets/{{server.modset_id}}">{{server.modset|e}}</a>
+            {% else %}
+            {{server.modset|e}}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="/new_server">
+    <button>Create new Server</button>
+</a>
+<form method="POST">
+    <table>
+        <tr>
+            <td>
+                <input type="submit" name="update-server" value="Update/Install Normal Server Software" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" name="update-server-creator-dlc" value="Update/Install Creator DLC Server Software" />
+            </td>
+        </tr>
+    </table>
+</form>

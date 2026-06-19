@@ -37,14 +37,12 @@ namespace MoonlightDashboard.Pages
             }
             bool auto_activate = !db.Users.Any();// automatically activate the first user who registers
 
-            var salt = PassHash.GenerateSalt();
-            var hash = PassHash.HashPassword(password, salt);
+            var hash = PassHash.HashPassword(password);
             var usr = new User()
             {
                 Id = Util.GetNewId<User>(),
                 Name = user,
-                PasswordHash = hash,
-                PasswordSalt = salt,
+                Password = hash,
                 ActivationTimestamp = null,
             };
             if (auto_activate)

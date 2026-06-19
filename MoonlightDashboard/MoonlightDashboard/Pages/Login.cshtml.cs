@@ -23,7 +23,7 @@ namespace MoonlightDashboard.Pages
             var userEntity = db.Users.FirstOrDefault(u => u.Name == user);
             if (userEntity == null ||
             userEntity.ActivationTimestamp == null ||
-            !PassHash.VerifyPassword(password, userEntity.PasswordHash, userEntity.PasswordSalt)
+            !PassHash.VerifyPassword(password, userEntity.Password)
             )
             {
                 Error = "Invalid username or password.";

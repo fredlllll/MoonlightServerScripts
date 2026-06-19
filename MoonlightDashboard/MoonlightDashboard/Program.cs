@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Middleware;
+using MoonlightDashboard.Services;
 
 namespace MoonlightDashboard
 {
@@ -14,6 +15,7 @@ namespace MoonlightDashboard
                 //extra routes go here
             });
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source=db.sqlite"));
+            builder.Services.AddHostedService<JobService>();
             builder.Services.AddControllers();
 
             var app = builder.Build();
@@ -31,6 +33,7 @@ namespace MoonlightDashboard
                 context.Database.Migrate();
             }
 
+            app.UseRouting();
             app.UseStaticFiles();
             app.UseWebSockets();
             app.MapRazorPages();

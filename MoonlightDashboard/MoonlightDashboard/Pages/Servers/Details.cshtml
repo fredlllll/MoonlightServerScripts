@@ -1,0 +1,124 @@
+﻿@page
+@model MoonlightDashboard.Pages.Servers.DetailsModel
+@{
+}
+<h3>Server Info:</h3>
+<table>
+    <tr>
+        <td>Server Name</td>
+        <td>{{server.name|e}}</td>
+    </tr>
+    <tr>
+        <td>Server Port</td>
+        <td>
+            <form method="POST">
+                <input type="number" name="port" value="{{server.port}}" placeholder="{{server.port}}" step="1" />
+                <input type="hidden" name="action" value="set-port" />
+                <input type="submit" value="Set Port" />
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>Creator DLCs</td>
+        <td>
+            <form method="POST">
+                {% for abbrv, cdlc in cdlcs.items() %}
+                <input type="checkbox" title="{{cdlc['name']|e}}" name="cdlc-{{abbrv}}" {% if server.creator_dlcs is not none and abbrv in server.creator_dlcs %} checked{% endif %} /> {{cdlc['name']|e}}<br>
+                {% endfor %}
+                <input type="hidden" name="action" value="set-cdlcs" />
+                <input type="submit" value="Set Creator DLCs" />
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td>{{status}}</td>
+    </tr>
+    <tr>
+        <td>Modset</td>
+        <td>
+            <form method="POST">
+                <select name="modset">
+                    <option value="">None</option>
+                    {% for modset in modsets %}
+                    {% if modset.id == server.modset_id %}
+                    <option selected value="{{modset.id}}">{{modset.name|e}}</option>
+                    {% else %}
+                    <option value="{{modset.id}}">{{modset.name|e}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <input type="hidden" name="action" value="set-modset" />
+                <input type="submit" value="Set Modset" />
+            </form>
+        </td>
+    </tr>
+</table>
+<form method="post">
+    <input type="hidden" name="action" value="state-change" />
+    <input type="submit" name="start" value="Start" />
+    <input type="submit" name="stop" value="Stop" />
+    <input type="submit" name="restart" value="Restart" />
+    <input type="submit" name="enable" value="Enable" />
+    <input type="submit" name="disable" value="Disable" />
+</form>
+<form method="post">
+    <input type="hidden" name="action" value="delete" />
+    <input type="submit" style="color:red;" value="Delete Server" />
+</form>
+<h3>Log:</h3>
+<input type="checkbox" id="scroll-enabled" checked>Log Scroll Enabled
+<br />
+<textarea class="log file" id="log" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">{{log|e}}</textarea>
+<h3>Basic Config</h3>
+<form method="post">
+    <textarea name="content" class="file">{{basic_config_content|e}}</textarea>
+    <input type="hidden" name="action" value="update-basic-config" />
+    <input type="submit" value="Update Basic Config" />
+</form>
+<form method="post">
+    <input type="hidden" name="action" value="reset-basic-config" />
+    <input type="submit" value="Reset Basic Config" />
+</form>
+<h3>Server Config</h3>
+<form method="post">
+    <textarea name="content" class="file">{{server_config_content|e}}</textarea>
+    <input type="hidden" name="action" value="update-server-config" />
+    <input type="submit" value="Update Server Config" />
+</form>
+<form method="post">
+    <input type="hidden" name="action" value="reset-server-config" />
+    <input type="submit" value="Reset Server Config" />
+</form>
+<h3>Server Profile</h3>
+<form method="post">
+    <textarea name="content" class="file">{{server_profile_content|e}}</textarea>
+    <input type="hidden" name="action" value="update-server-profile" />
+    <input type="submit" value="Update Server Profile" />
+</form>
+<form method="post">
+    <input type="hidden" name="action" value="reset-server-profile" />
+    <input type="submit" value="Reset Server Profile" />
+</form>
+
+<script>
+    var log;
+    var scrollEnabled;
+    var maxLogLength = 100000;
+    window.addEventListener('load',function(){
+        log = document.getElementById('log');
+        scrollEnabled = document.getElementById('scroll-enabled');
+        frontendlibPromise.then(function(frontendlib){
+            frontendlib.addChannelHandler("{{server.id}}",function(data){
+                let newlog = log.value + data;
+                if(newlog.length > maxLogLength){
+                    newlog = newlog.substr(newlog.length-maxLogLength);
+                }
+                log.value = newlog;
+                if(scrollEnabled.checked){
+                    log.scrollTop = log.scrollHeight;
+                }
+            });
+        });
+    });
+</script>
