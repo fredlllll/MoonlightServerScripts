@@ -4,41 +4,42 @@
 }
 Downloaded mods({{mod_infos|length}}):
 <br />
-{% if mod_infos|length > 0 %}
-<table class="mods">
-    <tr>
-        <th>Mod ID</th>
-        <th>Mod name</th>
-        <th>Delete</th>
-    </tr>
-    {% for mod_info in mod_infos %}
-    <tr>
-        <td>{{ mod_info['id'] }}</td>
-        <td>{{ mod_info['name']|e }}</td>
-        <td>
-            <form method="post">
-                <input type="submit" value="Delete" />
-                <input type="hidden" name="action" value="delete" />
-                <input type="hidden" name="mod_id" value="{{mod_info['id']}}" />
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-{% else %}
-No Mods downloaded at the moment
-{% endif %}
-
+@if (Model.ModInfos.Any())
+{
+    <table class="mods">
+        <tr>
+            <th>Mod ID</th>
+            <th>Mod name</th>
+            <th>Delete</th>
+        </tr>
+        @foreach(var modInfo in Model.ModInfos)
+        {
+            <tr>
+                <td>@modInfo.ModId</td>
+                <td>@modInfo.Name</td>
+                <td>
+                    <form action="?handler=DeleteMod" method="post">
+                        <input type="submit" value="Delete" />
+                        <input type="hidden" name="modId" value="@modInfo.ModId" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+  <text>No Mods downloaded at the moment</text>
+}
 Delete Mods:
-<form method="post">
-    <input type="hidden" name="action" value="delete-all" />
+<form action="?handler=DeleteAllMods" method="post">
     <input type="submit" value="Delete All Mods" />
 </form>
 
 <br />
 <br />
 Download Mods:
-<form method="post">
+<form action="?handler=DownloadMods" method="post">
     <table>
         <tr>
             <td>
@@ -47,6 +48,10 @@ Download Mods:
             <td>
                 <input type="text" name="collection_id" placeholder="collection id" />
             </td>
+        </tr>
+        <tr>
+            <td>OR</td>
+            <td></td>
         </tr>
         <tr>
             <td>
@@ -60,9 +65,8 @@ Download Mods:
             <td>
             </td>
             <td>
-                <input type="submit" name="download_mods" value="Download Mods">
+                <input type="submit" value="Download Mods">
             </td>
         </tr>
     </table>
-    <input type="hidden" name="action" value="download" />
 </form>

@@ -9,12 +9,12 @@
 
     public class Job : Model
     {
-        public JobType JobType { get; set; }
-        public bool IsRunning { get; set; }
-        public bool IsComplete { get; set; }
-        public bool IsSuccessful { get; set; }
-        public bool CancellationRequested { get; set; }
-        public string? ErrorMessage { get; set; }
-        public string? Data { get; set; }
+        public required JobType JobType { get; set; }
+        public bool IsRunning { get; set; } = false;
+        public bool IsComplete { get; set; } = false;
+        public bool IsSuccessful { get; set; } = false;
+        public bool CancellationRequested { get; set; } = false;
+        public string? ErrorMessage { get; set; } = null;
+        public string? Data { get; set; } = null;
     }
 }

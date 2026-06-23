@@ -1,4 +1,5 @@
 ﻿
+using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
 using MoonlightDashboard.Jobs;
 using MoonlightDashboard.Lib;
@@ -91,6 +92,7 @@ namespace MoonlightDashboard.Services
                 {
                     using var scope = _scopeFactory.CreateScope();
                     using var monitor = new JobCancellationMonitor(stoppingToken, scope, job.Id);
+                    BeginJob(job.Id);
                     await executor.RunAsync(job, scope, monitor.Token);
                     EndJob(job.Id, true);
                 }
@@ -100,6 +102,30 @@ namespace MoonlightDashboard.Services
                     continue;
                 }
             }
+        }
+
+        public static void EnqueueDownloadMod(DatabaseContext db, string modId)
+        {
+            var job = new Job()
+            {
+                Id = Util.GetNewId<Job>(),
+                JobType = JobType.DownloadMod,
+                Data = modId
+            };
+            db.Jobs.Add(job);
+            db.SaveChanges();
+        }
+
+        public static void EnqueueUpdateServer(DatabaseContext db, string? beta)
+        {
+            var job = new Job()
+            {
+                Id = Util.GetNewId<Job>(),
+                JobType = JobType.UpdateServer,
+                Data = beta
+            };
+            db.Jobs.Add(job);
+            db.SaveChanges();
         }
     }
 }
