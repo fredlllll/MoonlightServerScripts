@@ -20,7 +20,8 @@ namespace MoonlightDashboard.Database
         public DbSet<Arma3CreatorDlc> Arma3CreatorDlcs { get; set; }
         public DbSet<Arma3ServerCreatorDlc> Arma3ServerCreatorDlcs { get; set; }
         public DbSet<Job> Jobs { get; set; }
-        
+        public DbSet<ModInfo> ModInfos { get; set; }
+
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
@@ -77,6 +78,7 @@ namespace MoonlightDashboard.Database
             modelBuilder.Entity<Arma3CreatorDlc>().ToTable(nameof(Arma3CreatorDlcs));
             modelBuilder.Entity<Arma3ServerCreatorDlc>().ToTable(nameof(Arma3ServerCreatorDlcs));
             modelBuilder.Entity<Job>().ToTable(nameof(Jobs));
+            modelBuilder.Entity<ModInfo>().ToTable(nameof(ModInfos));
 
             //doesnt work, creates a seperate table for Model and links to it with an id
             //modelBuilder.Entity<Models.Model>().Property(p => p.Updated).HasComputedColumnSql("datetime('now')").ValueGeneratedOnAddOrUpdate();

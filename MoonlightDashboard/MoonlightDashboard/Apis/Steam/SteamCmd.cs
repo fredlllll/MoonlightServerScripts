@@ -34,8 +34,10 @@ namespace MoonlightDashboard.Apis.Steam
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                CreateNoWindow = true
+                CreateNoWindow = true,
+                UserName = "steam"
             };
+
             foreach (var arg in argList)
             {
                 psi.ArgumentList.Add(arg);
@@ -81,13 +83,13 @@ namespace MoonlightDashboard.Apis.Steam
         {
             parameters.Add("+app_update");
             parameters.Add(appId);
-            if(!string.IsNullOrWhiteSpace(beta))
+            if (!string.IsNullOrWhiteSpace(beta))
             {
                 parameters.Add("-beta");
                 parameters.Add(beta);
                 parameters.Add("''"); // no idea if it works without the '' in there
             }
-            if(validate)
+            if (validate)
             {
                 parameters.Add("validate");
             }
