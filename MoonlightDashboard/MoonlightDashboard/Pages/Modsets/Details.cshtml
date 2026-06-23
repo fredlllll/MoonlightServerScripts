@@ -3,52 +3,58 @@
 @{
 }
 <h3>Modset Info:</h3>
-Name: {{modset.name|e}}
+Name: @Model.Modset.Name
 <br />
-Active Mods: {{ modset.active_mods | length }}
-<form method="POST">
-    <input type="hidden" name="action" value="delete" />
+Active Mods: @Model.ActiveMods.Count
+<form action="?handler=DeleteModset" method="POST">
     <input type="submit" style="color:red;" value="Delete Modset">
 </form>
 <h3>Mods:</h3>
-<form method="post">
+<form action="?handler=Update" method="post">
     <table>
         <tr>
             <th>Mod Id</th>
             <th>Mod Name</th>
             <th>Active</th>
         </tr>
-        {% for mod_id, mod_name in all_mods.items() %}
-        <tr>
-            <td>{{mod_id}}</td>
-            <td>{{mod_name|e}}</td>
-            <td><input type="checkbox" class="normal-mod" name="mod_{{mod_id}}" {% if mod_id in modset.active_mods %} checked{% endif %}></td>
+        @foreach (var kv in Model.AllMods)
+        {
+            <tr>
+                <td>@kv.Value.ModId</td>
+                <td>@kv.Value.Name</td>
+                <td>
+                    <input type="checkbox" class="normal-mod" name="mod_@kv.Value.ModId" @if (Model.ActiveModIds.Contains(kv.Value.ModId)) {
+                    <text> checked</text>
+                }
+                >
+            </td>
         </tr>
-        {% endfor %}
+                }
     </table>
     <button type="button" onclick="deselectAll('normal-mod'); return false;">Deselect All</button>
     <button type="button" onclick="selectAll('normal-mod'); return false;">Select All</button>
-    {% if modset.active_uninstalled_mods %}
-    <h4>active but not installed:</h4>
-    <table>
-        <tr>
-            <th>Mod Id</th>
-            <th>Mod Name</th>
-            <th>Active</th>
-        </tr>
-        {% for mod_id, mod_name in modset.active_uninstalled_mods.items() %}
-        <tr>
-            <td>{{mod_id}}</td>
-            <td>{{mod_name|e}}</td>
-            <td><input type="checkbox" class="uninstalled-mod" name="mod_{{mod_id}}" checked></td>
-        </tr>
-        {% endfor %}
-    </table>
-    <button type="button" onclick="deselectAll('uninstalled-mod'); return false;">Deselect All</button>
-    <button type="button" onclick="selectAll('uninstalled-mod'); return false;">Select All</button>
-    {% endif %}
+    @if (Model.ActiveButDeletedMods.Any())
+    {
+        <h4>active but not installed:</h4>
+        <table>
+            <tr>
+                <th>Mod Id</th>
+                <th>Mod Name</th>
+                <th>Active</th>
+            </tr>
+            @foreach (var modInfo in Model.ActiveButDeletedMods)
+            {
+                <tr>
+                    <td>@modInfo.ModSteamId</td>
+                    <td>@Model.AllMods[modInfo.ModSteamId].Name</td>
+                    <td><input type="checkbox" class="uninstalled-mod" name="mod_@modInfo.ModSteamId" checked></td>
+                </tr>
+            }
+        </table>
+        <button type="button" onclick="deselectAll('uninstalled-mod'); return false;">Deselect All</button>
+        <button type="button" onclick="selectAll('uninstalled-mod'); return false;">Select All</button>
+    }
     <br /><br />
-    <input type="hidden" name="action" value="update" />
     <input type="submit" value="Save Modset">
 </form>
 <script>

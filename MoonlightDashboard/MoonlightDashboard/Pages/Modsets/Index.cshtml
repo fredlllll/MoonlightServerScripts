@@ -7,13 +7,22 @@
         <th>Modset Name</th>
         <th>Mods</th>
     </tr>
-    {% for modset in modsets %}
-    <tr>
-        <td><a href="/modsets/{{modset.id}}">{{modset.name|e}}</a></td>
-        <td>{{modset.mods|e}}</td>
-    </tr>
-    {% endfor %}
+    @foreach (var modset in Model.Modsets)
+    {
+        <tr>
+            <td><a href="/Modsets/@modset.Id">@modset.Name</a></td>
+            <td>@string.Join(", ", Model.ModsetModInfos[modset.Id].Select(m => m.Name))</td>
+        </tr>
+    }
+
 </table>
-<a href="/new_modset">
-    <button>Create new Modset</button>
-</a>
+<h3>Create New Modset</h3>
+<form action="?handler=Create" method="POST">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" autocomplete="off" name="name" /></td>
+        </tr>
+    </table>
+    <input type="submit" value="Create" />
+</form>
