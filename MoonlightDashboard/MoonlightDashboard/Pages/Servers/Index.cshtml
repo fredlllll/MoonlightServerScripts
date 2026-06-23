@@ -8,35 +8,51 @@
         <th>Server Port</th>
         <th>Server Modset</th>
     </tr>
-
-    {% for server in servers %}
-    <tr>
-        <td><a href="/servers/{{server.id}}">{{server.name|e}}</a></td>
-        <td>{{server.port}}</td>
-        <td>
-            {% if server.modset_id %}
-            <a href="/modsets/{{server.modset_id}}">{{server.modset|e}}</a>
-            {% else %}
-            {{server.modset|e}}
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
+    @foreach(var server in Model.Servers)
+    {
+        <tr>
+            <td><a href="/Servers/@server.Id">@server.Name</a></td>
+            <td>@server.Port</td>
+            <td>
+                @if(server.ActiveModsetId != null)
+                {
+                    <a href="/Modsets/@server.ActiveModsetId">@Model.ActiveModsetNames[server.Id]</a>
+                }
+                else
+                {
+                    <text>None</text>
+                }
+            </td>
+        </tr>
+    }
 </table>
-<a href="/new_server">
-    <button>Create new Server</button>
-</a>
-<form method="POST">
+<h3>Create New Server</h3>
+<form action="?handler=Create" method="POST">
     <table>
         <tr>
-            <td>
-                <input type="submit" name="update-server" value="Update/Install Normal Server Software" />
-            </td>
+            <td>Name:</td>
+            <td><input type="text" autocomplete="off" name="name" /></td>
         </tr>
         <tr>
-            <td>
-                <input type="submit" name="update-server-creator-dlc" value="Update/Install Creator DLC Server Software" />
-            </td>
+            <td>Port:</td>
+            <td><input type="number" autocomplete="off" name="port" value="2302" placeholder="2302" step="1" /></td>
         </tr>
     </table>
+    <input type="submit" value="Create new Server" />
 </form>
+<table>
+    <tr>
+        <td>
+            <form action="?handler=UpdateServer" method="POST">
+                <input type="submit" value="Update/Install Normal Server Software" />
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <form action="?handler=UpdateServerCreatorDlc" method="POST">
+                <input type="submit" value="Update/Install Creator DLC Server Software" />
+            </form>
+        </td>
+    </tr>
+</table>
