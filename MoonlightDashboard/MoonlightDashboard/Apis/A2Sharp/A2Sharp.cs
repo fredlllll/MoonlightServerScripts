@@ -30,43 +30,36 @@ namespace MoonlightDashboard.Apis.A2Sharp
             using (UdpClient udp = new UdpClient())
             {
                 udp.Client.ReceiveTimeout = timeoutMs;
-                try
+                udp.Connect(address, port);
+                udp.Send(s_infoRequest, s_infoRequest.Length);
+
+                IPEndPoint? remoteEP = null;
+                byte[] response = udp.Receive(ref remoteEP);
+
+                using (MemoryStream ms = new MemoryStream(response))
+                using (BinaryReader br = new BinaryReader(ms))
                 {
-                    udp.Connect(address, port);
-                    udp.Send(s_infoRequest, s_infoRequest.Length);
-
-                    IPEndPoint? remoteEP = null;
-                    byte[] response = udp.Receive(ref remoteEP);
-
-                    using (MemoryStream ms = new MemoryStream(response))
-                    using (BinaryReader br = new BinaryReader(ms))
+                    if (br.ReadUInt32() != 0xFFFFFFFF)
                     {
-                        if (br.ReadUInt32() != 0xFFFFFFFF)
-                        {
-                            throw new Exception("Invalid A2S header received");
-                        }
-
-                        // Check response type (0x49 is 'I' for Info)
-                        byte headerType = br.ReadByte();
-                        if (headerType != (byte)'I')
-                        {
-                            throw new Exception("Not an A2S_INFO response");
-                        }
-
-                        info.Protocol = br.ReadByte();
-                        info.Name = br.ReadNullTerminatedString();
-                        info.Map = br.ReadNullTerminatedString();
-                        info.Folder = br.ReadNullTerminatedString();
-                        info.Game = br.ReadNullTerminatedString();
-                        info.AppId = br.ReadInt16();
-                        info.Players = br.ReadByte();
-                        info.MaxPlayers = br.ReadByte();
-                        info.Bots = br.ReadByte();
+                        throw new Exception("Invalid A2S header received");
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Query failed: {ex.Message}");
+
+                    // Check response type (0x49 is 'I' for Info)
+                    byte headerType = br.ReadByte();
+                    if (headerType != (byte)'I')
+                    {
+                        throw new Exception("Not an A2S_INFO response");
+                    }
+
+                    info.Protocol = br.ReadByte();
+                    info.Name = br.ReadNullTerminatedString();
+                    info.Map = br.ReadNullTerminatedString();
+                    info.Folder = br.ReadNullTerminatedString();
+                    info.Game = br.ReadNullTerminatedString();
+                    info.AppId = br.ReadInt16();
+                    info.Players = br.ReadByte();
+                    info.MaxPlayers = br.ReadByte();
+                    info.Bots = br.ReadByte();
                 }
             }
             return info;

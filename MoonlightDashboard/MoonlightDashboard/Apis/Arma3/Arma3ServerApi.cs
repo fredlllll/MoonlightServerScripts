@@ -293,6 +293,10 @@ namespace MoonlightDashboard.Apis.Arma3
             {
                 //could not reach server, return what is in info, which is either null, or at least the info part without players
             }
+            catch (TimeoutException)
+            {
+                //server didnt answer in time
+            }
             return info;
         }
     }
