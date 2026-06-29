@@ -19,7 +19,7 @@ namespace MoonlightDashboard.Middleware
             context.SetCurrentSession(null);
             context.SetCurrentUser(null);
 
-            using var db = context.RequestServices.GetRequiredService<Database.DatabaseContext>();
+            var db = context.RequestServices.GetRequiredService<Database.DatabaseContext>();
             var sentSessionId = context.Request.Cookies[cookieName];
             if(!string.IsNullOrEmpty(sentSessionId))
             {

@@ -23,7 +23,7 @@ namespace MoonlightDashboard.Services
         private void EndJob(string jobId, bool success, string? errorMessage = null)
         {
             using var scope = _scopeFactory.CreateScope();
-            using var db = scope.ServiceProvider.GetRequiredService<Database.DatabaseContext>();
+            var db = scope.ServiceProvider.GetRequiredService<Database.DatabaseContext>();
             var dbJob = db.Jobs.Where(j => j.Id == jobId).FirstOrDefault();
             if (dbJob == null)
             {
@@ -40,7 +40,7 @@ namespace MoonlightDashboard.Services
         private void BeginJob(string jobId)
         {
             using var scope = _scopeFactory.CreateScope();
-            using var db = scope.ServiceProvider.GetRequiredService<Database.DatabaseContext>();
+            var db = scope.ServiceProvider.GetRequiredService<Database.DatabaseContext>();
             var dbJob = db.Jobs.Where(j => j.Id == jobId).FirstOrDefault();
             if (dbJob == null)
             {
@@ -59,7 +59,7 @@ namespace MoonlightDashboard.Services
                 Job? job = null;
                 {
                     using var scope = _scopeFactory.CreateScope();
-                    using var db = scope.ServiceProvider.GetRequiredService<Database.DatabaseContext>();
+                    var db = scope.ServiceProvider.GetRequiredService<Database.DatabaseContext>();
                     job = db.Jobs.Where(j => !j.IsComplete && !j.IsRunning).FirstOrDefault();
                 }
                 if (job == null)

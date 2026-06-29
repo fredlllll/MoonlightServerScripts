@@ -14,7 +14,7 @@ namespace MoonlightDashboard.Pages
             var session = HttpContext.GetCurrentSession();
             if (session != null)
             {
-                using var db = HttpContext.RequestServices.GetRequiredService<Database.DatabaseContext>();
+                var db = HttpContext.RequestServices.GetRequiredService<Database.DatabaseContext>();
                 db.Sessions.Remove(session);
                 db.SaveChanges();
                 Response.Cookies.Delete(UserSession.cookieName);

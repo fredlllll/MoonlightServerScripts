@@ -18,7 +18,7 @@ namespace MoonlightDashboard.Pages
 
         public void OnPostLogin(string user, string password)
         {
-            using var db = HttpContext.RequestServices.GetRequiredService<Database.DatabaseContext>();
+            var db = HttpContext.RequestServices.GetRequiredService<Database.DatabaseContext>();
 
             var userEntity = db.Users.FirstOrDefault(u => u.Name == user);
             if (userEntity == null ||
@@ -35,6 +35,7 @@ namespace MoonlightDashboard.Pages
                 Id = Util.GetNewId<Session>(),
                 UserId = userEntity.Id
             };
+            db.Sessions.Add(session);
             db.SaveChanges();
 
             Response.Cookies.Append(UserSession.cookieName, session.Id);

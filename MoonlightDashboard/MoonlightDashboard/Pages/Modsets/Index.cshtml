@@ -2,6 +2,7 @@
 @model MoonlightDashboard.Pages.Modsets.IndexModel
 @{
 }
+@if(Model.Modsets.Any()){
 <table>
     <tr>
         <th>Modset Name</th>
@@ -15,7 +16,12 @@
         </tr>
     }
 
-</table>
+    </table>
+}
+else
+{
+    <text>No Modsets Yet</text>
+}
 <h3>Create New Modset</h3>
 <form action="?handler=Create" method="POST">
     <table>

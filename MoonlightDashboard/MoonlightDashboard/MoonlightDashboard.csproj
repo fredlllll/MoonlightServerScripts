@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="ArmaServerDefaultFiles\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
@@ -17,6 +18,18 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="UUIDNext" Version="4.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ArmaServerDefaultFiles\basic.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ArmaServerDefaultFiles\server.arma3profile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ArmaServerDefaultFiles\server.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

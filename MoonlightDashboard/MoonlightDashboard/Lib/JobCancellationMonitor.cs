@@ -47,7 +47,7 @@ namespace MoonlightDashboard.Lib
 
             try
             {
-                using var db = _scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+                var db = _scope.ServiceProvider.GetRequiredService<DatabaseContext>();
                 var job = db.Jobs.FirstOrDefault(j => j.Id == _jobId);
                 if(job == null || job.CancellationRequested)
                 {

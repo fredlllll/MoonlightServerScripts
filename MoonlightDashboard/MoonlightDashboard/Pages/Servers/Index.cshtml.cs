@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MoonlightDashboard.Apis.Arma3;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
 using MoonlightDashboard.Lib;
@@ -11,6 +12,7 @@ namespace MoonlightDashboard.Pages.Servers
     {
         public List<Arma3Server> Servers = null!;
         public Dictionary<string, string> ActiveModsetNames = null!;
+        public string? Error;
         private DatabaseContext db;
 
         public IndexModel(DatabaseContext db)
@@ -42,6 +44,12 @@ namespace MoonlightDashboard.Pages.Servers
 
         public void OnPostCreate(string name, int port)
         {
+            if(name.Length < 3)
+            {
+                Error = "Name too short";
+                OnGet();
+                return;
+            }
             var server = new Arma3Server()
             {
                 Id = Util.GetNewId<Arma3Server>(),
@@ -50,6 +58,9 @@ namespace MoonlightDashboard.Pages.Servers
             };
             db.Arma3Servers.Add(server);
             db.SaveChanges();
+            var api = new Arma3ServerApi(server.Id);
+            api.CreateServiceFile(server);
+            //dont need to create config files here as the next page will create them when reading contents if they dont exist
             Redirect($"/Servers/{server.Id}");
         }
 

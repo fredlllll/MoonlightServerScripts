@@ -13,7 +13,7 @@ namespace MoonlightDashboard.Pages.Modsets
 
         public async Task OnGet()
         {
-            using var db = HttpContext.RequestServices.GetRequiredService<DatabaseContext>();
+            var db = HttpContext.RequestServices.GetRequiredService<DatabaseContext>();
             Modsets = db.Arma3Modsets.ToList();
 
             ModsetModInfos = new();
@@ -33,7 +33,7 @@ namespace MoonlightDashboard.Pages.Modsets
                 Name = name,
             };
 
-            using var db = HttpContext.RequestServices.GetRequiredService<DatabaseContext>();
+            var db = HttpContext.RequestServices.GetRequiredService<DatabaseContext>();
             db.Arma3Modsets.Add(modset);
             db.SaveChanges();
 

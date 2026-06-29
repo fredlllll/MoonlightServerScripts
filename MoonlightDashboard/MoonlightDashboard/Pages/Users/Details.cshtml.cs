@@ -45,6 +45,7 @@ namespace MoonlightDashboard.Pages.Users
         public void OnPostDelete(string id)
         {
             LoadUser(id);
+            db.UserPermissions.RemoveRange(db.UserPermissions.Where(x => x.UserId == id));
             db.Users.Remove(User);
             db.SaveChanges();
             Response.Redirect("/Users");

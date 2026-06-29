@@ -29,7 +29,7 @@ namespace MoonlightDashboard.Pages
                 return;
             }
 
-            using var db = HttpContext.RequestServices.GetRequiredService<Database.DatabaseContext>();
+            var db = HttpContext.RequestServices.GetRequiredService<Database.DatabaseContext>();
             if (db.Users.Any(u => u.Name == user))
             {
                 Error = "Username is already taken.";
@@ -45,6 +45,7 @@ namespace MoonlightDashboard.Pages
                 Password = hash,
                 ActivationTimestamp = null,
             };
+            db.Users.Add(usr);
             if (auto_activate)
             {
                 usr.ActivationTimestamp = DateTime.UtcNow;

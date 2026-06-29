@@ -2,6 +2,7 @@
 @model MoonlightDashboard.Pages.Servers.IndexModel
 @{
 }
+@if(Model.Servers.Any()){
 <table>
     <tr>
         <th>Server Name</th>
@@ -25,8 +26,17 @@
             </td>
         </tr>
     }
-</table>
+    </table>
+}
+else
+{
+    <text>No Servers Yet</text>
+}
 <h3>Create New Server</h3>
+@if (!string.IsNullOrEmpty(Model.Error))
+{
+    <span class="error">@Model.Error</span>
+}
 <form action="?handler=Create" method="POST">
     <table>
         <tr>

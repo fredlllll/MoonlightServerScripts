@@ -7,7 +7,8 @@ namespace MoonlightDashboard.Lib
     {
         public static bool HasPermission(this HttpContext context, string permission)
         {
-            using var db = context.RequestServices.GetRequiredService<DatabaseContext>();
+            //TODO: cache user permissions in context
+            var db = context.RequestServices.GetRequiredService<DatabaseContext>();
 
             var user = context.GetCurrentUser();
             if (user == null)

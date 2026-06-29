@@ -14,7 +14,7 @@ namespace MoonlightDashboard
             builder.Services.AddRazorPages().AddRazorPagesOptions((o) => {
                 //extra routes go here
             });
-            builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source=db.sqlite"));
+            builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source=db.sqlite").ConfigureWarnings(w=>w.Log(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
             builder.Services.AddHostedService<JobService>();
             builder.Services.AddControllers();
 
