@@ -155,6 +155,20 @@ namespace MoonlightDashboard.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SettingValues",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Value = table.Column<string>(type: "TEXT", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Updated = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SettingValues", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserPermissions",
                 columns: table => new
                 {
@@ -202,7 +216,7 @@ namespace MoonlightDashboard.Migrations
             migrationBuilder.InsertData(
                 table: "Permissions",
                 columns: new[] { "Id", "Created", "Name", "Updated" },
-                values: new object[] { "permission_019f0e38-3fe3-7074-8be5-69661991b3dd", new DateTime(2026, 6, 28, 12, 33, 15, 219, DateTimeKind.Utc).AddTicks(9133), "Admin", new DateTime(2026, 6, 28, 12, 33, 15, 219, DateTimeKind.Utc).AddTicks(9133) });
+                values: new object[] { "permission_admin", new DateTime(2026, 6, 28, 12, 0, 0, 0, DateTimeKind.Utc), "Admin", new DateTime(2026, 6, 28, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Arma3Modsets_Name",
@@ -264,6 +278,9 @@ namespace MoonlightDashboard.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sessions");
+
+            migrationBuilder.DropTable(
+                name: "SettingValues");
 
             migrationBuilder.DropTable(
                 name: "UserPermissions");

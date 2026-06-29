@@ -314,10 +314,10 @@ namespace MoonlightDashboard.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "permission_019f0e38-3fe3-7074-8be5-69661991b3dd",
-                            Created = new DateTime(2026, 6, 28, 12, 33, 15, 219, DateTimeKind.Utc).AddTicks(9133),
+                            Id = "permission_admin",
+                            Created = new DateTime(2026, 6, 28, 12, 0, 0, 0, DateTimeKind.Utc),
                             Name = "Admin",
-                            Updated = new DateTime(2026, 6, 28, 12, 33, 15, 219, DateTimeKind.Utc).AddTicks(9133)
+                            Updated = new DateTime(2026, 6, 28, 12, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
 
@@ -339,6 +339,26 @@ namespace MoonlightDashboard.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sessions", (string)null);
+                });
+
+            modelBuilder.Entity("MoonlightDashboard.Database.Models.SettingValue", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SettingValues", (string)null);
                 });
 
             modelBuilder.Entity("MoonlightDashboard.Database.Models.User", b =>

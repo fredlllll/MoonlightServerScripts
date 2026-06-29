@@ -112,7 +112,12 @@ namespace MoonlightDashboard.Database
                 );
 
             modelBuilder.Entity<Permission>().HasData(
-                new Permission { Id = Util.GetNewId<Permission>(), Name = "Admin" }
+                new Permission { 
+                    Id = "permission_admin",
+                    Created = new DateTime(2026, 06, 28, 12, 0, 0, DateTimeKind.Utc),
+                    Updated = new DateTime(2026, 06, 28, 12, 0, 0, DateTimeKind.Utc),
+                    Name = "Admin",
+                }
                 );
 
             modelBuilder.Entity<User>().ToTable(nameof(Users));
