@@ -1,6 +1,8 @@
 ﻿using MoonlightDashboard.Apis.Steam;
+using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
 using MoonlightDashboard.Lib;
+using MoonlightDashboard.Pages;
 
 namespace MoonlightDashboard.Jobs
 {
@@ -10,8 +12,10 @@ namespace MoonlightDashboard.Jobs
         {
             var beta = job.Data;
 
+            var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+
             var cmd = new SteamCmd();
-            cmd.Username = "TODO: get from login, remember";
+            cmd.Username = db.GetSettingsValue(SettingsModel.SettingLastSteamUser);
             cmd.AddAppUpdate(Constants.ARMA3SERVERAPPID, true, beta);
             await cmd.RunAsync(stoppingToken);
         }

@@ -21,6 +21,7 @@ namespace MoonlightDashboard.Database
         public DbSet<Arma3ServerCreatorDlc> Arma3ServerCreatorDlcs { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<ModInfo> ModInfos { get; set; }
+        public DbSet<SettingValue> SettingValues { get; set; }
 
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
@@ -125,6 +126,7 @@ namespace MoonlightDashboard.Database
             modelBuilder.Entity<Arma3ServerCreatorDlc>().ToTable(nameof(Arma3ServerCreatorDlcs));
             modelBuilder.Entity<Job>().ToTable(nameof(Jobs));
             modelBuilder.Entity<ModInfo>().ToTable(nameof(ModInfos));
+            modelBuilder.Entity<SettingValue>().ToTable(nameof(SettingValues));
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
@@ -147,6 +149,36 @@ namespace MoonlightDashboard.Database
                 PermissionId = perm.Id
             };
             UserPermissions.Add(userPerm);
+        }
+
+        /// <summary>
+        /// doesnt do save changes
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void SetSettingsValue(string name, string value)
+        {
+            var existing = SettingValues.Find(name);
+            if (existing != null)
+            {
+                existing.Value = value;
+                existing.Updated = DateTime.UtcNow;
+            }
+            else
+            {
+                var setting = new SettingValue() { Id = name, Value = value };
+                SettingValues.Add(setting);
+            }
+        }
+
+        public string GetSettingsValue(string name)
+        {
+            var entry = SettingValues.Find(name);
+            if (entry == null)
+            {
+                throw new Exception("no settings value for " + name);
+            }
+            return entry.Value;
         }
     }
 }

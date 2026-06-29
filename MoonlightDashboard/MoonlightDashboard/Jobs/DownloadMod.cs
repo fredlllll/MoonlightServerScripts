@@ -1,6 +1,8 @@
 ﻿
 using MoonlightDashboard.Apis.Steam;
+using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
+using MoonlightDashboard.Pages;
 
 namespace MoonlightDashboard.Jobs
 {
@@ -13,9 +15,10 @@ namespace MoonlightDashboard.Jobs
             {
                 throw new Exception("No Mod Id given");
             }
+            var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
 
             var cmd = new SteamCmd();
-            cmd.Username = "TODO: get from login, remember";
+            cmd.Username = db.GetSettingsValue(SettingsModel.SettingLastSteamUser);
             cmd.AddModDownload(Lib.Constants.ARMA3APPID, modId);
             await cmd.RunAsync(stoppingToken);
         }

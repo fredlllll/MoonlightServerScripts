@@ -11,7 +11,7 @@ namespace MoonlightDashboard.Apis.Steam
         public string? Password { get; set; }
         public string? AuthCode { get; set; }
 
-        public async Task RunAsync(CancellationToken stoppingToken)
+        public async Task<int> RunAsync(CancellationToken stoppingToken)
         {
             var argList = new List<string>();
             if (!string.IsNullOrWhiteSpace(Username))
@@ -70,6 +70,7 @@ namespace MoonlightDashboard.Apis.Steam
             {
                 process.WaitForExit();
             }
+            return process.ExitCode;
         }
 
         public void AddModDownload(string appId, string modId)
