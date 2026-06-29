@@ -17,6 +17,7 @@ namespace MoonlightDashboard
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source=db.sqlite").ConfigureWarnings(w=>w.Log(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
             builder.Services.AddHostedService<JobService>();
             builder.Services.AddControllers();
+            builder.WebHost.UseUrls("http://0.0.0.0:8080");
 
             var app = builder.Build();
 
