@@ -50,24 +50,7 @@
         </td>
     </tr>
 </table>
-<form method="post" asp-page-handler="Start">
-    <input type="submit" value="Start" />
-</form>
-<form method="post" asp-page-handler="Stop">
-    <input type="submit" value="Stop" />
-</form>
-<form method="post" asp-page-handler="Restart">
-    <input type="submit" value="Restart" />
-</form>
-<form method="post" asp-page-handler="Enable">
-    <input type="submit" value="Enable" />
-</form>
-<form method="post" asp-page-handler="Disable">
-    <input type="submit" value="Disable" />
-</form>
-<form method="post" asp-page-handler="Delete">
-    <input type="submit" style="color:red;" value="Delete Server" />
-</form>
+<partial name="_ServerButtons" model="(Model.Server.Id, Request.Path + Request.QueryString)" />
 <h3>Log:</h3>
 <input type="checkbox" id="scroll-enabled" checked>Log Scroll Enabled
 <br />

@@ -99,53 +99,6 @@ namespace MoonlightDashboard.Pages.Servers
             OnGet(id);
         }
 
-        public async Task OnPostStart(string id)
-        {
-            Server = db.Arma3Servers.First(s => s.Id == id);
-            ServerApi = new Arma3ServerApi(id);
-            ServerUnit = new SystemDUnit(id);
-            await ServerApi.LinkMods(Server, db);
-            await ServerApi.CreateStartupScript(Server, db);
-            ServerUnit.Start();
-            OnGet(id);
-        }
-
-        public void OnPostStop(string id)
-        {
-            Server = db.Arma3Servers.First(s => s.Id == id);
-            ServerUnit = new SystemDUnit(id);
-            ServerUnit.Stop();
-            OnGet(id);
-        }
-
-        public async Task OnPostRestart(string id)
-        {
-            Server = db.Arma3Servers.First(s => s.Id == id);
-            ServerApi = new Arma3ServerApi(id);
-            ServerUnit = new SystemDUnit(id);
-            ServerUnit.Stop();
-            await ServerApi.LinkMods(Server, db);
-            await ServerApi.CreateStartupScript(Server, db);
-            ServerUnit.Start();
-            OnGet(id);
-        }
-
-        public void OnPostEnable(string id)
-        {
-            Server = db.Arma3Servers.First(s => s.Id == id);
-            ServerUnit = new SystemDUnit(id);
-            ServerUnit.Enable();
-            OnGet(id);
-        }
-
-        public void OnPostDisable(string id)
-        {
-            Server = db.Arma3Servers.First(s => s.Id == id);
-            ServerUnit = new SystemDUnit(id);
-            ServerUnit.Disable();
-            OnGet(id);
-        }
-
         public void OnPostDelete(string id)
         {
             Server = db.Arma3Servers.First(s => s.Id == id);
