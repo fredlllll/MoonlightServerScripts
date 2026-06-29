@@ -27,14 +27,17 @@
                     <br />
                     Player Count: @runtimeInfo.Players.Count() / @runtimeInfo.MaxPlayers;
                     <br />
-                    Players:
-                    <br />
-                    <ul>
-                        @foreach(var player in runtimeInfo.Players)
-                        {
-                           <li>@player</li> 
-                        }
-                    </ul>
+                    @if (runtimeInfo.Players.Any())
+                    {
+                        <text>Players:</text>
+                        <br />
+                        <ul>
+                            @foreach (var player in runtimeInfo.Players)
+                            {
+                                <li>@player</li>
+                            }
+                        </ul>
+                    }
                 </div>
             }
             <form method="post" asp-page-handler="Start">
