@@ -15,8 +15,8 @@ namespace MoonlightDashboard.Controllers
             _serverService = serverService;
         }
 
-        [HttpPost("{id}/{actionName}")]
-        public async Task<IActionResult> HandleAction([FromRoute] string id, [FromRoute] string actionName, [FromForm] string returnUrl)
+        [HttpPost("{id}")]
+        public async Task<IActionResult> HandleAction([FromRoute] string id, [FromForm] string actionName, [FromForm] string returnUrl)
         {
             switch (actionName.ToLower())
             {
