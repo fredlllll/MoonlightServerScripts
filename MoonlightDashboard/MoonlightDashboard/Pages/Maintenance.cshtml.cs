@@ -8,5 +8,10 @@ namespace MoonlightDashboard.Pages
         public void OnGet()
         {
         }
+
+        public void OnPostDeleteModsAcfFile()
+        {
+
+        }
     }
 }

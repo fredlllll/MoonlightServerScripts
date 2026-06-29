@@ -6,11 +6,11 @@
 Name: @Model.Modset.Name
 <br />
 Active Mods: @Model.ActiveMods.Count
-<form action="?handler=DeleteModset" method="POST">
+<form asp-page-handler="DeleteModset" method="POST">
     <input type="submit" style="color:red;" value="Delete Modset">
 </form>
 <h3>Mods:</h3>
-<form action="?handler=Update" method="post">
+<form asp-page-handler="Update" method="post">
     <table>
         <tr>
             <th>Mod Id</th>

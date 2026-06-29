@@ -17,7 +17,7 @@
                     @Model.Error
                 </div>
             }
-            <form action="?handler=SetPermissions" method="post">
+            <form asp-page-handler="SetPermissions" method="post">
                 <input type="text" autocomplete="off" name="permissions" value="{{', '.join(user.permissions or [])|e}}" />
                 <input type="submit" value="Set Permissions" />
             </form>
@@ -32,7 +32,7 @@
             }
             else
             {
-                <form action="?handler=Activate" method="post">
+                <form asp-page-handler="Activate" method="post">
                     <input type="submit" value="Activate" />
                 </form>
             }
@@ -42,7 +42,7 @@
         <td>
         </td>
         <td>
-            <form action="?handler=Delete" method="post">
+            <form asp-page-handler="Delete" method="post">
                 <input type="submit" value="Delete" />
             </form>
         </td>

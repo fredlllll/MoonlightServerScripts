@@ -37,7 +37,7 @@ else
 {
     <span class="error">@Model.Error</span>
 }
-<form action="?handler=Create" method="POST">
+<form asp-page-handler="Create" method="POST">
     <table>
         <tr>
             <td>Name:</td>
@@ -53,14 +53,14 @@ else
 <table>
     <tr>
         <td>
-            <form action="?handler=UpdateServer" method="POST">
+            <form asp-page-handler="UpdateServer" method="POST">
                 <input type="submit" value="Update/Install Normal Server Software" />
             </form>
         </td>
     </tr>
     <tr>
         <td>
-            <form action="?handler=UpdateServerCreatorDlc" method="POST">
+            <form asp-page-handler="UpdateServerCreatorDlc" method="POST">
                 <input type="submit" value="Update/Install Creator DLC Server Software" />
             </form>
         </td>
