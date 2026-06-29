@@ -269,21 +269,30 @@ namespace MoonlightDashboard.Apis.Arma3
             SystemDUtil.SystemCtl("daemon-reload").WaitForExit();
         }
 
-        public Arma3ServerRuntimeInfo GetRuntimeInfo(Arma3Server server)
+        public Arma3ServerRuntimeInfo? GetRuntimeInfo(Arma3Server server)
         {
-            var info = new Arma3ServerRuntimeInfo();
+            Arma3ServerRuntimeInfo? info = null;
 
             var address = IPAddress.Loopback;
             var port = server.Port + 1;
-            var a2sInfo = A2Sharp.A2Sharp.GetInfo(address, port, 300);
-            var a2sPlayers = A2Sharp.A2Sharp.GetPlayers(address, port, 300);
+            try
+            {
+                var a2sInfo = A2Sharp.A2Sharp.GetInfo(address, port, 300);
 
-            info.Name = a2sInfo.Name;
-            info.Map = a2sInfo.Map;
-            info.Players = a2sPlayers.Select(x => x.Name).ToList();
-            info.Mission = a2sInfo.Game;
-            info.MaxPlayers = a2sInfo.MaxPlayers;
-
+                info = new Arma3ServerRuntimeInfo()
+                {
+                    Name = a2sInfo.Name,
+                    Map = a2sInfo.Map,
+                    Mission = a2sInfo.Game,
+                    MaxPlayers = a2sInfo.MaxPlayers
+                };
+                var a2sPlayers = A2Sharp.A2Sharp.GetPlayers(address, port, 300);
+                info.Players = a2sPlayers.Select(x => x.Name).ToList();
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                //could not reach server, return what is in info, which is either null, or at least the info part without players
+            }
             return info;
         }
     }

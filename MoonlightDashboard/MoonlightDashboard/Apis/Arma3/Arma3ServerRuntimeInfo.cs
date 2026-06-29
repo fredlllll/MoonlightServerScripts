@@ -2,10 +2,10 @@
 {
     public class Arma3ServerRuntimeInfo
     {
-        public string Name;
-        public string Map;
-        public string Mission;
-        public int MaxPlayers;
-        public IEnumerable<string> Players;
+        public required string Name;
+        public required string Map;
+        public required string Mission;
+        public required int MaxPlayers;
+        public IEnumerable<string> Players = Enumerable.Empty<string>();
     }
 }
