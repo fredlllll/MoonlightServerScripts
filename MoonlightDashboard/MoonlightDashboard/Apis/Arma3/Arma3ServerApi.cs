@@ -43,7 +43,7 @@ namespace MoonlightDashboard.Apis.Arma3
 
         public string GetSystemDUnitFilePath()
         {
-            return Path.Combine("etc", "systemd", "system", Id + ".service");
+            return Path.Combine("/etc", "systemd", "system", Id + ".service");
         }
 
         public string GetStartupScriptFilePath()
