@@ -7,7 +7,7 @@ namespace MoonlightDashboard.Pages
 {
     public class JobsModel : PageModel
     {
-        public IEnumerable<Job> Jobs;
+        public IEnumerable<Job> Jobs = Enumerable.Empty<Job>();
 
         private DatabaseContext db;
         public JobsModel(DatabaseContext db)

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
@@ -37,22 +38,22 @@ namespace MoonlightDashboard.Pages.Mods
             await OnGet();
         }
 
-        public async Task OnPostDownloadMods(string collectionId, string modIds)
+        public async Task<IActionResult> OnPostDownloadMods(string collectionId, string modIds)
         {
-            IEnumerable<string> modIdsList = null;
+            IEnumerable<string> modIdsList;
             if (collectionId.Length > 0)
             {
                 modIdsList = await Apis.Steam.Local.Mods.GetCollectionModIds(collectionId);
             }
             else if (modIds.Length > 0)
             {
-                modIdsList = modIds.Split(',').Select(m=>m.Trim());
+                modIdsList = modIds.Split(',').Select(m => m.Trim());
             }
             else
             {
                 Error = "no mod ids given";
                 await OnGet();
-                return;
+                return Page();
             }
 
             foreach (var modId in modIdsList)
@@ -60,7 +61,7 @@ namespace MoonlightDashboard.Pages.Mods
                 JobService.EnqueueDownloadMod(db, modId);
             }
 
-            Redirect("/Jobs");
+            return LocalRedirect("/Jobs");
         }
     }
 }

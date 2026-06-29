@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
@@ -38,16 +39,16 @@ namespace MoonlightDashboard.Pages.Modsets
             }
         }
 
-        public void OnPostDeleteModset(string modsetId)
+        public IActionResult OnPostDeleteModset(string modsetId)
         {
             db.RemoveRange(db.Arma3ModsetMods.Where(ms => ms.ModsetId == Modset.Id));
             db.Remove(db.Arma3Modsets.First(m => m.Id == modsetId));
-            foreach(var server in db.Arma3Servers.Where(x=>x.ActiveModsetId == modsetId))
+            foreach (var server in db.Arma3Servers.Where(x => x.ActiveModsetId == modsetId))
             {
                 server.ActiveModsetId = null;
             }
             db.SaveChanges();
-            Redirect("/Modsets");
+            return LocalRedirect("/Modsets");
         }
 
         public async Task OnPostUpdate(string modsetId)

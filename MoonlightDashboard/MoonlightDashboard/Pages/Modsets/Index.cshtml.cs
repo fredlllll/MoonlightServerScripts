@@ -25,7 +25,7 @@ namespace MoonlightDashboard.Pages.Modsets
             }
         }
 
-        public void OnPostCreate(string name)
+        public IActionResult OnPostCreate(string name)
         {
             var modset = new Arma3Modset()
             {
@@ -37,7 +37,7 @@ namespace MoonlightDashboard.Pages.Modsets
             db.Arma3Modsets.Add(modset);
             db.SaveChanges();
 
-            Redirect($"/Modsets/{modset.Id}");
+            return LocalRedirect($"/Modsets/{modset.Id}");
         }
     }
 }

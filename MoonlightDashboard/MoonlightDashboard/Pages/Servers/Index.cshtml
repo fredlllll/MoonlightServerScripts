@@ -2,30 +2,31 @@
 @model MoonlightDashboard.Pages.Servers.IndexModel
 @{
 }
-@if(Model.Servers.Any()){
-<table>
-    <tr>
-        <th>Server Name</th>
-        <th>Server Port</th>
-        <th>Server Modset</th>
-    </tr>
-    @foreach(var server in Model.Servers)
-    {
+@if (Model.Servers.Any())
+{
+    <table>
         <tr>
-            <td><a href="/Servers/@server.Id">@server.Name</a></td>
-            <td>@server.Port</td>
-            <td>
-                @if(server.ActiveModsetId != null)
-                {
-                    <a href="/Modsets/@server.ActiveModsetId">@Model.ActiveModsetNames[server.Id]</a>
-                }
-                else
-                {
-                    <text>None</text>
-                }
-            </td>
+            <th>Server Name</th>
+            <th>Server Port</th>
+            <th>Server Modset</th>
         </tr>
-    }
+        @foreach (var server in Model.Servers)
+        {
+            <tr>
+                <td><a href="/Servers/@server.Id">@server.Name</a></td>
+                <td>@server.Port</td>
+                <td>
+                    @if (server.ActiveModsetId != null)
+                    {
+                        <a href="/Modsets/@server.ActiveModsetId">@Model.ActiveModsetNames[server.Id]</a>
+                    }
+                    else
+                    {
+                        <text>None</text>
+                    }
+                </td>
+            </tr>
+        }
     </table>
 }
 else

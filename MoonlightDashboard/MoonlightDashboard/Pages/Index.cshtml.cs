@@ -11,11 +11,11 @@ namespace MoonlightDashboard.Pages
     [LoggedIn]
     public class IndexModel : PageModel
     {
-        public IEnumerable<Arma3Server> Servers;
-        public Dictionary<string, SystemDUnit> SystemDUnits;
-        public Dictionary<string, SystemDUnitInfo> ServerUnitInfos;
-        public Dictionary<string, Arma3ServerApi> ServerApis;
-        public Dictionary<string, Arma3ServerRuntimeInfo?> ServerRuntimeInfos;
+        public IEnumerable<Arma3Server> Servers = Enumerable.Empty<Arma3Server>();
+        public Dictionary<string, SystemDUnit> SystemDUnits = new();
+        public Dictionary<string, SystemDUnitInfo> ServerUnitInfos = new();
+        public Dictionary<string, Arma3ServerApi> ServerApis = new();
+        public Dictionary<string, Arma3ServerRuntimeInfo?> ServerRuntimeInfos = new();
 
         private DatabaseContext db;
         public IndexModel(DatabaseContext db)
@@ -25,10 +25,6 @@ namespace MoonlightDashboard.Pages
         public void OnGet()
         {
             Servers = db.Arma3Servers;
-            SystemDUnits = new Dictionary<string, SystemDUnit>();
-            ServerUnitInfos = new Dictionary<string, SystemDUnitInfo>();
-            ServerApis = new Dictionary<string, Arma3ServerApi>();
-            ServerRuntimeInfos = new Dictionary<string, Arma3ServerRuntimeInfo?>();
             foreach (var server in Servers)
             {
                 var unit = new SystemDUnit(server.Id);

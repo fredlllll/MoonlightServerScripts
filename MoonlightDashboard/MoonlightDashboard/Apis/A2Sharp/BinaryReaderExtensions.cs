@@ -4,7 +4,7 @@ namespace MoonlightDashboard.Apis.A2Sharp
 {
     public static class BinaryReaderExtensions
     {
-        public static string ReadNullTerminatedString(this BinaryReader br, Encoding encoding = null)
+        public static string ReadNullTerminatedString(this BinaryReader br, Encoding? encoding = null)
         {
             // Default to UTF-8
             encoding ??= Encoding.UTF8;

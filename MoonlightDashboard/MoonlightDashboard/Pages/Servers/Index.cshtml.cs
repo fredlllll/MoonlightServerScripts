@@ -42,13 +42,13 @@ namespace MoonlightDashboard.Pages.Servers
             }
         }
 
-        public void OnPostCreate(string name, int port)
+        public IActionResult OnPostCreate(string name, int port)
         {
-            if(name.Length < 3)
+            if (name.Length < 3)
             {
                 Error = "Name too short";
                 OnGet();
-                return;
+                return Page();
             }
             var server = new Arma3Server()
             {
@@ -61,19 +61,19 @@ namespace MoonlightDashboard.Pages.Servers
             var api = new Arma3ServerApi(server.Id);
             api.CreateServiceFile(server);
             //dont need to create config files here as the next page will create them when reading contents if they dont exist
-            Redirect($"/Servers/{server.Id}");
+            return LocalRedirect($"/Servers/{server.Id}");
         }
 
-        public void OnPostUpdateServer()
+        public IActionResult OnPostUpdateServer()
         {
             JobService.EnqueueUpdateServer(db, null);
-            Redirect("/Jobs");
+            return LocalRedirect("/Jobs");
         }
 
-        public void OnPostUpdateServerCreatorDlc()
+        public IActionResult OnPostUpdateServerCreatorDlc()
         {
             JobService.EnqueueUpdateServer(db, "creatordlc");
-            Redirect("/Jobs");
+            return LocalRedirect("/Jobs");
         }
     }
 }

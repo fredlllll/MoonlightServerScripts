@@ -17,9 +17,9 @@ namespace MoonlightDashboard.Pages.Servers
         public List<Arma3Modset> Modsets = null!;
         public List<Arma3CreatorDlc> CreatorDlcs = null!;
         public HashSet<string> ActiveCreatorDlcs = null!;
-        public SystemDUnit ServerUnit;
-        public SystemDUnitInfo ServerUnitInfo;
-        public string LastLog;
+        public SystemDUnit ServerUnit = null!;
+        public SystemDUnitInfo ServerUnitInfo = null!;
+        public string LastLog="";
         private DatabaseContext db;
 
         public DetailsModel(DatabaseContext db)
@@ -97,24 +97,6 @@ namespace MoonlightDashboard.Pages.Servers
             db.SaveChanges();
 
             OnGet(id);
-        }
-
-        public void OnPostDelete(string id)
-        {
-            Server = db.Arma3Servers.First(s => s.Id == id);
-            ServerUnit = new SystemDUnit(id);
-            ServerUnit.Stop();
-            ServerUnit.Disable();
-            ServerApi = new Arma3ServerApi(id);
-            System.IO.File.Delete(ServerApi.GetSystemDUnitFilePath());
-            System.IO.File.Delete(ServerApi.GetStartupScriptFilePath());
-            System.IO.File.Delete(ServerApi.GetBasicConfigFilePath());
-            System.IO.File.Delete(ServerApi.GetServerConfigFilePath());
-            System.IO.File.Delete(ServerApi.GetServerConfigFilePath());
-            db.Arma3Servers.Remove(Server);
-            db.Arma3ServerCreatorDlcs.RemoveRange(db.Arma3ServerCreatorDlcs.Where(x => x.Arma3ServerId == id));
-            db.SaveChanges();
-            Redirect("/Servers");
         }
 
         public void OnPostUpdateBasicConfig(string id, string content)

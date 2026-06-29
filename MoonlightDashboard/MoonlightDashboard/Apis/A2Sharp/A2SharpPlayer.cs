@@ -2,7 +2,7 @@
 {
     public class A2SharpPlayer
     {
-        public string Name;
+        public string Name = string.Empty;
         public int Score;
         public float DurationSeconds;
     }
