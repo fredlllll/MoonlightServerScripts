@@ -1,10 +1,10 @@
 ﻿@model (string id, string returnUrl)
 <form method="post" asp-controller="ServersApi" asp-action="HandleAction" asp-route-id="@Model.id" style="display:inline;">
     <input type="hidden" name="returnUrl" value="@Model.returnUrl" />
-    <button type="submit" asp-page-actionName="Start">Start</button>
-    <button type="submit" asp-page-actionName="Stop">Stop</button>
-    <button type="submit" asp-page-actionName="Restart">Restart</button>
-    <button type="submit" asp-page-actionName="Enable">Enable</button>
-    <button type="submit" asp-page-actionName="Disable">Disable</button>
-    <button type="submit" asp-page-actionName="Delete" style="color:red;">Delete</button>
+    <button type="submit" asp-route-actionName="Start">Start</button>
+    <button type="submit" asp-route-actionName="Stop">Stop</button>
+    <button type="submit" asp-route-actionName="Restart">Restart</button>
+    <button type="submit" asp-route-actionName="Enable">Enable</button>
+    <button type="submit" asp-route-actionName="Disable">Disable</button>
+    <button type="submit" asp-route-actionName="Delete" style="color:red;">Delete</button>
 </form>

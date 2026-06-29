@@ -5,7 +5,7 @@ namespace MoonlightDashboard.Controllers
 {
     [ApiController]
     [Route("api/servers")]
-    public class ServersApiController :ControllerBase
+    public class ServersApiController : ControllerBase
     {
 
         private readonly ServerService _serverService;
