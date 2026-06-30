@@ -37,7 +37,7 @@ namespace MoonlightDashboard.Pages.Modsets
             db.Arma3Modsets.Add(modset);
             db.SaveChanges();
 
-            return LocalRedirect($"/Modsets/{modset.Id}");
+            return LocalRedirect($"/Modsets/Details/{modset.Id}");
         }
     }
 }

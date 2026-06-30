@@ -13,12 +13,12 @@
         @foreach (var server in Model.Servers)
         {
             <tr>
-                <td><a href="/Servers/@server.Id">@server.Name</a></td>
+                <td><a href="/Servers/Details/@server.Id">@server.Name</a></td>
                 <td>@server.Port</td>
                 <td>
                     @if (server.ActiveModsetId != null)
                     {
-                        <a href="/Modsets/@server.ActiveModsetId">@Model.ActiveModsetNames[server.Id]</a>
+                        <a href="/Modsets/Details/@server.ActiveModsetId">@Model.ActiveModsetNames[server.Id]</a>
                     }
                     else
                     {

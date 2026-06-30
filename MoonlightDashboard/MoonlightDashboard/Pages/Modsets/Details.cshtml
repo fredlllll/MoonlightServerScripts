@@ -23,13 +23,10 @@ Active Mods: @Model.ActiveMods.Count
                 <td>@kv.Value.ModId</td>
                 <td>@kv.Value.Name</td>
                 <td>
-                    <input type="checkbox" class="normal-mod" name="mod_@kv.Value.ModId" @if (Model.ActiveModIds.Contains(kv.Value.ModId)) {
-                    <text> checked</text>
-                }
-                >
-            </td>
-        </tr>
-                }
+                    <input type="checkbox" class="normal-mod" name="mod_@kv.Value.ModId" checked="@(Model.ActiveModIds.Contains(kv.Value.ModId))" />
+                </td>
+            </tr>
+        }
     </table>
     <button type="button" onclick="deselectAll('normal-mod'); return false;">Deselect All</button>
     <button type="button" onclick="selectAll('normal-mod'); return false;">Select All</button>

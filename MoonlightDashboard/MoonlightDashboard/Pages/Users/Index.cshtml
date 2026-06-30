@@ -12,7 +12,7 @@
     @foreach(var user in Model.Users)
     {
         <tr>
-            <td><a href="/Users/@user.Id">@user.Name</a></td>
+            <td><a href="/Users/Details/@user.Id">@user.Name</a></td>
             <td>@Model.UserPermissions[user.Id]</td>
             <td>
                 @if (user.ActivationTimestamp.HasValue)

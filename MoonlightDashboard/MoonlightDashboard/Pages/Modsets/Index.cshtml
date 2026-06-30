@@ -11,7 +11,7 @@
     @foreach (var modset in Model.Modsets)
     {
         <tr>
-            <td><a href="/Modsets/@modset.Id">@modset.Name</a></td>
+            <td><a href="/Modsets/Details/@modset.Id">@modset.Name</a></td>
             <td>@string.Join(", ", Model.ModsetModInfos[modset.Id].Select(m => m.Name))</td>
         </tr>
     }

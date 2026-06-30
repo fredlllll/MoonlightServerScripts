@@ -61,7 +61,7 @@ namespace MoonlightDashboard.Pages.Servers
             var api = new Arma3ServerApi(server.Id);
             api.CreateServiceFile(server);
             //dont need to create config files here as the next page will create them when reading contents if they dont exist
-            return LocalRedirect($"/Servers/{server.Id}");
+            return LocalRedirect($"/Servers/Details/{server.Id}");
         }
 
         public IActionResult OnPostUpdateServer()
