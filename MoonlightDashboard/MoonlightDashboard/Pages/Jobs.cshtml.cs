@@ -19,5 +19,13 @@ namespace MoonlightDashboard.Pages
         {
             Jobs = db.Jobs;
         }
+
+        public void OnPostClear()
+        {
+            var jobsToClear = db.Jobs.Where(j => j.IsComplete);
+            db.Jobs.RemoveRange(jobsToClear);
+            db.SaveChanges();
+            OnGet();
+        }
     }
 }
