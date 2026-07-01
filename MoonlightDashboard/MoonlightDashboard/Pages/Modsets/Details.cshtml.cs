@@ -21,9 +21,9 @@ namespace MoonlightDashboard.Pages.Modsets
             this.db = db;
         }
 
-        public async Task OnGet(string modsetId)
+        public async Task OnGet(string id)
         {
-            Modset = db.Arma3Modsets.First(m => m.Id == modsetId);
+            Modset = db.Arma3Modsets.First(m => m.Id == id);
             AllMods = (await Apis.Steam.Local.Mods.GetModInfos(db, Apis.Steam.Local.Mods.GetDownloadedModsIds())).ToDictionary(m => m.ModId);
             ActiveMods = db.Arma3ModsetMods.Where(ms => ms.ModsetId == Modset.Id).ToList();
 
@@ -39,11 +39,11 @@ namespace MoonlightDashboard.Pages.Modsets
             }
         }
 
-        public IActionResult OnPostDeleteModset(string modsetId)
+        public IActionResult OnPostDeleteModset(string id)
         {
             db.RemoveRange(db.Arma3ModsetMods.Where(ms => ms.ModsetId == Modset.Id));
-            db.Remove(db.Arma3Modsets.First(m => m.Id == modsetId));
-            foreach (var server in db.Arma3Servers.Where(x => x.ActiveModsetId == modsetId))
+            db.Remove(db.Arma3Modsets.First(m => m.Id == id));
+            foreach (var server in db.Arma3Servers.Where(x => x.ActiveModsetId == id))
             {
                 server.ActiveModsetId = null;
             }
@@ -51,9 +51,9 @@ namespace MoonlightDashboard.Pages.Modsets
             return LocalRedirect("/Modsets");
         }
 
-        public async Task OnPostUpdate(string modsetId)
+        public async Task OnPostUpdate(string id)
         {
-            var activeModIds = new HashSet<string>(db.Arma3ModsetMods.Where(ms => ms.ModsetId == modsetId).Select(m => m.ModsetId));
+            var activeModIds = new HashSet<string>(db.Arma3ModsetMods.Where(ms => ms.ModsetId == id).Select(m => m.ModsetId));
 
             var selectedModIds = new HashSet<string>();
             string prefix = "mod_";
@@ -73,7 +73,7 @@ namespace MoonlightDashboard.Pages.Modsets
 
             foreach (var modId in toDelete)
             {
-                db.Remove(db.Arma3ModsetMods.Where(ms => ms.ModsetId == modsetId && ms.ModSteamId == modId));
+                db.Remove(db.Arma3ModsetMods.Where(ms => ms.ModsetId == id && ms.ModSteamId == modId));
             }
             foreach (var modId in toAdd)
             {
@@ -81,13 +81,13 @@ namespace MoonlightDashboard.Pages.Modsets
                 {
                     Id = Util.GetNewId<Arma3ModsetMod>(),
                     ModSteamId = modId,
-                    ModsetId = modsetId,
+                    ModsetId = id,
                 };
                 db.Add(mod);
             }
             db.SaveChanges();
 
-            await OnGet(modsetId);
+            await OnGet(id);
         }
     }
 }
