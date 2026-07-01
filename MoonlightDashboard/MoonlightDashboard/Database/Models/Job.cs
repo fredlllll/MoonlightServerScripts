@@ -15,6 +15,7 @@
         public bool IsSuccessful { get; set; } = false;
         public bool CancellationRequested { get; set; } = false;
         public string? ErrorMessage { get; set; } = null;
+        public string? Result { get; set; } = null;
         public string? Data { get; set; } = null;
     }
 }

@@ -14,7 +14,7 @@ Jobs(@Model.Jobs.Count()):
             <th>Job Name</th>
             <th>Job Status</th>
             <th>Job Info</th>
-            <th>Job Error</th>
+            <th>Job Error/Result</th>
         </tr>
         @foreach (var job in Model.Jobs)
         {
@@ -45,7 +45,16 @@ Jobs(@Model.Jobs.Count()):
                     }
                 </td>
                 <td>@job.Data</td>
-                <td>@job.ErrorMessage</td>
+                <td>
+                    @if (job.IsSuccessful)
+                    {
+                        <text>@job.Result</text>
+                    }
+                    else
+                    {
+                        <text>@job.ErrorMessage</text>
+                    }
+                </td>
             </tr>
         }
     </table>

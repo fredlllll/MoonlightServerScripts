@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MoonlightDashboard.Lib;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
@@ -11,7 +12,7 @@ namespace MoonlightDashboard.Apis.Steam
         public string? Password { get; set; }
         public string? AuthCode { get; set; }
 
-        public async Task<int> RunAsync(CancellationToken stoppingToken)
+        public async Task<ProcessResult> RunAsync(CancellationToken stoppingToken)
         {
             var argList = new List<string>();
             if (!string.IsNullOrWhiteSpace(Username))
@@ -70,7 +71,12 @@ namespace MoonlightDashboard.Apis.Steam
             {
                 process.WaitForExit();
             }
-            return process.ExitCode;
+            return new ProcessResult
+            {
+                Output = await process.StandardOutput.ReadToEndAsync(),
+                Error = await process.StandardError.ReadToEndAsync(),
+                ExitCode = process.ExitCode
+            };
         }
 
         public void AddModDownload(string appId, string modId)
