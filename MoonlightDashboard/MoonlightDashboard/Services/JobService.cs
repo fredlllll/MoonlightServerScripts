@@ -64,7 +64,6 @@ namespace MoonlightDashboard.Services
                 }
                 if (job == null)
                 {
-                    Console.WriteLine("No pending jobs found.");
                     await Task.Delay(2000, stoppingToken);
                     continue;
                 }

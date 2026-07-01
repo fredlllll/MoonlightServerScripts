@@ -31,6 +31,7 @@ namespace MoonlightDashboard.Database
             base.OnModelCreating(modelBuilder);
 
             //NOTE: the depot and manifest numbers will change over time with updates and can be retrieved from steamdb
+            //TODO: we dont even need the manifest and depot. they were dead code in the old dashboard
             modelBuilder.Entity<Arma3CreatorDlc>().HasData(
                 new Arma3CreatorDlc
                 {

@@ -28,7 +28,6 @@ namespace MoonlightDashboard.Pages
             LogBoth(Util.BashExecute("dpkg --add-architecture i386"));
             LogBoth(Util.BashExecute("apt update"));
             LogBoth(Util.BashExecute("apt install -y steamcmd"));
-            LogBoth(Util.BashExecute("apt upgrade -y steamcmd"));
         }
     }
 }

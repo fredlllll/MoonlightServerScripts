@@ -5,6 +5,7 @@ namespace MoonlightDashboard.Lib
     public class JobCancellationMonitor : IDisposable
     {
         private readonly CancellationToken _parentToken;
+        private readonly CancellationTokenRegistration _parentRegistration;
         private readonly CancellationTokenSource _cts;
         private readonly string _jobId;
         private readonly IServiceScope _scope; // Inject your DB check logic here
@@ -18,7 +19,7 @@ namespace MoonlightDashboard.Lib
             _jobId = jobId;
             _cts = new CancellationTokenSource();
 
-            _parentToken.Register(Cancel);
+            _parentRegistration = _parentToken.Register(Cancel);
 
             // Check database every 1000ms (1 second)
             _timer = new Timer(CheckDatabaseAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
@@ -31,7 +32,14 @@ namespace MoonlightDashboard.Lib
             if (!_isCancelled)
             {
                 _isCancelled = true;
-                _cts.Cancel(); // Triggers the cancellation token
+                try
+                {
+                    _cts.Cancel(); // Triggers the cancellation token
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Ignore if the token source is already disposed
+                }
                 _timer?.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             }
         }
@@ -49,7 +57,7 @@ namespace MoonlightDashboard.Lib
             {
                 var db = _scope.ServiceProvider.GetRequiredService<DatabaseContext>();
                 var job = db.Jobs.FirstOrDefault(j => j.Id == _jobId);
-                if(job == null || job.CancellationRequested)
+                if (job == null || job.CancellationRequested)
                 {
                     Cancel();
                 }
@@ -63,6 +71,7 @@ namespace MoonlightDashboard.Lib
         public void Dispose()
         {
             _timer?.Dispose();
+            _parentRegistration.Unregister();
             _cts?.Dispose();
         }
     }
