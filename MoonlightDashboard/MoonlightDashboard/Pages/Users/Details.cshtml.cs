@@ -1,6 +1,8 @@
+using AspNetCoreGeneratedDocument;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
 using MoonlightDashboard.Lib;
@@ -11,6 +13,7 @@ namespace MoonlightDashboard.Pages.Users
     {
         private DatabaseContext db;
         public new User User { get; set; } = null!;
+        public string Permissions = "";
         public string? Error { get; set; } = null;
         public DetailsModel(DatabaseContext db)
         {
@@ -19,19 +22,21 @@ namespace MoonlightDashboard.Pages.Users
 
         private void LoadUser(string id)
         {
-            User = db.Users.FirstOrDefault(u => u.Id == id) ?? throw new Exception("User not found");
+            User = db.Users.First(u => u.Id == id);
+            
         }
 
         public void OnGet(string id)
         {
             LoadUser(id);
+            Permissions = string.Join(", ", db.UserPermissions.Where(x => x.UserId == id).Join(db.Permissions, up => up.PermissionId, p => p.Id, (up, p) => p.Name));
         }
 
         public void OnPostSetPermissions(string id, string permissions)
         {
             LoadUser(id);
             var perms = permissions.Split(',').Select(p => p.Trim()).Where(p => !string.IsNullOrEmpty(p)).ToList();
-            Permissions.SetUserPermissions(db, User, perms);
+            Lib.Permissions.SetUserPermissions(db, User, perms);
             db.SaveChanges();
         }
 
