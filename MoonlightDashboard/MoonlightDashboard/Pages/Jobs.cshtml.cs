@@ -27,5 +27,33 @@ namespace MoonlightDashboard.Pages
             db.SaveChanges();
             OnGet();
         }
+
+        public void OnPostRerun(string jobId)
+        {
+            var job = db.Jobs.FirstOrDefault(j => j.Id == jobId);
+            if (job != null && job.IsComplete)
+            {
+                job.IsComplete = false;
+                job.IsSuccessful = false;
+                job.IsRunning = false;
+                job.ErrorMessage = null;
+                job.Result = null;
+                job.Updated = DateTime.UtcNow;
+                job.CancellationRequested = false;
+                db.SaveChanges();
+            }
+            OnGet();
+        }
+
+        public void OnPostCancel(string jobId)
+        {
+            var job = db.Jobs.FirstOrDefault(j => j.Id == jobId);
+            if (job != null && job.IsRunning && !job.CancellationRequested)
+            {
+                job.CancellationRequested = true;
+                db.SaveChanges();
+            }
+            OnGet();
+        }
     }
 }

@@ -15,6 +15,7 @@ Jobs(@Model.Jobs.Count()):
             <th>Job Status</th>
             <th>Job Info</th>
             <th>Job Error/Result</th>
+            <th>Actions</th>
         </tr>
         @foreach (var job in Model.Jobs)
         {
@@ -54,6 +55,16 @@ Jobs(@Model.Jobs.Count()):
                     {
                         <text>@job.ErrorMessage</text>
                     }
+                </td>
+                <td>
+                    <form method="post" asp-page-handler="Rerun">
+                        <input type="hidden" name="jobId" value="@job.Id" />
+                        <input type="submit" value="Rerun" />
+                    </form>
+                    <form method="post" asp-page-handler="Cancel">
+                        <input type="hidden" name="jobId" value="@job.Id" />
+                        <input type="submit" value="Cancel" />
+                    </form>
                 </td>
             </tr>
         }
