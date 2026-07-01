@@ -20,7 +20,7 @@ namespace MoonlightDashboard.Services
             _scopeFactory = scopeFactory;
         }
 
-        private void EndJob(string jobId, bool success, string? errorMessage = null)
+        private void EndJob(string jobId, bool success, string? errorMessage = null, string? result = null)
         {
             using var scope = _scopeFactory.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<Database.DatabaseContext>();
@@ -34,6 +34,7 @@ namespace MoonlightDashboard.Services
             dbJob.IsComplete = true;
             dbJob.IsSuccessful = success;
             dbJob.ErrorMessage = errorMessage;
+            dbJob.Result = result;
             db.SaveChanges();
         }
 
@@ -93,7 +94,7 @@ namespace MoonlightDashboard.Services
                     using var monitor = new JobCancellationMonitor(stoppingToken, scope, job.Id);
                     BeginJob(job.Id);
                     await executor.RunAsync(job, scope, monitor.Token);
-                    EndJob(job.Id, true);
+                    EndJob(job.Id, true, job.ErrorMessage, job.Result);
                 }
                 catch (Exception ex)
                 {
