@@ -74,35 +74,38 @@ namespace MoonlightDashboard.Apis.Arma3
 
         public string GetBasicConfigFileContents()
         {
-            var path = GetBasicConfigFilePath();
-            if (!File.Exists(path))
+            var fi = new FileInfo(GetBasicConfigFilePath());
+            if (!fi.Exists)
             {
-                File.Copy(GetDefaultBasicConfigFilePath(), path);
-                Util.Chown(path, "steam", "steam");
+                fi.Directory?.Create();
+                File.Copy(GetDefaultBasicConfigFilePath(), fi.FullName);
+                Util.Chown(fi.FullName, "steam", "steam");
             }
-            return File.ReadAllText(path);
+            return File.ReadAllText(fi.FullName);
         }
 
         public string GetServerConfigFileContents()
         {
-            var path = GetServerConfigFilePath();
-            if (!File.Exists(path))
+            var fi = new FileInfo(GetServerConfigFilePath());
+            if (!fi.Exists)
             {
-                File.Copy(GetDefaultServerConfigFilePath(), path);
-                Util.Chown(path, "steam", "steam");
+                fi.Directory?.Create();
+                File.Copy(GetDefaultServerConfigFilePath(), fi.FullName);
+                Util.Chown(fi.FullName, "steam", "steam");
             }
-            return File.ReadAllText(path);
+            return File.ReadAllText(fi.FullName);
         }
 
         public string GetServerProfileFileContents()
         {
-            var path = GetServerProfileFilePath();
-            if (!File.Exists(path))
+            var fi = new FileInfo(GetServerProfileFilePath());
+            if (!fi.Exists)
             {
-                File.Copy(GetDefaultServerProfileFilePath(), path);
-                Util.Chown(path, "steam", "steam");
+                fi.Directory?.Create();
+                File.Copy(GetDefaultServerProfileFilePath(), fi.FullName);
+                Util.Chown(fi.FullName, "steam", "steam");
             }
-            return File.ReadAllText(path);
+            return File.ReadAllText(fi.FullName);
         }
 
         public void SetBasicConfigFileContents(string content)
