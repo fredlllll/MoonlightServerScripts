@@ -84,7 +84,7 @@ namespace MoonlightDashboard.Lib
                 CreateNoWindow = true
             };
             processInfo.ArgumentList.Add("-c");
-            processInfo.Arguments = command;
+            processInfo.ArgumentList.Add(command);
 
             var process = Process.Start(processInfo);
             if (process == null)
