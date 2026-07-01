@@ -39,6 +39,8 @@ namespace MoonlightDashboard.Apis.Steam
                 UserName = "steam"
             };
 
+            psi.Environment["HOME"] = "/home/steam";
+
             foreach (var arg in argList)
             {
                 psi.ArgumentList.Add(arg);
