@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Middleware;
 using MoonlightDashboard.Services;
+using System.Globalization;
 
 namespace MoonlightDashboard
 {
@@ -33,6 +34,14 @@ namespace MoonlightDashboard
                 var context = services.GetRequiredService<DatabaseContext>();
                 context.Database.Migrate();
             }
+
+            var culture = CultureInfo.InvariantCulture;
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture(culture),
+                SupportedCultures = new[] { culture },
+                SupportedUICultures = new[] { culture }
+            });
 
             app.UseRouting();
             app.UseStaticFiles();
