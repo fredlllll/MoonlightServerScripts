@@ -82,7 +82,7 @@ namespace MoonlightDashboard.Pages.Servers
 
             foreach (var dlcId in toDelete)
             {
-                db.Remove(db.Arma3ServerCreatorDlcs.Where(x => x.Arma3ServerId == id && x.Arma3CreatorDlcId == dlcId));
+                db.RemoveRange(db.Arma3ServerCreatorDlcs.Where(x => x.Arma3ServerId == id && x.Arma3CreatorDlcId == dlcId));
             }
             foreach (var dlcId in toAdd)
             {

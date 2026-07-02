@@ -73,7 +73,7 @@ namespace MoonlightDashboard.Pages.Modsets
 
             foreach (var modId in toDelete)
             {
-                db.Remove(db.Arma3ModsetMods.Where(ms => ms.ModsetId == id && ms.ModSteamId == modId));
+                db.RemoveRange(db.Arma3ModsetMods.Where(ms => ms.ModsetId == id && ms.ModSteamId == modId));
             }
             foreach (var modId in toAdd)
             {
