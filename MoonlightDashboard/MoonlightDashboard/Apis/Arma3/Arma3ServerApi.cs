@@ -67,7 +67,7 @@ namespace MoonlightDashboard.Apis.Arma3
             // ~/.local/share/Arma 3 - Other Profiles/server/server.Arma3Profile. Edit this file to customise difficulty settings.
             // TODO: The -profiles= parameter is broken on Linux - you must place your profiles in this directory.
             // TODO: test if my changes are actually correct
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local", "share", "Arma 3 - Other Profiles", Id, Id+".Arma3Profile");
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local", "share", "Arma 3 - Other Profiles", Id, Id + ".Arma3Profile");
         }
 
         //TODO: make steam owner of files after copy from default
@@ -158,7 +158,14 @@ namespace MoonlightDashboard.Apis.Arma3
             var workshopModsFolder = Steam.Local.Mods.GetWorkshopModsFolder();
             var serverModsFolder = GetServerModsFolder();
 
-            Directory.Delete(serverModsFolder, true);
+            try
+            {
+                Directory.Delete(serverModsFolder, true);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                // Ignore if the directory does not exist
+            }
             Directory.CreateDirectory(serverModsFolder);
 
             var modInfos = await Mods.GetModInfos(db, modIds);
