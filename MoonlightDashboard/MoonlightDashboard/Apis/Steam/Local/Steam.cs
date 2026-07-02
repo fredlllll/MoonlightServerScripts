@@ -6,7 +6,7 @@ namespace MoonlightDashboard.Apis.Steam.Local
     {
         public static string GetSteamFolderPath()
         {
-            return "/home/steam/.steam"; //sometimes this is Steam or steam instead of .steam. ill just use whatever steamcmd uses on the new server
+            return "/home/steam/Steam";
         }
 
         public static string GetArma3ServerFolder()
