@@ -55,5 +55,15 @@ namespace MoonlightDashboard.Pages
             }
             OnGet();
         }
-    }
+
+        public void OnPostDelete(string jobId)
+        {
+            var job = db.Jobs.FirstOrDefault(j => j.Id == jobId);
+            if (job != null)
+            {
+                db.Jobs.Remove(job);
+                db.SaveChanges();
+            }
+            OnGet();
+        }
 }
