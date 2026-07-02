@@ -8,7 +8,7 @@
 
         public override string ToString()
         {
-            return "ExitCode: " + ExitCode + "<br>\nOutput: " + Output + "<br>\nError: " + Error;
+            return "ExitCode: " + ExitCode + "\nOutput: " + Output + "\nError: " + Error;
         }
     }
 }
