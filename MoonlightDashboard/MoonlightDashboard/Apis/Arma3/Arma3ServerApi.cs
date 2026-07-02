@@ -53,11 +53,11 @@ namespace MoonlightDashboard.Apis.Arma3
 
         public string GetBasicConfigFilePath()
         {
-            return Path.Combine(Steam.Local.Steam.GetArma3ServerFolder(), Id, "basic.cfg");
+            return Path.Combine(Steam.Local.Steam.GetArma3ServerFolder(), Id + "_basic.cfg");
         }
         public string GetServerConfigFilePath()
         {
-            return Path.Combine(Steam.Local.Steam.GetArma3ServerFolder(), Id, "server.cfg");
+            return Path.Combine(Steam.Local.Steam.GetArma3ServerFolder(), Id + "_server.cfg");
         }
 
         public string GetServerProfileFilePath()
@@ -67,7 +67,7 @@ namespace MoonlightDashboard.Apis.Arma3
             // ~/.local/share/Arma 3 - Other Profiles/server/server.Arma3Profile. Edit this file to customise difficulty settings.
             // TODO: The -profiles= parameter is broken on Linux - you must place your profiles in this directory.
             // TODO: test if my changes are actually correct
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local", "share", "Arma 3 - Other Profiles", Id, "server.Arma3");
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local", "share", "Arma 3 - Other Profiles", Id, Id+".Arma3Profile");
         }
 
         //TODO: make steam owner of files after copy from default
@@ -205,7 +205,7 @@ namespace MoonlightDashboard.Apis.Arma3
             // Start building the bash script content
             sb.AppendLine("#!/bin/bash");
             sb.AppendLine($"cd \"{arma3ServerDir}\"");
-            sb.Append($"./arma3server_x64 -cfg=basic.cfg -config=server.cfg -port={server.Port} -name={server.Id}");
+            sb.Append($"./arma3server_x64 -cfg={Path.GetFileName(GetBasicConfigFilePath())} -config={Path.GetFileName(GetServerConfigFilePath())} -port={server.Port} -name={server.Id}");
 
             if (!string.IsNullOrEmpty(server.AdditionalCommandlineArgs))
             {
