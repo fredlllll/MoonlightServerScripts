@@ -33,6 +33,7 @@ namespace MoonlightDashboard.Apis.Steam
             {
                 FileName = "steamcmd",
                 RedirectStandardOutput = true,
+                RedirectStandardInput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
