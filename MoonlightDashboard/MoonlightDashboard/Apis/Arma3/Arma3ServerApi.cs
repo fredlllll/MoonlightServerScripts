@@ -248,6 +248,7 @@ namespace MoonlightDashboard.Apis.Arma3
             sb.Append('\"');
 
             // Write content to file
+            Directory.CreateDirectory(Path.GetDirectoryName(fileName) ?? throw new InvalidOperationException("Invalid file path"));
             File.WriteAllText(fileName, sb.ToString());
 
             Util.Chown(fileName, "steam", "steam");
