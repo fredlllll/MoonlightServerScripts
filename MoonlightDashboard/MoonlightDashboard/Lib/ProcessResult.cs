@@ -23,7 +23,7 @@ namespace MoonlightDashboard.Lib
                 {
                     sb.Append("</span>");
                 }
-                sb.Append("<br />");
+                sb.AppendLine();
             }
             return sb.ToString();
         }
