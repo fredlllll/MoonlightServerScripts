@@ -1,5 +1,5 @@
 ﻿@page
-@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Html
 @model MoonlightDashboard.Pages.JobsModel
 @{
 }
@@ -51,7 +51,7 @@ Jobs(@Model.Jobs.Count()):
                     
                         @if (job.IsSuccessful)
                         {
-                            @((MarkupString)(job.Result??""))
+                            @(new HtmlString(job.Result??""))
                         }
                         else
                         {
