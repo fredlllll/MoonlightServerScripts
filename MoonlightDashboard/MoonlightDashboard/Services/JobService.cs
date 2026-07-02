@@ -11,7 +11,8 @@ namespace MoonlightDashboard.Services
         private static Dictionary<JobType, Type> ExecutorTypes = new Dictionary<JobType, Type>()
         {
             { JobType.DownloadMod, typeof(Jobs.DownloadMod) },
-            { JobType.UpdateServer, typeof(Jobs.UpdateServer) }
+            { JobType.UpdateServer, typeof(Jobs.UpdateServer) },
+            { JobType.LoginSteam, typeof(Jobs.LoginSteam) },
         };
 
         private readonly IServiceScopeFactory _scopeFactory;
@@ -123,6 +124,18 @@ namespace MoonlightDashboard.Services
                 Id = Util.GetNewId<Job>(),
                 JobType = JobType.UpdateServer,
                 Data = beta
+            };
+            db.Jobs.Add(job);
+            db.SaveChanges();
+        }
+
+        public static void EnqueueLoginSteam(DatabaseContext db, string user, string password, string authCode)
+        {
+            var job = new Job()
+            {
+                Id = Util.GetNewId<Job>(),
+                JobType = JobType.LoginSteam,
+                Data = System.Text.Json.JsonSerializer.Serialize((user, password, authCode))
             };
             db.Jobs.Add(job);
             db.SaveChanges();

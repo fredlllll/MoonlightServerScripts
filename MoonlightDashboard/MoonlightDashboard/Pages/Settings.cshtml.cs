@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Apis.Steam;
 using MoonlightDashboard.Database;
+using MoonlightDashboard.Services;
 
 namespace MoonlightDashboard.Pages
 {
@@ -20,15 +21,10 @@ namespace MoonlightDashboard.Pages
         {
         }
 
-        public async Task OnPostSteamLogin(string user, string password, string authCode)
+        public IActionResult OnPostSteamLogin(string user, string password, string authCode)
         {
-            var cmd = new SteamCmd();
-            cmd.Username = user;
-            cmd.Password = password;
-            cmd.AuthCode = authCode;
-            db.SetSettingsValue(SettingLastSteamUser, user);
-            db.SaveChanges();
-            await cmd.RunAsync(CancellationToken.None);
+            JobService.EnqueueLoginSteam(db, user, password, authCode);
+            return LocalRedirect("/jobs");
         }
     }
 }

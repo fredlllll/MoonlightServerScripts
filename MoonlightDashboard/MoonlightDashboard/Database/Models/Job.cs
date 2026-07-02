@@ -4,7 +4,8 @@
     {
         None,
         DownloadMod,
-        UpdateServer
+        UpdateServer,
+        LoginSteam,
     }
 
     public class Job : Model
