@@ -48,7 +48,7 @@ namespace MoonlightDashboard.Apis.Arma3
 
         public string GetStartupScriptFilePath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".moonlightdashboard", "startupscripts", Id + ".sh");
+            return Path.Combine("/home", Constants.STEAMUSER, ".moonlightdashboard", "startupscripts", Id + ".sh");
         }
 
         public string GetBasicConfigFilePath()
@@ -77,9 +77,10 @@ namespace MoonlightDashboard.Apis.Arma3
             var fi = new FileInfo(GetBasicConfigFilePath());
             if (!fi.Exists)
             {
-                fi.Directory?.Create();
+                var dir = fi.Directory?? throw new Exception("invalid path");
+                FileSystemUtil.CreateDirectoryWithOwner(dir.FullName, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
                 File.Copy(GetDefaultBasicConfigFilePath(), fi.FullName);
-                Util.Chown(fi.FullName, "steam", "steam");
+                FileSystemUtil.Chown(fi.FullName, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
             }
             return File.ReadAllText(fi.FullName);
         }
@@ -89,9 +90,10 @@ namespace MoonlightDashboard.Apis.Arma3
             var fi = new FileInfo(GetServerConfigFilePath());
             if (!fi.Exists)
             {
-                fi.Directory?.Create();
+                var dir = fi.Directory ?? throw new Exception("invalid path");
+                FileSystemUtil.CreateDirectoryWithOwner(dir.FullName, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
                 File.Copy(GetDefaultServerConfigFilePath(), fi.FullName);
-                Util.Chown(fi.FullName, "steam", "steam");
+                FileSystemUtil.Chown(fi.FullName, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
             }
             return File.ReadAllText(fi.FullName);
         }
@@ -101,9 +103,10 @@ namespace MoonlightDashboard.Apis.Arma3
             var fi = new FileInfo(GetServerProfileFilePath());
             if (!fi.Exists)
             {
-                fi.Directory?.Create();
+                var dir = fi.Directory ?? throw new Exception("invalid path");
+                FileSystemUtil.CreateDirectoryWithOwner(dir.FullName, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
                 File.Copy(GetDefaultServerProfileFilePath(), fi.FullName);
-                Util.Chown(fi.FullName, "steam", "steam");
+                FileSystemUtil.Chown(fi.FullName, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
             }
             return File.ReadAllText(fi.FullName);
         }
@@ -130,21 +133,21 @@ namespace MoonlightDashboard.Apis.Arma3
         {
             var path = GetBasicConfigFilePath();
             File.Copy(GetDefaultBasicConfigFilePath(), path, true);
-            Util.Chown(path, "steam", "steam");
+            FileSystemUtil.Chown(path, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
         }
 
         public void ResetServerConfigFileContents()
         {
             var path = GetServerConfigFilePath();
             File.Copy(GetDefaultServerConfigFilePath(), path, true);
-            Util.Chown(path, "steam", "steam");
+            FileSystemUtil.Chown(path, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
         }
 
         public void ResetServerProfileFileContents()
         {
             var path = GetServerProfileFilePath();
             File.Copy(GetDefaultServerProfileFilePath(), path, true);
-            Util.Chown(path, "steam", "steam");
+            FileSystemUtil.Chown(path, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
         }
 
         public async Task LinkMods(Arma3Server server, DatabaseContext db)
@@ -166,7 +169,7 @@ namespace MoonlightDashboard.Apis.Arma3
             {
                 // Ignore if the directory does not exist
             }
-            Directory.CreateDirectory(serverModsFolder);
+            FileSystemUtil.CreateDirectoryWithOwner(serverModsFolder, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
 
             var modInfos = await Mods.GetModInfos(db, modIds);
 
@@ -174,8 +177,8 @@ namespace MoonlightDashboard.Apis.Arma3
             {
                 var modFolder = Steam.Local.Mods.GetModFolder(mod.ModId);
                 var modName = mod.Name;
-                var targetFolder = Path.Combine(serverModsFolder, $"@{Util.SanitizeFolderName(modName)}");
-                Directory.CreateDirectory(targetFolder);
+                var targetFolder = Path.Combine(serverModsFolder, $"@{FileSystemUtil.SanitizeFolderName(modName)}");
+                FileSystemUtil.CreateDirectoryWithOwner(targetFolder, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
                 var allFiles = Directory.EnumerateFiles(modFolder, "*", SearchOption.AllDirectories);
                 foreach (var absFilePath in allFiles)
                 {
@@ -189,7 +192,7 @@ namespace MoonlightDashboard.Apis.Arma3
                     string? targetDir = Path.GetDirectoryName(absTargetFilePath);
                     if (targetDir != null)
                     {
-                        Directory.CreateDirectory(targetDir);
+                        FileSystemUtil.CreateDirectoryWithOwner(targetDir, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
                     }
                     // Create the file symlink
                     if (!File.Exists(absTargetFilePath))
@@ -198,7 +201,7 @@ namespace MoonlightDashboard.Apis.Arma3
                     }
                 }
             }
-            Util.Chown(serverModsFolder, "steam", "steam", true);
+            FileSystemUtil.Chown(serverModsFolder, Constants.STEAMUSER, Constants.STEAMUSERGROUP, true);
         }
 
         public async Task CreateStartupScript(Arma3Server server, DatabaseContext db)
@@ -230,7 +233,7 @@ namespace MoonlightDashboard.Apis.Arma3
                 foreach (var modInfo in modInfos)
                 {
                     var modName = modInfo.Name;
-                    var absPath = Path.Combine(serverModsFolder, $"@{Util.SanitizeFolderName(modName)}");
+                    var absPath = Path.Combine(serverModsFolder, $"@{FileSystemUtil.SanitizeFolderName(modName)}");
 
                     // Get path relative to the executable directory
                     string relPath = Path.GetRelativePath(arma3ServerDir, absPath);
@@ -248,10 +251,10 @@ namespace MoonlightDashboard.Apis.Arma3
             sb.Append('\"');
 
             // Write content to file
-            Directory.CreateDirectory(Path.GetDirectoryName(fileName) ?? throw new InvalidOperationException("Invalid file path"));
+            FileSystemUtil.CreateDirectoryWithOwner(Path.GetDirectoryName(fileName) ?? throw new InvalidOperationException("Invalid file path"), Constants.STEAMUSER, Constants.STEAMUSERGROUP);
             File.WriteAllText(fileName, sb.ToString());
 
-            Util.Chown(fileName, "steam", "steam");
+            FileSystemUtil.Chown(fileName, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
         }
 
         public void CreateServiceFile(Arma3Server server)
@@ -266,7 +269,7 @@ namespace MoonlightDashboard.Apis.Arma3
             [Service]
             User=steam
             Group=steam
-            WorkingDirectory=/home/steam
+            WorkingDirectory={Path.GetDirectoryName(GetStartupScriptFilePath())}
             ExecStart=/bin/bash "{GetStartupScriptFilePath()}"
             Restart=always
 

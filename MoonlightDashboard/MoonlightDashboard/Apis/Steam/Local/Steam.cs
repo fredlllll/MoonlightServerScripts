@@ -6,7 +6,7 @@ namespace MoonlightDashboard.Apis.Steam.Local
     {
         public static string GetSteamFolderPath()
         {
-            return "/home/steam/Steam";
+            return $"/home/{Constants.STEAMUSER}/Steam";
         }
 
         public static string GetArma3ServerFolder()

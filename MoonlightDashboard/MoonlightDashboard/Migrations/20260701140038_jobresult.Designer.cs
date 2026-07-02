@@ -12,7 +12,7 @@ namespace MoonlightDashboard.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
     [Migration("20260701140038_jobresult")]
-    partial class jobresult
+    partial class JobResult
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

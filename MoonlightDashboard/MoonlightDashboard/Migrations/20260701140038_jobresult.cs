@@ -5,7 +5,7 @@
 namespace MoonlightDashboard.Migrations
 {
     /// <inheritdoc />
-    public partial class jobresult : Migration
+    public partial class JobResult : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
