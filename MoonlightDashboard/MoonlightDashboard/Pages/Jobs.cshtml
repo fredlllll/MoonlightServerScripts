@@ -46,7 +46,16 @@ Jobs(@Model.Jobs.Count()):
                         }
                     }
                 </td>
-                <td>@job.Data</td>
+                <td>
+                    @if(job.JobType == MoonlightDashboard.Database.Models.JobType.LoginSteam)
+                    {
+                        <text>***</text>
+                    }
+                    else
+                    {
+                        @job.Data
+                    }
+                    </td>
                 <td class="job-output">
                     
                         @if (job.IsSuccessful)
