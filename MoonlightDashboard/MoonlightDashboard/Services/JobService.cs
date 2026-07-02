@@ -135,7 +135,7 @@ namespace MoonlightDashboard.Services
             {
                 Id = Util.GetNewId<Job>(),
                 JobType = JobType.LoginSteam,
-                Data = System.Text.Json.JsonSerializer.Serialize((user, password, authCode))
+                Data = System.Text.Json.JsonSerializer.Serialize(new string[] { user, password, authCode })
             };
             db.Jobs.Add(job);
             db.SaveChanges();

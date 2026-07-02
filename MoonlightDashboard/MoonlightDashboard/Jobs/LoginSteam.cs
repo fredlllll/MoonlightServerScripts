@@ -14,7 +14,10 @@ namespace MoonlightDashboard.Jobs
             {
                 throw new Exception("No data provided for the job.");
             }
-            (string user, string pwd, string authcode) = JsonSerializer.Deserialize<(string, string, string)>(job.Data);
+            string[] expandedData = JsonSerializer.Deserialize<string[]>(job.Data) ?? throw new Exception("data is invalid");
+            string user = expandedData[0];
+            string pwd = expandedData[1];
+            string authcode = expandedData[2];
 
             var cmd = new SteamCmd();
             cmd.Username = user;
