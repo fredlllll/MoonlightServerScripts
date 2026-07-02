@@ -66,4 +66,5 @@ namespace MoonlightDashboard.Pages
             }
             OnGet();
         }
+    }
 }
