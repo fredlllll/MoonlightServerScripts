@@ -52,6 +52,7 @@ namespace MoonlightDashboard.Apis.Steam
             psi.ArgumentList.Add("+quit");
 
             using var process = Process.Start(psi) ?? throw new Exception("could not create process");
+            process.StandardInput.Close(); // makes it hopefully not wait for input and instead error out. needed if login token is not present
             try
             {
                 await process.WaitForExitAsync(stoppingToken);
