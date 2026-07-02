@@ -19,7 +19,7 @@ namespace MoonlightDashboard.Pages.Servers
         public HashSet<string> ActiveCreatorDlcs = null!;
         public SystemDUnit ServerUnit = null!;
         public SystemDUnitInfo ServerUnitInfo = null!;
-        public string LastLog="";
+        public string LastLog = "";
         private DatabaseContext db;
 
         public DetailsModel(DatabaseContext db)
@@ -39,7 +39,7 @@ namespace MoonlightDashboard.Pages.Servers
             LastLog = ServerUnit.GetLog(1000);
         }
 
-        public void OnPostSetModset(string id, string? modsetId)
+        public IActionResult OnPostSetModset(string id, string? modsetId)
         {
             if (string.IsNullOrWhiteSpace(modsetId))
             {
@@ -48,18 +48,18 @@ namespace MoonlightDashboard.Pages.Servers
             Server = db.Arma3Servers.First(s => s.Id == id);
             Server.ActiveModsetId = modsetId;
             db.SaveChanges();
-            OnGet(id);
+            return RedirectToPage();
         }
 
-        public void OnPostSetPort(string id, int port)
+        public IActionResult OnPostSetPort(string id, int port)
         {
             Server = db.Arma3Servers.First(s => s.Id == id);
             Server.Port = port;
             db.SaveChanges();
-            OnGet(id);
+            return RedirectToPage();
         }
 
-        public void OnPostSetCreatorDlcs(string id)
+        public IActionResult OnPostSetCreatorDlcs(string id)
         {
             Server = db.Arma3Servers.First(s => s.Id == id);
             var activeDlcIds = db.Arma3ServerCreatorDlcs.Where(x => x.Arma3ServerId == id).Select(x => x.Arma3CreatorDlcId);
@@ -96,48 +96,48 @@ namespace MoonlightDashboard.Pages.Servers
             }
             db.SaveChanges();
 
-            OnGet(id);
+            return RedirectToPage();
         }
 
-        public void OnPostUpdateBasicConfig(string id, string content)
+        public IActionResult OnPostUpdateBasicConfig(string id, string content)
         {
             ServerApi = new Arma3ServerApi(id);
             ServerApi.SetBasicConfigFileContents(content);
-            OnGet(id);
+            return RedirectToPage();
         }
 
-        public void OnPostResetBasicConfig(string id)
+        public IActionResult OnPostResetBasicConfig(string id)
         {
             ServerApi = new Arma3ServerApi(id);
             ServerApi.ResetBasicConfigFileContents();
-            OnGet(id);
+            return RedirectToPage();
         }
 
-        public void OnPostUpdateServerConfig(string id, string content)
+        public IActionResult OnPostUpdateServerConfig(string id, string content)
         {
             ServerApi = new Arma3ServerApi(id);
             ServerApi.SetServerConfigFileContents(content);
-            OnGet(id);
+            return RedirectToPage();
         }
-        public void OnPostResetServerConfig(string id)
+        public IActionResult OnPostResetServerConfig(string id)
         {
             ServerApi = new Arma3ServerApi(id);
             ServerApi.ResetServerConfigFileContents();
-            OnGet(id);
+            return RedirectToPage();
         }
 
-        public void OnPostUpdateServerProfile(string id, string content)
+        public IActionResult OnPostUpdateServerProfile(string id, string content)
         {
             ServerApi = new Arma3ServerApi(id);
             ServerApi.SetServerProfileFileContents(content);
-            OnGet(id);
+            return RedirectToPage();
         }
 
-        public void OnPostResetServerProfile(string id)
+        public IActionResult OnPostResetServerProfile(string id)
         {
             ServerApi = new Arma3ServerApi(id);
             ServerApi.ResetServerProfileFileContents();
-            OnGet(id);
+            return RedirectToPage();
         }
     }
 }

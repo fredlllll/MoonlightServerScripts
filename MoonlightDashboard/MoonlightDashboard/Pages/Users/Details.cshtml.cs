@@ -14,7 +14,7 @@ namespace MoonlightDashboard.Pages.Users
         private DatabaseContext db;
         public new User User { get; set; } = null!;
         public string Permissions = "";
-        public string? Error { get; set; } = null;
+        public string? Error => this.GetError();
         public DetailsModel(DatabaseContext db)
         {
             this.db = db;
@@ -23,7 +23,6 @@ namespace MoonlightDashboard.Pages.Users
         private void LoadUser(string id)
         {
             User = db.Users.First(u => u.Id == id);
-            
         }
 
         public void OnGet(string id)
@@ -32,28 +31,37 @@ namespace MoonlightDashboard.Pages.Users
             Permissions = string.Join(", ", db.UserPermissions.Where(x => x.UserId == id).Join(db.Permissions, up => up.PermissionId, p => p.Id, (up, p) => p.Name));
         }
 
-        public void OnPostSetPermissions(string id, string permissions)
+        public IActionResult OnPostSetPermissions(string id, string permissions)
         {
-            LoadUser(id);
-            var perms = permissions.Split(',').Select(p => p.Trim()).Where(p => !string.IsNullOrEmpty(p)).ToList();
-            Lib.Permissions.SetUserPermissions(db, User, perms);
-            db.SaveChanges();
+            try
+            {
+                LoadUser(id);
+                var perms = permissions.Split(',').Select(p => p.Trim()).Where(p => !string.IsNullOrEmpty(p)).ToList();
+                Lib.Permissions.SetUserPermissions(db, User, perms);
+                db.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                this.SetError(ex.Message);
+            }
+            return RedirectToPage();
         }
 
-        public void OnPostActivate(string id)
+        public IActionResult OnPostActivate(string id)
         {
             LoadUser(id);
             User.ActivationTimestamp = DateTime.UtcNow;
             db.SaveChanges();
+            return RedirectToPage();
         }
 
-        public void OnPostDelete(string id)
+        public IActionResult OnPostDelete(string id)
         {
             LoadUser(id);
             db.UserPermissions.RemoveRange(db.UserPermissions.Where(x => x.UserId == id));
             db.Users.Remove(User);
             db.SaveChanges();
-            Response.Redirect("/Users");
+            return LocalRedirect("/Users");
         }
     }
 }

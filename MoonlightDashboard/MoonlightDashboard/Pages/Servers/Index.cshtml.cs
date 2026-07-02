@@ -12,7 +12,7 @@ namespace MoonlightDashboard.Pages.Servers
     {
         public List<Arma3Server> Servers = null!;
         public Dictionary<string, string> ActiveModsetNames = null!;
-        public string? Error;
+        public string? Error => this.GetError();
         private DatabaseContext db;
 
         public IndexModel(DatabaseContext db)
@@ -46,7 +46,7 @@ namespace MoonlightDashboard.Pages.Servers
         {
             if (name.Length < 3)
             {
-                Error = "Name too short";
+                this.SetError("Name too short");
                 OnGet();
                 return Page();
             }

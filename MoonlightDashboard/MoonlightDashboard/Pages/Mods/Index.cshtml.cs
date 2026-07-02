@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
+using MoonlightDashboard.Lib;
 using MoonlightDashboard.Services;
 
 namespace MoonlightDashboard.Pages.Mods
@@ -10,7 +11,7 @@ namespace MoonlightDashboard.Pages.Mods
     {
         private readonly DatabaseContext db;
         public IEnumerable<ModInfo> ModInfos = null!;
-        public string? Error = null;
+        public string? Error => this.GetError();
 
         public IndexModel(DatabaseContext db)
         {
@@ -22,20 +23,20 @@ namespace MoonlightDashboard.Pages.Mods
             ModInfos = await Apis.Steam.Local.Mods.GetModInfos(db, Apis.Steam.Local.Mods.GetDownloadedModsIds());
         }
 
-        public async Task OnPostDeleteMod(string modId)
+        public IActionResult OnPostDeleteMod(string modId)
         {
             Apis.Steam.Local.Mods.DeleteMod(modId);
-            await OnGet();
+            return RedirectToPage();
         }
 
-        public async Task OnPostDeleteAllMods()
+        public IActionResult OnPostDeleteAllMods()
         {
             var ids = Apis.Steam.Local.Mods.GetDownloadedModsIds();
             foreach (var id in ids)
             {
                 Apis.Steam.Local.Mods.DeleteMod(id);
             }
-            await OnGet();
+            return RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostDownloadMods(string collectionId, string modIds)
@@ -51,9 +52,8 @@ namespace MoonlightDashboard.Pages.Mods
             }
             else
             {
-                Error = "no mod ids given";
-                await OnGet();
-                return Page();
+                this.SetError("no mod ids given");
+                return RedirectToPage();
             }
 
             foreach (var modId in modIdsList)

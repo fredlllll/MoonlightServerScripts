@@ -51,7 +51,7 @@ namespace MoonlightDashboard.Pages.Modsets
             return LocalRedirect("/Modsets");
         }
 
-        public async Task OnPostUpdate(string id)
+        public IActionResult OnPostUpdate(string id)
         {
             var activeModIds = new HashSet<string>(db.Arma3ModsetMods.Where(ms => ms.ModsetId == id).Select(m => m.ModsetId));
 
@@ -87,7 +87,7 @@ namespace MoonlightDashboard.Pages.Modsets
             }
             db.SaveChanges();
 
-            await OnGet(id);
+            return RedirectToPage();
         }
     }
 }

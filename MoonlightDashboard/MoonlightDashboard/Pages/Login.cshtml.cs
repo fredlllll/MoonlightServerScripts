@@ -10,13 +10,13 @@ namespace MoonlightDashboard.Pages
     [LoggedOut]
     public class LoginModel : PageModel
     {
-        public string? Error { get; set; } = null;
+        public string? Error=> this.GetError();
 
         public void OnGet()
         {
         }
 
-        public void OnPostLogin(string user, string password)
+        public IActionResult OnPostLogin(string user, string password)
         {
             var db = HttpContext.RequestServices.GetRequiredService<Database.DatabaseContext>();
 
@@ -26,8 +26,8 @@ namespace MoonlightDashboard.Pages
             !PassHash.VerifyPassword(password, userEntity.Password)
             )
             {
-                Error = "Invalid username or password.";
-                return;
+                this.SetError("Invalid username or password.");
+                return RedirectToPage();
             }
 
             var session = new Session
@@ -39,7 +39,7 @@ namespace MoonlightDashboard.Pages
             db.SaveChanges();
 
             Response.Cookies.Append(UserSession.cookieName, session.Id);
-            Response.Redirect("/");
+            return LocalRedirect("/");
         }
     }
 }

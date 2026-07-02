@@ -20,15 +20,15 @@ namespace MoonlightDashboard.Pages
             Jobs = db.Jobs;
         }
 
-        public void OnPostClear()
+        public IActionResult OnPostClear()
         {
             var jobsToClear = db.Jobs.Where(j => j.IsComplete);
             db.Jobs.RemoveRange(jobsToClear);
             db.SaveChanges();
-            OnGet();
+            return RedirectToPage();
         }
 
-        public void OnPostRerun(string jobId)
+        public IActionResult OnPostRerun(string jobId)
         {
             var job = db.Jobs.FirstOrDefault(j => j.Id == jobId);
             if (job != null && job.IsComplete)
@@ -42,10 +42,10 @@ namespace MoonlightDashboard.Pages
                 job.CancellationRequested = false;
                 db.SaveChanges();
             }
-            OnGet();
+            return RedirectToPage();
         }
 
-        public void OnPostCancel(string jobId)
+        public IActionResult OnPostCancel(string jobId)
         {
             var job = db.Jobs.FirstOrDefault(j => j.Id == jobId);
             if (job != null && job.IsRunning && !job.CancellationRequested)
@@ -53,10 +53,10 @@ namespace MoonlightDashboard.Pages
                 job.CancellationRequested = true;
                 db.SaveChanges();
             }
-            OnGet();
+            return RedirectToPage();
         }
 
-        public void OnPostDelete(string jobId)
+        public IActionResult OnPostDelete(string jobId)
         {
             var job = db.Jobs.FirstOrDefault(j => j.Id == jobId);
             if (job != null)
@@ -64,7 +64,7 @@ namespace MoonlightDashboard.Pages
                 db.Jobs.Remove(job);
                 db.SaveChanges();
             }
-            OnGet();
+            return RedirectToPage();
         }
     }
 }

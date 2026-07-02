@@ -8,32 +8,32 @@ namespace MoonlightDashboard.Pages
 {
     public class RegisterModel : PageModel
     {
-        public string? Error { get; set; } = null;
+        public string? Error => this.GetError();
 
         public void OnGet()
         {
         }
 
-        public void OnPostRegister(string user, string password, string password1)
+        public IActionResult OnPostRegister(string user, string password, string password1)
         {
 
             if (password != password1)
             {
-                Error = "Passwords do not match.";
-                return;
+                this.SetError("Passwords do not match.");
+                return RedirectToPage();
             }
 
             if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(password))
             {
-                Error = "Username and password cannot be empty.";
-                return;
+                this.SetError("Username and password cannot be empty.");
+                return RedirectToPage();
             }
 
             var db = HttpContext.RequestServices.GetRequiredService<Database.DatabaseContext>();
             if (db.Users.Any(u => u.Name == user))
             {
-                Error = "Username is already taken.";
-                return;
+                this.SetError("Username is already taken.");
+                return RedirectToPage();
             }
             bool auto_activate = !db.Users.Any();// automatically activate the first user who registers
 
@@ -52,7 +52,7 @@ namespace MoonlightDashboard.Pages
                 db.GiveUserPermission(usr, "admin");
             }
             db.SaveChanges();
-            Response.Redirect("/login");
+            return LocalRedirect("/login");
         }
     }
 }
