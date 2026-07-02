@@ -51,7 +51,7 @@ Jobs(@Model.Jobs.Count()):
                     
                         @if (job.IsSuccessful)
                         {
-                            <text>@((MarkupString)(job.Result??""))</text>
+                            @((MarkupString)(job.Result??""))
                         }
                         else
                         {
