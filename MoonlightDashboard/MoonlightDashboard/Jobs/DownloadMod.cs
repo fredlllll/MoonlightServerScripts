@@ -21,7 +21,7 @@ namespace MoonlightDashboard.Jobs
             cmd.Username = db.GetSettingsValue(SettingsModel.SettingLastSteamUser);
             cmd.AddModDownload(Lib.Constants.ARMA3APPID, modId);
             var result = await cmd.RunAsync(stoppingToken);
-            job.Result = result.ToString();
+            job.Result = result.GetCompleteOutputAsMarkup();
         }
     }
 }

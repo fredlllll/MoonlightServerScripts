@@ -1,14 +1,37 @@
-﻿namespace MoonlightDashboard.Lib
+﻿using System.Text;
+
+namespace MoonlightDashboard.Lib
 {
     public class ProcessResult
     {
-        public string Output { get; set; } = "";
-        public string Error { get; set; } = "";
+        public readonly List<ProcessOutputItem> OutputItems = new();
+        /*public string Output { get; set; } = "";
+        public string Error { get; set; } = "";*/
         public int ExitCode { get; set; } = 0;
 
-        public override string ToString()
+        public string GetCompleteOutputAsMarkup()
         {
-            return "ExitCode: " + ExitCode + "\nOutput: " + Output + "\nError: " + Error;
+            StringBuilder sb = new();
+            foreach (var item in OutputItems)
+            {
+                if (item.IsError)
+                {
+                    sb.Append("<span style=\"font-style: italic;\">");
+                }
+                sb.Append(AnsiConsoleToHtml.AnsiConsole.ToHtml(item.Text));
+                if(item.IsError)
+                {
+                    sb.Append("</span>");
+                }
+                sb.Append("<br />");
+            }
+            return sb.ToString();
         }
+    }
+
+    public class ProcessOutputItem
+    {
+        public string Text { get; set; } = "";
+        public bool IsError { get; set; } = false;
     }
 }

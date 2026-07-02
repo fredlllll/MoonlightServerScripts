@@ -53,7 +53,34 @@ namespace MoonlightDashboard.Apis.Steam
             psi.ArgumentList.Add("+quit");
 
             using var process = Process.Start(psi) ?? throw new Exception("could not create process");
-            process.StandardInput.Close(); // makes it hopefully not wait for input and instead error out. needed if login token is not present
+            process.StandardInput.Close(); // makes it not wait for input and instead error out. needed if login token is not present
+
+            var result = new ProcessResult();
+            process.OutputDataReceived += (sender, e) =>
+            {
+                if (e.Data != null)
+                {
+                    result.OutputItems.Add(new ProcessOutputItem
+                    {
+                        IsError = false,
+                        Text = e.Data
+                    });
+                }
+            };
+            process.ErrorDataReceived += (sender, e) =>
+            {
+                if (e.Data != null)
+                {
+                    result.OutputItems.Add(new ProcessOutputItem
+                    {
+                        IsError = true,
+                        Text = e.Data
+                    });
+                }
+            };
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
             try
             {
                 await process.WaitForExitAsync(stoppingToken);
@@ -75,12 +102,8 @@ namespace MoonlightDashboard.Apis.Steam
             {
                 process.WaitForExit();
             }
-            return new ProcessResult
-            {
-                Output = await process.StandardOutput.ReadToEndAsync(),
-                Error = await process.StandardError.ReadToEndAsync(),
-                ExitCode = process.ExitCode
-            };
+            result.ExitCode = process.ExitCode;
+            return result;
         }
 
         public void AddModDownload(string appId, string modId)
