@@ -57,14 +57,20 @@ Jobs(@Model.Jobs.Count()):
                     }
                 </td>
                 <td>
-                    <form method="post" asp-page-handler="Rerun">
-                        <input type="hidden" name="jobId" value="@job.Id" />
-                        <input type="submit" value="Rerun" />
-                    </form>
-                    <form method="post" asp-page-handler="Cancel">
-                        <input type="hidden" name="jobId" value="@job.Id" />
-                        <input type="submit" value="Cancel" />
-                    </form>
+                    @if (job.IsComplete)
+                    {
+                        <form method="post" asp-page-handler="Rerun">
+                            <input type="hidden" name="jobId" value="@job.Id" />
+                            <input type="submit" value="Rerun" />
+                        </form>
+                    }
+                    @if (job.IsRunning || job.IsPending())
+                    {
+                        <form method="post" asp-page-handler="Cancel">
+                            <input type="hidden" name="jobId" value="@job.Id" />
+                            <input type="submit" value="Cancel" />
+                        </form>
+                    }
                 </td>
             </tr>
         }

@@ -17,5 +17,10 @@
         public string? ErrorMessage { get; set; } = null;
         public string? Result { get; set; } = null;
         public string? Data { get; set; } = null;
+
+        public bool IsPending()
+        {
+            return !IsRunning && !IsComplete;
+        }
     }
 }
