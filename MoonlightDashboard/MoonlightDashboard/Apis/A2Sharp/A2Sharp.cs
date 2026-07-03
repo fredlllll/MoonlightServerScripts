@@ -95,7 +95,7 @@ namespace MoonlightDashboard.Apis.A2Sharp
                     }
                     else
                     {
-                        throw new Exception("Server did not return a valid challenge token.");
+                        throw new Exception("Server did not return a valid challenge token, type was: " + type);
                     }
                 }
 
@@ -170,7 +170,7 @@ namespace MoonlightDashboard.Apis.A2Sharp
                     }
                     else
                     {
-                        throw new Exception("Server did not return a valid challenge token.");
+                        throw new Exception("Server did not return a valid challenge token, type was: " + type);
                     }
                 }
 
