@@ -65,6 +65,28 @@ namespace MoonlightDashboard.Apis.A2Sharp
             return info;
         }
 
+        private static IEnumerable <A2SharpPlayer> ReadPlayers(BinaryReader br)
+        {
+            if (br.ReadInt32() != -1) throw new Exception("Invalid response header");
+
+            byte type = br.ReadByte();
+            if (type != (byte)'D') throw new Exception("Expected player data type");
+
+            byte playerCount = br.ReadByte();
+
+            for (int i = 0; i < playerCount; i++)
+            {
+                byte index = br.ReadByte(); // internal index, usually ignored
+                var player = new A2SharpPlayer()
+                {
+                    Name = br.ReadNullTerminatedString(),
+                    Score = br.ReadInt32(),
+                    DurationSeconds = br.ReadSingle()
+                };
+                yield return player;
+            }
+        }
+
         public static IEnumerable<A2SharpPlayer> GetPlayers(IPAddress address, int port, int timeoutMs = 2000)
         {
             var players = new List<A2SharpPlayer>();
@@ -93,6 +115,12 @@ namespace MoonlightDashboard.Apis.A2Sharp
                     {
                         challengeToken = br.ReadUInt32();
                     }
+                    else if(type== (byte)'D')
+                    {
+                        // Some servers may respond directly with player data without a challenge
+                        ms.Position = 0; // Reset stream position to read player data
+                        return ReadPlayers(br);
+                    }
                     else
                     {
                         throw new Exception("Server did not return a valid challenge token, type was: " + type);
@@ -106,24 +134,7 @@ namespace MoonlightDashboard.Apis.A2Sharp
                 using (MemoryStream ms = new MemoryStream(response))
                 using (BinaryReader br = new BinaryReader(ms))
                 {
-                    if (br.ReadInt32() != -1) throw new Exception("Invalid response header");
-
-                    byte type = br.ReadByte();
-                    if (type != (byte)'D') throw new Exception("Expected player data type");
-
-                    byte playerCount = br.ReadByte();
-
-                    for (int i = 0; i < playerCount; i++)
-                    {
-                        byte index = br.ReadByte(); // internal index, usually ignored
-                        var player = new A2SharpPlayer()
-                        {
-                            Name = br.ReadNullTerminatedString(),
-                            Score = br.ReadInt32(),
-                            DurationSeconds = br.ReadSingle()
-                        };
-                        yield return player;
-                    }
+                    return ReadPlayers(br);
                 }
             }
         }
