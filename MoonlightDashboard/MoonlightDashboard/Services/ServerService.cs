@@ -64,6 +64,7 @@ namespace MoonlightDashboard.Services
             ServerUnit.Disable();
             var ServerApi = new Arma3ServerApi(id);
             System.IO.File.Delete(ServerApi.GetSystemDUnitFilePath());
+            SystemDUtil.SystemCtl("daemon-reload").WaitForExit();
             System.IO.File.Delete(ServerApi.GetStartupScriptFilePath());
             System.IO.File.Delete(ServerApi.GetBasicConfigFilePath());
             System.IO.File.Delete(ServerApi.GetServerConfigFilePath());
