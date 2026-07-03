@@ -4,8 +4,8 @@ Description=Moonlight dashboard
 [Service]
 User=root
 Group=root
-WorkingDirectory=/root/MoonlightServerScripts/MoonlightDashboard/MoonlightDashboard
-ExecStart=dotnet run
+WorkingDirectory=/root/MoonlightServerScripts/MoonlightDashboard
+ExecStart=dotnet watch run
 Restart=always
 
 [Install]
