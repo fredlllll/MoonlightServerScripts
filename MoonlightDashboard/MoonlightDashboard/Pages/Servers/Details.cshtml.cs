@@ -64,16 +64,7 @@ namespace MoonlightDashboard.Pages.Servers
             Server = db.Arma3Servers.First(s => s.Id == id);
             var activeDlcIds = db.Arma3ServerCreatorDlcs.Where(x => x.Arma3ServerId == id).Select(x => x.Arma3CreatorDlcId);
 
-            var selectedDlcIds = new HashSet<string>();
-            string prefix = "cdlc_";
-            foreach (string key in Request.Form.Keys)
-            {
-                if (key.StartsWith(prefix))
-                {
-                    string idPart = key.Substring(prefix.Length);
-                    selectedDlcIds.Add(idPart);
-                }
-            }
+            var selectedDlcIds = new HashSet<string>(Request.Form.Keys);
 
             //remove dlcs that are in activeDlcs but not in selectedDlcs
             var toDelete = activeDlcIds.Except(selectedDlcIds).ToList();
