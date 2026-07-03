@@ -21,7 +21,10 @@ namespace MoonlightDashboard.Jobs
             {
                 await cmd.RunAsync(stoppingToken);
             }
-            catch (OperationCanceledException) { }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             finally
             {
                 job.Result = cmd.Result.GetCompleteOutputAsMarkup();
