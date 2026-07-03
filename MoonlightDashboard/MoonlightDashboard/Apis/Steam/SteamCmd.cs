@@ -12,7 +12,9 @@ namespace MoonlightDashboard.Apis.Steam
         public string? Password { get; set; }
         public string? AuthCode { get; set; }
 
-        public async Task<ProcessResult> RunAsync(CancellationToken stoppingToken)
+        public ProcessResult Result { get; private set; } = new ProcessResult();
+
+        public async Task RunAsync(CancellationToken stoppingToken)
         {
             var argList = new List<string>();
             if (!string.IsNullOrWhiteSpace(Username))
@@ -55,12 +57,12 @@ namespace MoonlightDashboard.Apis.Steam
             using var process = Process.Start(psi) ?? throw new Exception("could not create process");
             process.StandardInput.Close(); // makes it not wait for input and instead error out. needed if login token is not present
 
-            var result = new ProcessResult();
+            Result = new ProcessResult();
             process.OutputDataReceived += (sender, e) =>
             {
                 if (e.Data != null)
                 {
-                    result.OutputItems.Add(new ProcessOutputItem
+                    Result.OutputItems.Add(new ProcessOutputItem
                     {
                         IsError = false,
                         Text = e.Data
@@ -71,7 +73,7 @@ namespace MoonlightDashboard.Apis.Steam
             {
                 if (e.Data != null)
                 {
-                    result.OutputItems.Add(new ProcessOutputItem
+                    Result.OutputItems.Add(new ProcessOutputItem
                     {
                         IsError = true,
                         Text = e.Data
@@ -84,6 +86,7 @@ namespace MoonlightDashboard.Apis.Steam
             try
             {
                 await process.WaitForExitAsync(stoppingToken);
+                stoppingToken.ThrowIfCancellationRequested();
             }
             catch (OperationCanceledException)
             {
@@ -101,9 +104,8 @@ namespace MoonlightDashboard.Apis.Steam
             finally
             {
                 process.WaitForExit();
+                Result.ExitCode = process.ExitCode;
             }
-            result.ExitCode = process.ExitCode;
-            return result;
         }
 
         public void AddModDownload(string appId, string modId)

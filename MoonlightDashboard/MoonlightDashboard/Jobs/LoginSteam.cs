@@ -23,8 +23,15 @@ namespace MoonlightDashboard.Jobs
             cmd.Username = user;
             cmd.Password = pwd;
             cmd.AuthCode = authcode;
-            var result = await cmd.RunAsync(stoppingToken);
-            job.Result = result.GetCompleteOutputAsMarkup();
+            try
+            {
+                await cmd.RunAsync(stoppingToken);
+            }
+            catch (OperationCanceledException) { }
+            finally
+            {
+                job.Result = cmd.Result.GetCompleteOutputAsMarkup();
+            }
             var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
             db.SetSettingsValue(SettingsModel.SettingLastSteamUser, cmd.Username);
             db.SaveChanges();
