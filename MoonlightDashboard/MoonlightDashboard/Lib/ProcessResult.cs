@@ -12,6 +12,7 @@ namespace MoonlightDashboard.Lib
         public string GetCompleteOutputAsMarkup()
         {
             StringBuilder sb = new();
+            sb.AppendLine("Exit Code: " + ExitCode + "<br>");
             foreach (var item in OutputItems)
             {
                 if (item.IsError)
@@ -19,7 +20,7 @@ namespace MoonlightDashboard.Lib
                     sb.Append("<span style=\"font-style: italic;\">");
                 }
                 sb.Append(AnsiConsoleToHtml.AnsiConsole.ToHtml(item.Text));
-                if(item.IsError)
+                if (item.IsError)
                 {
                     sb.Append("</span>");
                 }

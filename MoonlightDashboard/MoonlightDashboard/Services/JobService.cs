@@ -95,6 +95,8 @@ namespace MoonlightDashboard.Services
                     using var monitor = new JobCancellationMonitor(stoppingToken, scope, job.Id);
                     BeginJob(job.Id);
                     await executor.RunAsync(job, scope, monitor.Token);
+                    monitor.Token.ThrowIfCancellationRequested();
+                    stoppingToken.ThrowIfCancellationRequested();
                     EndJob(job.Id, true, job.ErrorMessage, job.Result);
                 }
                 catch (Exception ex)
