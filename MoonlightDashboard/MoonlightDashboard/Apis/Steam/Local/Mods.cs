@@ -149,9 +149,9 @@ namespace MoonlightDashboard.Apis.Steam.Local
                 var jsonDoc = JsonDocument.Parse(responseString);
                 var root = jsonDoc.RootElement;
 
-                // Navigate JSON: response -> publishedfiledetails -> [0] -> title
+                // Navigate JSON: response -> collectiondetails -> [0] -> children
                 if (root.TryGetProperty("response", out var responseProp) &&
-                    responseProp.TryGetProperty("collectiondetail", out var detailsProp) &&
+                    responseProp.TryGetProperty("collectiondetails", out var detailsProp) &&
                     detailsProp.GetArrayLength() > 0 &&
                     detailsProp[0].TryGetProperty("children", out var childrenProp) &&
                     childrenProp.GetArrayLength() > 0)
