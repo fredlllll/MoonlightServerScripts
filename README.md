@@ -11,8 +11,4 @@ For example downloading a steam collection using steamcmd, fixing mods capitaliz
 
 ## The Fucking Database
 
-Because mongodevs are smoking some hard shit, they didnt provide a build for ubuntu 22.04 yet. so the solution for that is to use docker.
-sadly docker circumvents UFW for linux by writing to iptables directly. to prevent outside access to your docker containers, run this command
-
- iptables -I DOCKER-USER ! -s 127.0.0.1  -j DROP
 

@@ -1,0 +1,72 @@
+﻿@page
+@model MoonlightDashboard.Pages.Mods.IndexModel
+@{
+}
+Downloaded mods(@Model.ModInfos.Count()):
+<br />
+@if (Model.ModInfos.Any())
+{
+    <table class="mods">
+        <tr>
+            <th>Mod ID</th>
+            <th>Mod name</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var modInfo in Model.ModInfos)
+        {
+            <tr>
+                <td>@modInfo.ModId</td>
+                <td>@modInfo.Name</td>
+                <td>
+                    <form asp-page-handler="DeleteMod" method="post">
+                        <input type="submit" value="Delete" />
+                        <input type="hidden" name="modId" value="@modInfo.ModId" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <text>No Mods downloaded at the moment</text>
+}
+<br />Delete Mods:
+<form asp-page-handler="DeleteAllMods" method="post">
+    <input type="submit" value="Delete All Mods" />
+</form>
+
+<br />
+<br />
+Download Mods:
+<form asp-page-handler="DownloadMods" method="post">
+    <table>
+        <tr>
+            <td>
+                a) Collection id
+            </td>
+            <td>
+                <input type="text" name="collectionId" placeholder="collection id" />
+            </td>
+        </tr>
+        <tr>
+            <td>OR</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                b) Mod Ids
+            </td>
+            <td>
+                <input type="text" name="modIds" placeholder="123,5656,12331234,..." />
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <input type="submit" value="Download Mods">
+            </td>
+        </tr>
+    </table>
+</form>

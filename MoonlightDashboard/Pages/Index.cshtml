@@ -1,0 +1,53 @@
+﻿@page
+@model MoonlightDashboard.Pages.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (Model.Servers.Any())
+{
+    @foreach (var server in Model.Servers)
+    {
+        var unitInfo = Model.ServerUnitInfos[server.Id];
+        <div>
+            <h3>Server <a href="/Servers/Details/@server.Id">@server.Name</a></h3>
+            running on port @server.Port<br />
+            Status: @unitInfo.ActiveState, @unitInfo.SubState
+            <br />
+            @{
+                var runtimeInfo = Model.ServerRuntimeInfos[server.Id];
+            }
+            @if (runtimeInfo != null)
+            {
+                <div>
+                    Server Name: @runtimeInfo.Name
+                    <br />
+                    Map: @runtimeInfo.Map
+                    <br />
+                    Mission: @runtimeInfo.Mission
+                    <br />
+                    Player Count: @runtimeInfo.Players.Count() / @runtimeInfo.MaxPlayers
+                    <br />
+                    @if (runtimeInfo.Players.Any())
+                    {
+                        <text>Players:</text>
+                        <br />
+                        <ul>
+                            @foreach (var player in runtimeInfo.Players)
+                            {
+                                <li>@player</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            }
+            <partial name="_ServerButtons" model="(server.Id, Request.Path + Request.QueryString)" />
+        </div>
+    }
+}
+else
+{
+    <text>No servers created yet. Create one on the</text>
+    <a href="/servers">servers</a>
+    <text>page</text>
+}

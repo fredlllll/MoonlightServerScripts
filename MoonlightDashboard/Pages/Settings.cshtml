@@ -1,0 +1,40 @@
+﻿@page
+@model MoonlightDashboard.Pages.SettingsModel
+@{
+}
+SteamCLI Login:
+<form method="post" asp-page-handler="SteamLogin">
+    <table>
+        <tr>
+            <td>
+                User
+            </td>
+            <td>
+                <input type="text" name="user" placeholder="User" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Password
+            </td>
+            <td>
+                <input type="password" name="password" placeholder="Password" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2FA code
+            </td>
+            <td>
+                <input type="text" autocomplete="off" name="authCode" placeholder="2FA code" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <input type="submit" value="Login SteamCLI">
+            </td>
+        </tr>
+    </table>
+</form>

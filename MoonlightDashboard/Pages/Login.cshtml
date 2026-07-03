@@ -1,0 +1,41 @@
+﻿@page
+@model MoonlightDashboard.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+<div>
+    Login
+    @if(Model.Error != null)
+    {
+        <div class="error">
+            @Model.Error
+        </div>
+    }
+    <form asp-page-handler="Login" method="POST">
+        <table>
+            <tr>
+                <td>
+                    User
+                </td>
+                <td>
+                    <input type="text" name="user" placeholder="User" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password
+                </td>
+                <td>
+                    <input type="Password" name="password" placeholder="Password" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="submit"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

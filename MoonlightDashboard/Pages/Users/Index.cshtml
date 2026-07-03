@@ -1,0 +1,25 @@
+﻿@page
+@model MoonlightDashboard.Pages.Users.IndexModel
+@{
+    
+}
+<table>
+    <tr>
+        <th>User Name</th>
+        <th>Permissions</th>
+        <th>Activated</th>
+    </tr>
+    @foreach(var user in Model.Users)
+    {
+        <tr>
+            <td><a href="/Users/Details/@user.Id">@user.Name</a></td>
+            <td>@Model.UserPermissions[user.Id]</td>
+            <td>
+                @if (user.ActivationTimestamp.HasValue)
+                {
+                    @user.ActivationTimestamp.Value.ToString("g")
+                }
+            </td>
+        </tr>
+    }
+</table>

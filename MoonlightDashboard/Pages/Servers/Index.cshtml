@@ -1,0 +1,69 @@
+﻿@page
+@model MoonlightDashboard.Pages.Servers.IndexModel
+@{
+}
+@if (Model.Servers.Any())
+{
+    <table>
+        <tr>
+            <th>Server Name</th>
+            <th>Server Port</th>
+            <th>Server Modset</th>
+        </tr>
+        @foreach (var server in Model.Servers)
+        {
+            <tr>
+                <td><a href="/Servers/Details/@server.Id">@server.Name</a></td>
+                <td>@server.Port</td>
+                <td>
+                    @if (server.ActiveModsetId != null)
+                    {
+                        <a href="/Modsets/Details/@server.ActiveModsetId">@Model.ActiveModsetNames[server.Id]</a>
+                    }
+                    else
+                    {
+                        <text>None</text>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <text>No Servers Yet</text>
+}
+<h3>Create New Server</h3>
+@if (!string.IsNullOrEmpty(Model.Error))
+{
+    <span class="error">@Model.Error</span>
+}
+<form asp-page-handler="Create" method="POST">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" autocomplete="off" name="name" /></td>
+        </tr>
+        <tr>
+            <td>Port:</td>
+            <td><input type="number" autocomplete="off" name="port" value="2302" placeholder="2302" step="1" /></td>
+        </tr>
+    </table>
+    <input type="submit" value="Create new Server" />
+</form>
+<table>
+    <tr>
+        <td>
+            <form asp-page-handler="UpdateServer" method="POST">
+                <input type="submit" value="Update/Install Normal Server Software" />
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <form asp-page-handler="UpdateServerCreatorDlc" method="POST">
+                <input type="submit" value="Update/Install Creator DLC Server Software" />
+            </form>
+        </td>
+    </tr>
+</table>

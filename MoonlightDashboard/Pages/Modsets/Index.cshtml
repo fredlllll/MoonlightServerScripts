@@ -1,0 +1,34 @@
+﻿@page
+@model MoonlightDashboard.Pages.Modsets.IndexModel
+@{
+}
+@if(Model.Modsets.Any()){
+<table>
+    <tr>
+        <th>Modset Name</th>
+        <th>Mods</th>
+    </tr>
+    @foreach (var modset in Model.Modsets)
+    {
+        <tr>
+            <td><a href="/Modsets/Details/@modset.Id">@modset.Name</a></td>
+            <td>@string.Join(", ", Model.ModsetModInfos[modset.Id].Select(m => m.Name))</td>
+        </tr>
+    }
+
+    </table>
+}
+else
+{
+    <text>No Modsets Yet</text>
+}
+<h3>Create New Modset</h3>
+<form asp-page-handler="Create" method="POST">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" autocomplete="off" name="name" /></td>
+        </tr>
+    </table>
+    <input type="submit" value="Create" />
+</form>

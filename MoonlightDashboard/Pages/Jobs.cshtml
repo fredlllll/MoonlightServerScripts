@@ -1,0 +1,96 @@
+﻿@page
+@using Microsoft.AspNetCore.Html
+@model MoonlightDashboard.Pages.JobsModel
+@{
+}
+Jobs(@Model.Jobs.Count()):
+<br />
+<form method="post" asp-page-handler="Clear">
+    <input type="submit" value="Clear Done Jobs" />
+</form>
+@if (Model.Jobs.Any())
+{
+    <table class="jobs">
+        <tr>
+            <th>Job Name</th>
+            <th>Job Status</th>
+            <th>Job Info</th>
+            <th>Job Error/Result</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var job in Model.Jobs)
+        {
+            <tr>
+                <td>@job.JobType</td>
+                <td>
+                    @if (job.IsComplete)
+                    {
+                        @if (job.IsSuccessful)
+                        {
+                            <text>done</text>
+                        }
+                        else
+                        {
+                            <text>failed</text>
+                        }
+                    }
+                    else
+                    {
+                        @if (job.IsRunning)
+                        {
+                            <text>running</text>
+                        }
+                        else
+                        {
+                            <text>pending</text>
+                        }
+                    }
+                </td>
+                <td>
+                    @if (job.JobType == MoonlightDashboard.Database.Models.JobType.LoginSteam)
+                    {
+                        <text>***</text>
+                    }
+                    else
+                    {
+                        @job.Data
+                    }
+                </td>
+                <td class="job-output">
+                    @if (!job.IsSuccessful)
+                    {
+                        <span style="white-space: pre-line;">
+                            <text>@job.ErrorMessage</text>
+                        </span>
+
+                    }
+                    @(new HtmlString(job.Result ?? ""))
+                </td>
+                <td>
+                    @if (job.IsComplete)
+                    {
+                        <form method="post" asp-page-handler="Rerun">
+                            <input type="hidden" name="jobId" value="@job.Id" />
+                            <input type="submit" value="Rerun" />
+                        </form>
+                        <form method="post" asp-page-handler="Delete">
+                            <input type="hidden" name="jobId" value="@job.Id" />
+                            <input type="submit" value="Delete" />
+                        </form>
+                    }
+                    @if (job.IsRunning || job.IsPending())
+                    {
+                        <form method="post" asp-page-handler="Cancel">
+                            <input type="hidden" name="jobId" value="@job.Id" />
+                            <input type="submit" value="Cancel" />
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <text>No Jobs here yet</text>
+}

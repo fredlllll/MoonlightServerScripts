@@ -1,0 +1,73 @@
+﻿@page "{id}"
+@model MoonlightDashboard.Pages.Modsets.DetailsModel
+@{
+}
+<h3>Modset Info:</h3>
+Name: @Model.Modset.Name
+<br />
+Active Mods: @Model.ActiveMods.Count
+<form asp-page-handler="DeleteModset" method="POST">
+    <input type="submit" style="color:red;" value="Delete Modset">
+</form>
+<h3>Mods:</h3>
+<form asp-page-handler="Update" method="post">
+    <table>
+        <tr>
+            <th>Mod Id</th>
+            <th>Mod Name</th>
+            <th>Active</th>
+        </tr>
+        @foreach (var kv in Model.AllMods)
+        {
+            <tr>
+                <td>@kv.Value.ModId</td>
+                <td>@kv.Value.Name</td>
+                <td>
+                    <input type="checkbox" class="normal-mod" name="mod_@kv.Value.ModId" checked="@(Model.ActiveMods.ContainsKey(kv.Value.ModId))" />
+                </td>
+            </tr>
+        }
+    </table>
+    <button type="button" onclick="deselectAll('normal-mod'); return false;">Deselect All</button>
+    <button type="button" onclick="selectAll('normal-mod'); return false;">Select All</button>
+    @if (Model.ActiveButDeletedMods.Any())
+    {
+        <h4>active but not installed:</h4>
+        <table>
+            <tr>
+                <th>Mod Id</th>
+                <th>Mod Name</th>
+                <th>Active</th>
+            </tr>
+            @foreach (var modsetMod in Model.ActiveButDeletedMods)
+            {
+                <tr>
+                    <td>@modsetMod.ModSteamId</td>
+                    <td>@Model.DeletedModInfos[modsetMod.ModSteamId].Name</td>
+                    <td><input type="checkbox" class="uninstalled-mod" name="mod_@modsetMod.ModSteamId" checked></td>
+                </tr>
+            }
+        </table>
+        <button type="button" onclick="deselectAll('uninstalled-mod'); return false;">Deselect All</button>
+        <button type="button" onclick="selectAll('uninstalled-mod'); return false;">Select All</button>
+    }
+    <br /><br />
+    <input type="submit" value="Save Modset">
+</form>
+<script>
+
+    function selectAll(className){
+        let chkbxs = document.querySelectorAll("input."+className);
+        for(chkbx of chkbxs){
+            chkbx.checked = true;
+        }
+    }
+
+    function deselectAll(className){
+        let chkbxs = document.querySelectorAll("input."+className);
+        for(chkbx of chkbxs){
+            chkbx.checked = false;
+        }
+    }
+
+</script>

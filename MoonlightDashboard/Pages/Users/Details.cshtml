@@ -1,0 +1,50 @@
+﻿@page "{id}"
+@model MoonlightDashboard.Pages.Users.DetailsModel
+@{
+}
+<h3>User Info:</h3>
+<table>
+    <tr>
+        <td>User Name</td>
+        <td>@Model.User.Name</td>
+    </tr>
+    <tr>
+        <td>Permissions</td>
+        <td>
+            @if (Model.Error != null)
+            {
+                <div class="error">
+                    @Model.Error
+                </div>
+            }
+            <form asp-page-handler="SetPermissions" method="post">
+                <input type="text" autocomplete="off" name="permissions" value="@Model.Permissions" />
+                <input type="submit" value="Set Permissions" />
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>Activated</td>
+        <td>
+            @if(Model.User.ActivationTimestamp.HasValue)
+            {
+                @Model.User.ActivationTimestamp.Value.ToString("g")
+            }
+            else
+            {
+                <form asp-page-handler="Activate" method="post">
+                    <input type="submit" value="Activate" />
+                </form>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <form asp-page-handler="Delete" method="post">
+                <input type="submit" value="Delete" />
+            </form>
+        </td>
+    </tr>
+</table>
