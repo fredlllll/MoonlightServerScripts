@@ -1,0 +1,12 @@
+Unit]
+Description=Moonlight dashboard
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root/MoonlightServerScripts/MoonlightDashboard/MoonlightDashboard
+ExecStart=dotnet run
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
