@@ -52,7 +52,7 @@ namespace MoonlightDashboard.Pages.Modsets
 
         public IActionResult OnPostUpdate(string id)
         {
-            var activeModIds = new HashSet<string>(db.Arma3ModsetMods.Where(ms => ms.ModsetId == id).Select(m => m.ModsetId));
+            ActiveMods = db.Arma3ModsetMods.Where(ms => ms.ModsetId == Modset.Id).ToDictionary(m => m.ModSteamId);
 
             var selectedModIds = new HashSet<string>();
             string prefix = "mod_";
@@ -66,13 +66,13 @@ namespace MoonlightDashboard.Pages.Modsets
             }
 
             //remove mods that are in activeMods but not in selectedMods
-            var toDelete = activeModIds.Except(selectedModIds).ToList();
+            var toDelete = ActiveMods.Keys.Except(selectedModIds).ToList();
             // Add mods that are in selectedModIds but not in activeMods
-            var toAdd = selectedModIds.Except(activeModIds).ToList();
+            var toAdd = selectedModIds.Except(ActiveMods.Keys).ToList();
 
             foreach (var modId in toDelete)
             {
-                db.RemoveRange(db.Arma3ModsetMods.Where(ms => ms.ModsetId == id && ms.ModSteamId == modId));
+                db.Remove(db.Arma3ModsetMods.First(ms => ms.ModsetId == id && ms.ModSteamId == modId));
             }
             foreach (var modId in toAdd)
             {
@@ -84,6 +84,7 @@ namespace MoonlightDashboard.Pages.Modsets
                 };
                 db.Add(mod);
             }
+
             db.SaveChanges();
 
             return RedirectToPage();
