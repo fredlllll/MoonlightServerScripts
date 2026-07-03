@@ -52,7 +52,7 @@ namespace MoonlightDashboard.Pages.Modsets
 
         public IActionResult OnPostUpdate(string id)
         {
-            ActiveMods = db.Arma3ModsetMods.Where(ms => ms.ModsetId == Modset.Id).ToDictionary(m => m.ModSteamId);
+            ActiveMods = db.Arma3ModsetMods.Where(ms => ms.ModsetId == id).ToDictionary(m => m.ModSteamId);
 
             var selectedModIds = new HashSet<string>();
             string prefix = "mod_";
