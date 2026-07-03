@@ -12,8 +12,7 @@ namespace MoonlightDashboard.Pages.Modsets
 
         public Arma3Modset Modset = null!;
         public Dictionary<string, ModInfo> AllMods = null!;
-        public List<Arma3ModsetMod> ActiveMods = null!;
-        public HashSet<string> ActiveModIds = null!;
+        public Dictionary<string, Arma3ModsetMod> ActiveMods = null!;
         public List<Arma3ModsetMod> ActiveButDeletedMods = null!;
 
         public DetailsModel(DatabaseContext db)
@@ -25,17 +24,15 @@ namespace MoonlightDashboard.Pages.Modsets
         {
             Modset = db.Arma3Modsets.First(m => m.Id == id);
             AllMods = (await Apis.Steam.Local.Mods.GetModInfos(db, Apis.Steam.Local.Mods.GetDownloadedModsIds())).ToDictionary(m => m.ModId);
-            ActiveMods = db.Arma3ModsetMods.Where(ms => ms.ModsetId == Modset.Id).ToList();
+            ActiveMods = db.Arma3ModsetMods.Where(ms => ms.ModsetId == Modset.Id).ToDictionary(m => m.ModSteamId);
 
-            ActiveModIds = new();
             ActiveButDeletedMods = new();
-            foreach (var mod in ActiveMods)
+            foreach (var kv in ActiveMods)
             {
-                if (!AllMods.ContainsKey(mod.Id))
+                if (!AllMods.ContainsKey(kv.Key))
                 {
-                    ActiveButDeletedMods.Add(mod);
+                    ActiveButDeletedMods.Add(kv.Value);
                 }
-                ActiveModIds.Add(mod.Id);
             }
         }
 

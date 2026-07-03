@@ -23,7 +23,7 @@ Active Mods: @Model.ActiveMods.Count
                 <td>@kv.Value.ModId</td>
                 <td>@kv.Value.Name</td>
                 <td>
-                    <input type="checkbox" class="normal-mod" name="mod_@kv.Value.ModId" checked="@(Model.ActiveModIds.Contains(kv.Value.ModId))" />
+                    <input type="checkbox" class="normal-mod" name="mod_@kv.Value.ModId" checked="@(Model.ActiveMods.ContainsKey(kv.Value.ModId))" />
                 </td>
             </tr>
         }
