@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
+using System.Threading.Tasks;
 
 namespace MoonlightDashboard.Pages
 {
@@ -15,9 +16,17 @@ namespace MoonlightDashboard.Pages
             this.db = db;
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
             Jobs = db.Jobs;
+            var modInfos = await Apis.Steam.Local.Mods.GetModInfos(db, Jobs.Select(x => x.Data ?? ""));
+            foreach (var job in Jobs)
+            {
+                if (job.JobType == JobType.DownloadMod)
+                {
+                    job.Data = modInfos.Where(modInfos => modInfos.Id == job.Data).Select(modInfo => modInfo.Name).FirstOrDefault() ?? job.Data;
+                }
+            }
         }
 
         public IActionResult OnPostClear()
