@@ -101,7 +101,7 @@ namespace MoonlightDashboard.Services
                 }
                 catch (Exception ex)
                 {
-                    EndJob(job.Id, false, ex.Message);
+                    EndJob(job.Id, false, ex.Message, job.Result);
                     continue;
                 }
             }
