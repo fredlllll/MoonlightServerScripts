@@ -1,0 +1,6 @@
+*.d.ts
+*.d.ts.map
+*.js.map
+*.js
+!eslint.config.js
+.vscode/

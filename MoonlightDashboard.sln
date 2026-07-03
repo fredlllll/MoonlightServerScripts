@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoonlightDashboard", "MoonlightDashboard\MoonlightDashboard.csproj", "{FD3BB91D-E692-4A62-993E-C2761AB2072D}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Frontendlib", "Frontendlib\Frontendlib.esproj", "{00ACBC43-C000-1010-B10A-0262207C3352}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,12 @@ Global
 		{FD3BB91D-E692-4A62-993E-C2761AB2072D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD3BB91D-E692-4A62-993E-C2761AB2072D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD3BB91D-E692-4A62-993E-C2761AB2072D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00ACBC43-C000-1010-B10A-0262207C3352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00ACBC43-C000-1010-B10A-0262207C3352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00ACBC43-C000-1010-B10A-0262207C3352}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{00ACBC43-C000-1010-B10A-0262207C3352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00ACBC43-C000-1010-B10A-0262207C3352}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00ACBC43-C000-1010-B10A-0262207C3352}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
