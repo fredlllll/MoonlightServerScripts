@@ -14,6 +14,7 @@ namespace MoonlightDashboard.Pages.Modsets
         public Dictionary<string, ModInfo> AllMods = null!;
         public Dictionary<string, Arma3ModsetMod> ActiveMods = null!;
         public List<Arma3ModsetMod> ActiveButDeletedMods = null!;
+        public Dictionary<string, ModInfo> DeletedModInfos = null!;
 
         public DetailsModel(DatabaseContext db)
         {
@@ -34,6 +35,7 @@ namespace MoonlightDashboard.Pages.Modsets
                     ActiveButDeletedMods.Add(kv.Value);
                 }
             }
+            DeletedModInfos = (await Apis.Steam.Local.Mods.GetModInfos(db, ActiveButDeletedMods.Select(m => m.ModSteamId))).ToDictionary(x=>x.ModId);
         }
 
         public IActionResult OnPostDeleteModset(string id)

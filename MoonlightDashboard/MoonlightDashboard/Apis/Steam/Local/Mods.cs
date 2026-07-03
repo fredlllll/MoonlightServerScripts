@@ -7,6 +7,7 @@ namespace MoonlightDashboard.Apis.Steam.Local
 {
     public static class Mods
     {
+        public const int DAYSTILLINFOSTALE = 7;
         private static HttpClient _httpClient = new HttpClient();
 
         public static string GetWorkshopModsFolder()
@@ -83,7 +84,7 @@ namespace MoonlightDashboard.Apis.Steam.Local
 
         public static async Task<IEnumerable<ModInfo>> GetModInfos(DatabaseContext db, IEnumerable<string> modIds)
         {
-            var threshold = DateTime.UtcNow.AddDays(-7);
+            var threshold = DateTime.UtcNow.AddDays(-DAYSTILLINFOSTALE);
 
             var infos = db.ModInfos.Where(m => modIds.Contains(m.ModId)).ToList();
 
@@ -110,6 +111,32 @@ namespace MoonlightDashboard.Apis.Steam.Local
             }
             db.SaveChanges();
             return infos;
+        }
+
+        public static async Task<ModInfo> GetModInfo(DatabaseContext db, string modId)
+        {
+            var info = db.ModInfos.FirstOrDefault(m => m.ModId == modId);
+            if (info == null)
+            {
+                info = new ModInfo()
+                {
+                    Id = Util.GetNewId<ModInfo>(),
+                    ModId = modId,
+                    Name = await GetModName(modId)
+                };
+                db.ModInfos.Add(info);
+            }
+            else
+            {
+                var threshold = DateTime.UtcNow.AddDays(-DAYSTILLINFOSTALE);
+                if (info.Updated < threshold)
+                {
+                    info.Name = await GetModName(info.ModId);
+                    info.Updated = DateTime.UtcNow;
+                }
+            }
+            db.SaveChanges();
+            return info;
         }
 
         public static void DeleteMod(string modId)

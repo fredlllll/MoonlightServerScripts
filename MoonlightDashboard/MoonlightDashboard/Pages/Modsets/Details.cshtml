@@ -36,13 +36,15 @@ Active Mods: @Model.ActiveMods.Count
         <table>
             <tr>
                 <th>Mod Id</th>
+                <th>Mod Name</th>
                 <th>Active</th>
             </tr>
-            @foreach (var modInfo in Model.ActiveButDeletedMods)
+            @foreach (var modsetMod in Model.ActiveButDeletedMods)
             {
                 <tr>
-                    <td>@modInfo.ModSteamId</td>
-                    <td><input type="checkbox" class="uninstalled-mod" name="mod_@modInfo.ModSteamId" checked></td>
+                    <td>@modsetMod.ModSteamId</td>
+                    <td>@Model.DeletedModInfos[modsetMod.ModSteamId].Name</td>
+                    <td><input type="checkbox" class="uninstalled-mod" name="mod_@modsetMod.ModSteamId" checked></td>
                 </tr>
             }
         </table>
