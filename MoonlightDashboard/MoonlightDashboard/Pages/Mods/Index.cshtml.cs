@@ -39,14 +39,14 @@ namespace MoonlightDashboard.Pages.Mods
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostDownloadMods(string collectionId, string modIds)
+        public async Task<IActionResult> OnPostDownloadMods(string? collectionId, string? modIds)
         {
             IEnumerable<string> modIdsList;
-            if (collectionId.Length > 0)
+            if (!string.IsNullOrWhiteSpace(collectionId))
             {
                 modIdsList = await Apis.Steam.Local.Mods.GetCollectionModIds(collectionId);
             }
-            else if (modIds.Length > 0)
+            else if (!string.IsNullOrWhiteSpace(modIds))
             {
                 modIdsList = modIds.Split(',').Select(m => m.Trim());
             }
