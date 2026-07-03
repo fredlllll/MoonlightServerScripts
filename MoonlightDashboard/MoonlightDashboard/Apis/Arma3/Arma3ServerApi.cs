@@ -176,6 +176,11 @@ namespace MoonlightDashboard.Apis.Arma3
             foreach (var mod in modInfos)
             {
                 var modFolder = Steam.Local.Mods.GetModFolder(mod.ModId);
+                if(!Directory.Exists(modFolder))
+                {
+                    Console.WriteLine($"Warning: Mod folder for {mod.Name} ({mod.ModId}) does not exist at {modFolder}. Skipping.");
+                    continue;
+                }
                 var modName = mod.Name;
                 var targetFolder = Path.Combine(serverModsFolder, $"@{FileSystemUtil.SanitizeFolderName(modName)}");
                 FileSystemUtil.CreateDirectoryWithOwner(targetFolder, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
