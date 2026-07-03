@@ -38,12 +38,12 @@ namespace MoonlightDashboard.Pages.Modsets
 
         public IActionResult OnPostDeleteModset(string id)
         {
-            db.RemoveRange(db.Arma3ModsetMods.Where(ms => ms.ModsetId == Modset.Id));
-            db.Remove(db.Arma3Modsets.First(m => m.Id == id));
             foreach (var server in db.Arma3Servers.Where(x => x.ActiveModsetId == id))
             {
                 server.ActiveModsetId = null;
             }
+            db.RemoveRange(db.Arma3ModsetMods.Where(ms => ms.ModsetId == Modset.Id));
+            db.Remove(db.Arma3Modsets.First(m => m.Id == id));
             db.SaveChanges();
             return LocalRedirect("/Modsets");
         }
