@@ -67,7 +67,7 @@ namespace MoonlightDashboard.Services
             System.IO.File.Delete(ServerApi.GetStartupScriptFilePath());
             System.IO.File.Delete(ServerApi.GetBasicConfigFilePath());
             System.IO.File.Delete(ServerApi.GetServerConfigFilePath());
-            System.IO.File.Delete(ServerApi.GetServerConfigFilePath());
+            System.IO.File.Delete(ServerApi.GetServerProfileFilePath());
             db.Arma3Servers.Remove(Server);
             db.Arma3ServerCreatorDlcs.RemoveRange(db.Arma3ServerCreatorDlcs.Where(x => x.Arma3ServerId == id));
             db.SaveChanges();
