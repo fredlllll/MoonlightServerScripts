@@ -65,7 +65,7 @@ namespace MoonlightDashboard.Apis.A2Sharp
             return info;
         }
 
-        private static IEnumerable <A2SharpPlayer> ReadPlayers(BinaryReader br)
+        private static IEnumerable<A2SharpPlayer> ReadPlayers(BinaryReader br)
         {
             if (br.ReadInt32() != -1) throw new Exception("Invalid response header");
 
@@ -115,11 +115,11 @@ namespace MoonlightDashboard.Apis.A2Sharp
                     {
                         challengeToken = br.ReadUInt32();
                     }
-                    else if(type== (byte)'D')
+                    else if (type == (byte)'D')
                     {
                         // Some servers may respond directly with player data without a challenge
                         ms.Position = 0; // Reset stream position to read player data
-                        return ReadPlayers(br);
+                        return ReadPlayers(br).ToArray();//to array because br will be diposed if we just return the iterator
                     }
                     else
                     {
@@ -134,7 +134,7 @@ namespace MoonlightDashboard.Apis.A2Sharp
                 using (MemoryStream ms = new MemoryStream(response))
                 using (BinaryReader br = new BinaryReader(ms))
                 {
-                    return ReadPlayers(br);
+                    return ReadPlayers(br).ToArray(); //to array because br will be diposed if we just return the iterator
                 }
             }
         }
