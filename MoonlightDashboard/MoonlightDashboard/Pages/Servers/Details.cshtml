@@ -23,7 +23,7 @@
             <form asp-page-handler="SetCreatorDlcs" method="POST">
                 @foreach (var dlc in Model.CreatorDlcs)
                 {
-                    <input type="checkbox" title="@dlc.Name" name="cdlc_@dlc.ShortName" @(Model.ActiveCreatorDlcs.Contains(dlc.Id) ? "checked" : "") /> @dlc.Name<br>
+                    <input type="checkbox" title="@dlc.Name" name="cdlc_@dlc.Id" @(Model.ActiveCreatorDlcs.Contains(dlc.Id) ? "checked" : "") /> @dlc.Name<br>
                 }
                 <input type="submit" value="Set Creator DLCs" />
             </form>
