@@ -80,7 +80,8 @@
 </form>
 
 <script>
-    var log;
+    var log = document.getElementById('log');
+    log.scrollTop = log.scrollHeight; //scroll to bottom
     var scrollEnabled;
     var maxLogLength = 100000;
     window.addEventListener('load',function(){
