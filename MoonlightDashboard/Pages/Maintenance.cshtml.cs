@@ -27,14 +27,7 @@ namespace MoonlightDashboard.Pages
             Util.BashExecute("dpkg --add-architecture i386");
             Util.BashExecute("apt update");
             //accept steams license agreement before installing steamcmd, otherwise it will silently fail
-            Util.DebconfCommunicate("steamcmd",
-                "REGISTER debconf/templates steam/license note",
-                "REGISTER debconf/templates steam/question select",
-                "SET steam/license ''",
-                "SET steam/question I AGREE",
-                "FSET steam/license seen true",
-                "FSET steam/question seen true"
-                );
+            Util.DebconfSetSelections("steamcmd steam/license note ", "steamcmd steam/question select I AGREE");
             Util.BashExecute("apt install -y steamcmd", new Dictionary<string, string?> { { "DEBIAN_FRONTEND", "noninteractive" } });
             this.SetInfo("Steam CMD installed successfully.");
             return RedirectToPage();

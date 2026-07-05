@@ -52,6 +52,32 @@ namespace MoonlightDashboard.Lib
             }
         }
 
+        public static void DebconfSetSelections(params string[] commands) {             var processInfo = new ProcessStartInfo
+            {
+                FileName = "debconf-set-selections",
+                UseShellExecute = false,
+                RedirectStandardInput = true,
+                CreateNoWindow = true
+            };
+            var process = Process.Start(processInfo);
+            if (process == null)
+            {
+                throw new Exception("Failed to start debconf-set-selections process.");
+            }
+            using (process)
+            {
+                //using will close stream
+                using (var writer = process.StandardInput)
+                {
+                    foreach(var command in commands)
+                    {
+                        writer.Write(command + "\n");
+                    }
+                }
+                process.WaitForExit();
+            }
+        }
+
         public static void DebconfCommunicate(string owner, params string[] commands)
         {
             var processInfo = new ProcessStartInfo
