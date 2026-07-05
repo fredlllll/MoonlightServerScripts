@@ -8,6 +8,7 @@ export class LogTracker {
     isReconnecting = false;
     reconnectDelay = 1000;
     logLines = [];
+    firstConnect = true;
     maxReconnectDelay = 16000;
     constructor(options) {
         this.serverId = options.serverId;
@@ -55,7 +56,12 @@ export class LogTracker {
             console.log("[LogTracker] Connected successfully.");
             this.isReconnecting = false;
             this.reconnectDelay = 1000;
-            this.appendSystemMessage("Connected to live log stream");
+            if (!this.firstConnect) {
+                this.firstConnect = false;
+            }
+            else {
+                this.appendSystemMessage("Connected to live log stream");
+            }
         };
         this.socket.onmessage = (event) => {
             this.appendText(event.data);
@@ -80,7 +86,7 @@ export class LogTracker {
         }, this.reconnectDelay);
     }
     appendSystemMessage(msg) {
-        this.appendText(`\n[System: ${msg}]\n`);
+        this.appendText(`[System: ${msg}]`);
     }
     appendText(text) {
         if (!this.textarea)
