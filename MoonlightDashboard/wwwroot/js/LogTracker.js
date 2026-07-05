@@ -19,6 +19,7 @@ export class LogTracker {
     initElements(textareaId, checkboxId) {
         this.textarea = document.getElementById(textareaId);
         this.checkbox = document.getElementById(checkboxId);
+        this.logLines = this.textarea?.value.split('\n') || [];
         if (!this.textarea || !this.checkbox) {
             console.error(`[LogTracker] Failed to initialize. Check your DOM IDs: #${textareaId}, #${checkboxId}`);
             return;
