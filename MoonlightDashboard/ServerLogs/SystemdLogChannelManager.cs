@@ -84,7 +84,7 @@ namespace MoonlightDashboard.ServerLogs
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "journalctl",
-                    Arguments = $"-u {unitId} -f -o cat", // -o cat removes standard syslog headers if you want raw app logs
+                    Arguments = $"-u {unitId} -f -o cat -n 0", // -o cat removes standard syslog headers if you want raw app logs
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
                     CreateNoWindow = true
