@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Apis.Steam;
 using MoonlightDashboard.Database;
+using MoonlightDashboard.Filters;
 using MoonlightDashboard.Services;
 
 namespace MoonlightDashboard.Pages
 {
+    [LoggedIn]
     public class SettingsModel : PageModel
     {
         public const string SettingLastSteamUser = "lastSteamUser";

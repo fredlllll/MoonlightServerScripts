@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Database.Models;
+using MoonlightDashboard.Filters;
 using MoonlightDashboard.Lib;
 using System.Xml.Linq;
 
 namespace MoonlightDashboard.Pages
 {
+    [LoggedIn]
     public class RegisterModel : PageModel
     {
         public string? Error => this.GetError();

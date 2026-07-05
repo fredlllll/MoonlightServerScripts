@@ -4,12 +4,14 @@ using MoonlightDashboard.Apis.Arma3;
 using MoonlightDashboard.Apis.SystemD;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
+using MoonlightDashboard.Filters;
 using MoonlightDashboard.Lib;
 using System.Linq;
 
 
 namespace MoonlightDashboard.Pages.Servers
 {
+    [LoggedIn]
     public class DetailsModel : PageModel
     {
         public Arma3Server Server = null!;

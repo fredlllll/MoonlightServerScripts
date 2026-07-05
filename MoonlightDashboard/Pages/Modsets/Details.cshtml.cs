@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
+using MoonlightDashboard.Filters;
 using MoonlightDashboard.Lib;
 
 namespace MoonlightDashboard.Pages.Modsets
 {
+    [LoggedIn]
     public class DetailsModel : PageModel
     {
         private DatabaseContext db;

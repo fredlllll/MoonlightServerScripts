@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Apis.Steam.Local;
+using MoonlightDashboard.Filters;
 using MoonlightDashboard.Lib;
 
 namespace MoonlightDashboard.Pages
 {
+    [LoggedIn]
     public class MaintenanceModel : PageModel
     {
         public void OnGet()

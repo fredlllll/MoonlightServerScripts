@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
+using MoonlightDashboard.Filters;
 using System.Threading.Tasks;
 
 namespace MoonlightDashboard.Pages
 {
+    [LoggedIn]
     public class JobsModel : PageModel
     {
         public IEnumerable<Job> Jobs = Enumerable.Empty<Job>();

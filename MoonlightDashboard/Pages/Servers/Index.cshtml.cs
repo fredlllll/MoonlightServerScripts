@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MoonlightDashboard.Apis.Arma3;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Database.Models;
+using MoonlightDashboard.Filters;
 using MoonlightDashboard.Lib;
 using MoonlightDashboard.Services;
 
 namespace MoonlightDashboard.Pages.Servers
 {
+    [LoggedIn]
     public class IndexModel : PageModel
     {
         public List<Arma3Server> Servers = null!;
