@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MoonlightDashboard.Database;
+using MoonlightDashboard.ServerLogs;
 using MoonlightDashboard.Services;
 
 namespace MoonlightDashboard.Controllers
@@ -9,10 +11,14 @@ namespace MoonlightDashboard.Controllers
     {
 
         private readonly ServerService _serverService;
+        private readonly SystemdLogChannelManager _logChannelManager;
+        private readonly DatabaseContext _db;
 
-        public ServersApiController(ServerService serverService)
+        public ServersApiController(ServerService serverService, SystemdLogChannelManager logChannelManager, DatabaseContext db)
         {
             _serverService = serverService;
+            _logChannelManager = logChannelManager;
+            _db = db;
         }
 
         [HttpPost("{id}")]
@@ -51,5 +57,26 @@ namespace MoonlightDashboard.Controllers
             }
             return LocalRedirect("/");
         }
+
+        [HttpGet("{id}/ws")]
+        public async Task GetLogStream(string id)
+        {
+            var server = _db.Arma3Servers.FirstOrDefault(s => s.Id == id) ?? throw new Exception("Server not found");
+            if (HttpContext.WebSockets.IsWebSocketRequest)
+            {
+                // Accept the incoming socket connection
+                using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+                var connectionId = Guid.NewGuid();
+
+                // Pass execution to the manager to stream the journalctl output
+                await _logChannelManager.SubscribeAsync(server.Id, connectionId, webSocket, HttpContext.RequestAborted);
+            }
+            else
+            {
+                // Fallback if someone hits the endpoint with a normal browser HTTP GET
+                HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+            }
+        }
+
     }
 }

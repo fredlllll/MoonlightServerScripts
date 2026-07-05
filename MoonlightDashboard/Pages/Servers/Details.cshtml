@@ -79,25 +79,15 @@
     <input type="submit" value="Reset Server Profile" />
 </form>
 
-<script>
-    var log = document.getElementById('log');
-    log.scrollTop = log.scrollHeight; //scroll to bottom
-    var scrollEnabled;
-    var maxLogLength = 100000;
-    window.addEventListener('load',function(){
-        log = document.getElementById('log');
-        scrollEnabled = document.getElementById('scroll-enabled');
-        frontendlibPromise.then(function(frontendlib){
-            frontendlib.addChannelHandler("@Model.Server.Id",function(data){
-                let newlog = log.value + data;
-                if(newlog.length > maxLogLength){
-                    newlog = newlog.substr(newlog.length-maxLogLength);
-                }
-                log.value = newlog;
-                if(scrollEnabled.checked){
-                    log.scrollTop = log.scrollHeight;
-                }
-            });
-        });
+<script type="module">
+    import { LogTracker } from 'app/LogTracker.js';
+
+    const tracker = new LogTracker({
+        serverId: "@Model.Server.Id",
+        textareaId: "log",
+        checkboxId: "scroll-enabled",
+        maxLines: 10000
     });
+
+    tracker.connect();
 </script>

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MoonlightDashboard.Database;
 using MoonlightDashboard.Middleware;
+using MoonlightDashboard.ServerLogs;
 using MoonlightDashboard.Services;
 using System.Globalization;
 
@@ -17,6 +18,7 @@ namespace MoonlightDashboard
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source=db.sqlite").ConfigureWarnings(w=>w.Log(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
             builder.Services.AddHostedService<JobService>();
             builder.Services.AddScoped<ServerService>();
+            builder.Services.AddSingleton<SystemdLogChannelManager>();
             builder.Services.AddControllers();
             builder.WebHost.UseUrls("http://0.0.0.0:8080");
 

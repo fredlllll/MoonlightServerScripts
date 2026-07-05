@@ -1,4 +1,4 @@
-import { FlagEvent } from "./FlagEvent";
+import { FlagEvent } from "./FlagEvent.js";
 import { FrontendlibSocket } from "./FrontendlibSocket";
 import { FrontendlibSocketIncomingMessage, FrontendlibSocketOutgoingMessage } from "./FrontendlibSocketMessage";
 

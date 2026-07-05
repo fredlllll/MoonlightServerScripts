@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="ArmaServerDefaultFiles\" />
-    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
   <ItemGroup>

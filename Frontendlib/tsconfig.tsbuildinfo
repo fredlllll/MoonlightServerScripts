@@ -1,1 +1,1 @@
-{"root":["./flagevent.ts","./frontendlib.ts","./frontendlibsocket.ts","./frontendlibsocketmessage.ts"],"errors":true,"version":"6.0.3"}
+{"root":["./src/logtracker.ts"],"version":"6.0.3"}
