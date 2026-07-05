@@ -20,11 +20,12 @@ export class LogTracker {
     initElements(textareaId, checkboxId) {
         this.textarea = document.getElementById(textareaId);
         this.checkbox = document.getElementById(checkboxId);
-        this.logLines = this.textarea?.value.split('\n') || [];
         if (!this.textarea || !this.checkbox) {
             console.error(`[LogTracker] Failed to initialize. Check your DOM IDs: #${textareaId}, #${checkboxId}`);
             return;
         }
+        this.logLines = this.textarea.value.split('\n') || [];
+        this.flush();
         this.setupEventListeners();
     }
     setupEventListeners() {
@@ -103,6 +104,11 @@ export class LogTracker {
             this.logLines.splice(0, linesToRemove);
         }
         // One single source of truth flush to the DOM
+        this.flush();
+    }
+    flush() {
+        if (!this.textarea)
+            return;
         this.textarea.value = this.logLines.join('\n');
         // Handle scrolling
         if (this.checkbox?.checked) {
