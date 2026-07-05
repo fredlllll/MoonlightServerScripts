@@ -77,7 +77,7 @@ namespace MoonlightDashboard.Lib
                     {
                         writer.Write(command + "\n");
                     }
-                    writer.Write("QUIT\n");
+                    writer.Write("quit\n");
                 }
                 process.WaitForExit();
             }
