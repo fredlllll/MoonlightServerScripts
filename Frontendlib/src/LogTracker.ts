@@ -75,7 +75,7 @@ export class LogTracker {
             console.log("[LogTracker] Connected successfully.");
             this.isReconnecting = false;
             this.reconnectDelay = 1000;
-            if (!this.firstConnect) {
+            if (this.firstConnect) {
                 this.firstConnect = false;
             } else {
                 this.appendSystemMessage("Connected to live log stream");
