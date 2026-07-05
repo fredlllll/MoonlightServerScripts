@@ -58,6 +58,7 @@ namespace MoonlightDashboard.Lib
             {
                 FileName = "debconf-communicate",
                 UseShellExecute = false,
+                RedirectStandardInput = true,
                 CreateNoWindow = true
             };
             processInfo.ArgumentList.Add(owner);
