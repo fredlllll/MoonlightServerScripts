@@ -1,6 +1,14 @@
 ﻿@page
+@using MoonlightDashboard.Lib
 @model MoonlightDashboard.Pages.MaintenanceModel
 @{
+    var info = Model.GetInfo();
+}
+@if(info != null)
+{
+    <div class="alert alert-info">
+        <strong>Info:</strong> @info
+    </div>
 }
 <form method="post" asp-page-handler="DeleteModsAcfFile">
     <input type="submit" value="Delete mods acf file" />

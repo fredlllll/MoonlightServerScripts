@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MoonlightDashboard.Apis.Steam.Local;
 using MoonlightDashboard.Lib;
 
 namespace MoonlightDashboard.Pages
@@ -12,23 +13,19 @@ namespace MoonlightDashboard.Pages
 
         public IActionResult OnPostDeleteModsAcfFile()
         {
-            //TODO: implement this, idk if we ever need it again though
+            System.IO.File.Delete(Steam.GetArmaWorkshopAcfPath());
+            this.SetInfo("Mods ACF file deleted successfully.");
             return RedirectToPage();
-        }
-
-        private void LogBoth((string, string) a)
-        {
-            Console.WriteLine(a.Item1);
-            Console.WriteLine(a.Item2);
         }
 
         public IActionResult OnPostInstallSteamCmd()
         {
-            LogBoth(Util.BashExecute("useradd -m -s /bin/bash steam"));
-            LogBoth(Util.BashExecute("add-apt-repository -y multiverse"));
-            LogBoth(Util.BashExecute("dpkg --add-architecture i386"));
-            LogBoth(Util.BashExecute("apt update"));
-            LogBoth(Util.BashExecute("apt install -y steamcmd"));
+            Util.BashExecute("useradd -m -s /bin/bash steam");
+            Util.BashExecute("add-apt-repository -y multiverse");
+            Util.BashExecute("dpkg --add-architecture i386");
+            Util.BashExecute("apt update");
+            Util.BashExecute("apt install -y steamcmd");
+            this.SetInfo("Steam CMD installed successfully.");
             return RedirectToPage();
         }
     }
