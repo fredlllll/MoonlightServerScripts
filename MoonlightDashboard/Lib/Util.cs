@@ -52,13 +52,16 @@ namespace MoonlightDashboard.Lib
             }
         }
 
-        public static void DebconfSetSelections(params string[] commands) {             var processInfo = new ProcessStartInfo
+        public static void DebconfSetSelections(params string[] commands)
+        {
+            var processInfo = new ProcessStartInfo
             {
                 FileName = "debconf-set-selections",
                 UseShellExecute = false,
                 RedirectStandardInput = true,
                 CreateNoWindow = true
             };
+            processInfo.ArgumentList.Add("-v");
             var process = Process.Start(processInfo);
             if (process == null)
             {
@@ -69,7 +72,7 @@ namespace MoonlightDashboard.Lib
                 //using will close stream
                 using (var writer = process.StandardInput)
                 {
-                    foreach(var command in commands)
+                    foreach (var command in commands)
                     {
                         writer.Write(command + "\n");
                     }
@@ -99,7 +102,7 @@ namespace MoonlightDashboard.Lib
                 //using will close stream
                 using (var writer = process.StandardInput)
                 {
-                    foreach(var command in commands)
+                    foreach (var command in commands)
                     {
                         writer.Write(command + "\n");
                     }
