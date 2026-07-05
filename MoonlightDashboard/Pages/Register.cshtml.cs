@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace MoonlightDashboard.Pages
 {
-    [LoggedIn]
+    [LoggedOut]
     public class RegisterModel : PageModel
     {
         public string? Error => this.GetError();
