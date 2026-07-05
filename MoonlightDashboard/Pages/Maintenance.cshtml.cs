@@ -27,6 +27,7 @@ namespace MoonlightDashboard.Pages
             Util.BashExecute("dpkg --add-architecture i386");
             Util.BashExecute("apt update");
             //accept steams license agreement before installing steamcmd, otherwise it will silently fail
+            //this eventually worked on my system, but i didnt completely reinstall linux every time to test it. just install steamcmd by hand if this fails
             Util.DebconfSetSelections(
                 "steam steam/license note ",
                 "steam steam/question select I AGREE");

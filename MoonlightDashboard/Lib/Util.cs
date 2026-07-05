@@ -14,13 +14,11 @@ namespace MoonlightDashboard.Lib
             return $"{typeId}_{id}";
         }
 
-        public static (string output, string error) BashExecute(string command, Dictionary<string, string?>? envVars = null)
+        public static void BashExecute(string command, Dictionary<string, string?>? envVars = null)
         {
             var processInfo = new ProcessStartInfo
             {
                 FileName = "/bin/bash",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
@@ -45,10 +43,6 @@ namespace MoonlightDashboard.Lib
             using (process)
             {
                 process.WaitForExit();
-
-                string output = process.StandardOutput.ReadToEnd();
-                string error = process.StandardError.ReadToEnd();
-                return (output, error);
             }
         }
 
@@ -76,37 +70,6 @@ namespace MoonlightDashboard.Lib
                     {
                         writer.Write(command + "\n");
                     }
-                }
-                process.WaitForExit();
-            }
-        }
-
-        public static void DebconfCommunicate(string owner, params string[] commands)
-        {
-            var processInfo = new ProcessStartInfo
-            {
-                FileName = "debconf-communicate",
-                UseShellExecute = false,
-                RedirectStandardInput = true,
-                CreateNoWindow = true
-            };
-            processInfo.ArgumentList.Add(owner);
-
-            var process = Process.Start(processInfo);
-            if (process == null)
-            {
-                throw new Exception("Failed to start debconf-communicate process.");
-            }
-            using (process)
-            {
-                //using will close stream
-                using (var writer = process.StandardInput)
-                {
-                    foreach (var command in commands)
-                    {
-                        writer.Write(command + "\n");
-                    }
-                    writer.Write("quit\n");
                 }
                 process.WaitForExit();
             }
