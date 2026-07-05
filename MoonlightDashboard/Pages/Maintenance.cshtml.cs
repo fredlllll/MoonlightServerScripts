@@ -26,7 +26,9 @@ namespace MoonlightDashboard.Pages
             Util.BashExecute("add-apt-repository -y multiverse");
             Util.BashExecute("dpkg --add-architecture i386");
             Util.BashExecute("apt update");
-            Util.BashExecute("apt install -y steamcmd");
+            //accept steams license agreement before installing steamcmd, otherwise it will silently fail
+            Util.DebconfCommunicate("steamcmd", "SET steam/license note ''", "SET steam/question select I AGREE");
+            Util.BashExecute("apt install -y steamcmd", new Dictionary<string, string?> { { "DEBIAN_FRONTEND", "noninteractive" } });
             this.SetInfo("Steam CMD installed successfully.");
             return RedirectToPage();
         }

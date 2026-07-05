@@ -14,7 +14,7 @@ namespace MoonlightDashboard.Lib
             return $"{typeId}_{id}";
         }
 
-        public static (string output, string error) BashExecute(string command)
+        public static (string output, string error) BashExecute(string command, Dictionary<string, string?>? envVars = null)
         {
             var processInfo = new ProcessStartInfo
             {
@@ -26,6 +26,16 @@ namespace MoonlightDashboard.Lib
             };
             processInfo.ArgumentList.Add("-c");
             processInfo.ArgumentList.Add(command);
+            if (envVars != null)
+            {
+                foreach (var kvp in envVars)
+                {
+                    if (kvp.Value != null)
+                    {
+                        processInfo.Environment[kvp.Key] = kvp.Value;
+                    }
+                }
+            }
 
             var process = Process.Start(processInfo);
             if (process == null)
@@ -39,6 +49,36 @@ namespace MoonlightDashboard.Lib
                 string output = process.StandardOutput.ReadToEnd();
                 string error = process.StandardError.ReadToEnd();
                 return (output, error);
+            }
+        }
+
+        public static void DebconfCommunicate(string owner, params string[] commands)
+        {
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = "debconf-communicate",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            processInfo.ArgumentList.Add(owner);
+
+            var process = Process.Start(processInfo);
+            if (process == null)
+            {
+                throw new Exception("Failed to start debconf-communicate process.");
+            }
+            using (process)
+            {
+                //using will close stream
+                using (var writer = process.StandardInput)
+                {
+                    foreach(var command in commands)
+                    {
+                        writer.Write(command + "\n");
+                    }
+                    writer.Write("QUIT\n");
+                }
+                process.WaitForExit();
             }
         }
     }
