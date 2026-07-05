@@ -67,7 +67,8 @@ namespace MoonlightDashboard.Apis.Arma3
             // ~/.local/share/Arma 3 - Other Profiles/server/server.Arma3Profile. Edit this file to customise difficulty settings.
             // TODO: The -profiles= parameter is broken on Linux - you must place your profiles in this directory.
             // TODO: test if my changes are actually correct
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local", "share", "Arma 3 - Other Profiles", Id, Id + ".Arma3Profile");
+            ///home/steam/.local/share/Arma 3 - Other Profiles/arma3server_019f3240-cf99-77c5-93f0-6f6df763b694
+            return Path.Combine("/home", Constants.STEAMUSER, ".local", "share", "Arma 3 - Other Profiles", Id, Id + ".Arma3Profile");
         }
 
         //TODO: make steam owner of files after copy from default
@@ -77,7 +78,7 @@ namespace MoonlightDashboard.Apis.Arma3
             var fi = new FileInfo(GetBasicConfigFilePath());
             if (!fi.Exists)
             {
-                var dir = fi.Directory?? throw new Exception("invalid path");
+                var dir = fi.Directory ?? throw new Exception("invalid path");
                 FileSystemUtil.CreateDirectoryWithOwner(dir.FullName, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
                 File.Copy(GetDefaultBasicConfigFilePath(), fi.FullName);
                 FileSystemUtil.Chown(fi.FullName, Constants.STEAMUSER, Constants.STEAMUSERGROUP);
@@ -176,7 +177,7 @@ namespace MoonlightDashboard.Apis.Arma3
             foreach (var mod in modInfos)
             {
                 var modFolder = Steam.Local.Mods.GetModFolder(mod.ModId);
-                if(!Directory.Exists(modFolder))
+                if (!Directory.Exists(modFolder))
                 {
                     Console.WriteLine($"Warning: Mod folder for {mod.Name} ({mod.ModId}) does not exist at {modFolder}. Skipping.");
                     continue;
