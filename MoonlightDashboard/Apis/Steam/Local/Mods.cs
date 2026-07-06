@@ -84,6 +84,7 @@ namespace MoonlightDashboard.Apis.Steam.Local
 
         public static async Task<IEnumerable<ModInfo>> GetModInfos(DatabaseContext db, IEnumerable<string> modIds)
         {
+            modIds = modIds.Distinct().ToList();
             var threshold = DateTime.UtcNow.AddDays(-DAYSTILLINFOSTALE);
 
             var infos = db.ModInfos.Where(m => modIds.Contains(m.ModId)).ToList();
