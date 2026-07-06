@@ -18,5 +18,10 @@ namespace MoonlightDashboard.Apis.Steam.Local
         {
             return Path.Combine(GetSteamFolderPath(), "steamapps", "workshop", $"appworkshop_{Constants.ARMA3APPID}.acf");
         }
+
+        public static string GetSteamCmdPath()
+        {
+            return "/usr/games/steamcmd";
+        }
     }
 }

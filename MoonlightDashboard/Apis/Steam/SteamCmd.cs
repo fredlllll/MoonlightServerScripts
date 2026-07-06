@@ -33,16 +33,17 @@ namespace MoonlightDashboard.Apis.Steam
 
             var psi = new ProcessStartInfo()
             {
-                FileName = "steamcmd",
+                FileName = Local.Steam.GetSteamCmdPath(),
                 RedirectStandardOutput = true,
                 RedirectStandardInput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
-                UserName = "steam"
+                UserName = Constants.STEAMUSER
             };
 
-            psi.Environment["HOME"] = "/home/steam";
+            psi.WorkingDirectory = psi.Environment["HOME"] = "/home/" + Constants.STEAMUSER;
+            psi.Environment["USER"] = Constants.STEAMUSER;
 
             foreach (var arg in argList)
             {
