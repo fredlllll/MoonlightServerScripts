@@ -2,12 +2,10 @@
 @model MoonlightDashboard.Pages.Mods.IndexModel
 @{
 }
-<br />Delete Mods:
+Delete Mods:
 <form asp-page-handler="DeleteAllMods" method="post">
     <input type="submit" value="Delete All Mods" />
 </form>
-
-<br />
 <br />
 Download Mods:
 <form asp-page-handler="DownloadMods" method="post">
@@ -41,6 +39,7 @@ Download Mods:
         </tr>
     </table>
 </form>
+<br />
 Downloaded mods(@Model.ModInfos.Count()):
 <br />
 @if (Model.ModInfos.Any())
