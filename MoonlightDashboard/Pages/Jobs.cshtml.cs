@@ -26,7 +26,11 @@ namespace MoonlightDashboard.Pages
             {
                 if (job.JobType == JobType.DownloadMod)
                 {
-                    job.Data = modInfos.Where(modInfos => modInfos.ModId == job.Data).Select(modInfo => modInfo.Name).FirstOrDefault() ?? job.Data;
+                    var modName = modInfos.FirstOrDefault(modInfo => modInfo.ModId == job.Data)?.Name;
+                    if (modName != null)
+                    {
+                        job.Data = modName + " (" + job.Data + ")";
+                    }
                 }
             }
         }
