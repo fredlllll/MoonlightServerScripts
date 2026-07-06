@@ -57,14 +57,19 @@ Jobs(@Model.Jobs.Count()):
                     }
                 </td>
                 <td class="job-output">
-                    @if (!job.IsSuccessful)
-                    {
-                        <span style="white-space: pre-line;">
-                            <text>@job.ErrorMessage</text>
-                        </span>
+                    <details>
+                        <summary>Click here to expand output</summary>
+                        <p>
+                            @if (!job.IsSuccessful)
+                            {
+                                <span style="white-space: pre-line;">
+                                    <text>@job.ErrorMessage</text>
+                                </span>
 
-                    }
-                    @(new HtmlString(job.Result ?? ""))
+                            }
+                            @(new HtmlString(job.Result ?? ""))
+                        </p>
+                    </details>
                 </td>
                 <td>
                     @if (job.IsComplete)
