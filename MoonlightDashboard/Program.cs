@@ -44,6 +44,7 @@ namespace MoonlightDashboard
                     j.IsSuccessful = false;
                     j.ErrorMessage = (j.ErrorMessage??"")+ "\nJob was interrupted due to server restart.";
                 });
+                db.SaveChanges();
             }
 
             var culture = CultureInfo.InvariantCulture;
