@@ -33,8 +33,17 @@ namespace MoonlightDashboard
             {
                 var services = scope.ServiceProvider;
 
-                var context = services.GetRequiredService<DatabaseContext>();
-                context.Database.Migrate();
+                var db = services.GetRequiredService<DatabaseContext>();
+                db.Database.Migrate();
+
+                //make sure that running jobs are set to failed so they can be restarted
+                db.Jobs.Where(j => j.IsRunning).ToList().ForEach(j =>
+                {
+                    j.IsRunning = false;
+                    j.IsComplete = true;
+                    j.IsSuccessful = false;
+                    j.ErrorMessage = (j.ErrorMessage??"")+ "\nJob was interrupted due to server restart.";
+                });
             }
 
             var culture = CultureInfo.InvariantCulture;
