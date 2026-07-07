@@ -91,10 +91,11 @@ namespace MoonlightDashboard.Services
                 }
                 try
                 {
-                    using var scope = _scopeFactory.CreateScope();
-                    using var monitor = new JobCancellationMonitor(stoppingToken, scope, job.Id);
+                    using var monitorScope = _scopeFactory.CreateScope();
+                    using var monitor = new JobCancellationMonitor(stoppingToken, monitorScope, job.Id);
+                    using var jobScope = _scopeFactory.CreateScope();
                     BeginJob(job.Id);
-                    await executor.RunAsync(job, scope, monitor.Token);
+                    await executor.RunAsync(job, jobScope, monitor.Token);
                     monitor.Token.ThrowIfCancellationRequested();
                     stoppingToken.ThrowIfCancellationRequested();
                     EndJob(job.Id, true, job.ErrorMessage, job.Result);
