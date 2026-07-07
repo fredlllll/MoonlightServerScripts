@@ -22,7 +22,7 @@ namespace MoonlightDashboard.Lib
             _parentRegistration = _parentToken.Register(Cancel);
 
             // Check database every 1000ms (1 second)
-            _timer = new Timer(CheckDatabaseAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+            _timer = new Timer(CheckDatabase, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
         }
 
         public CancellationToken Token => _cts.Token;
@@ -40,15 +40,18 @@ namespace MoonlightDashboard.Lib
                 {
                     // Ignore if the token source is already disposed
                 }
+                Console.WriteLine("timer set to never due to Cancel being called");
                 _timer?.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             }
         }
 
-        private void CheckDatabaseAsync(object? state)
+        private void CheckDatabase(object? state)
         {
+            Console.WriteLine("check db");
             // Prevent re-entrancy and redundant checks after cancellation
             if (_isCancelled || _cts.IsCancellationRequested)
             {
+                Console.WriteLine("timer set to never because we are already cancelled");
                 _timer?.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
                 return;
             }
@@ -76,6 +79,7 @@ namespace MoonlightDashboard.Lib
 
         public void Dispose()
         {
+            Console.WriteLine("job cancellation monitor disposed");
             _timer?.Dispose();
             _parentRegistration.Unregister();
             _cts?.Dispose();
