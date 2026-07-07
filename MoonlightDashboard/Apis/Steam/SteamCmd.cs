@@ -93,7 +93,9 @@ namespace MoonlightDashboard.Apis.Steam
                         Console.WriteLine("try to kill due to cancel");
                         process.Kill();
                     }
-                    catch (InvalidOperationException) { }
+                    catch (InvalidOperationException e) {
+                        Console.WriteLine(e);
+                    }
                 });
                 await process.WaitForExitAsync(stoppingToken);
                 reg.Unregister();
