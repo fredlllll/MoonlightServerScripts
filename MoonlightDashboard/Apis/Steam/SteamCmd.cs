@@ -84,21 +84,19 @@ namespace MoonlightDashboard.Apis.Steam
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
 
+            CancellationTokenRegistration? reg=null;
             try
             {
-                var reg = stoppingToken.Register(() =>
+                reg = stoppingToken.Register(() =>
                 {
                     try
                     {
-                        Console.WriteLine("try to kill due to cancel");
                         process.Kill();
                     }
                     catch (InvalidOperationException e) {
-                        Console.WriteLine(e);
                     }
                 });
                 await process.WaitForExitAsync(stoppingToken);
-                reg.Unregister();
                 stoppingToken.ThrowIfCancellationRequested();
             }
             catch (OperationCanceledException)
@@ -116,6 +114,7 @@ namespace MoonlightDashboard.Apis.Steam
             }
             finally
             {
+                reg?.Unregister();
                 process.WaitForExit();
                 Result.ExitCode = process.ExitCode;
             }
