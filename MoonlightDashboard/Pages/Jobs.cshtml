@@ -74,11 +74,11 @@ Jobs(@Model.Jobs.Count()):
                 <td>
                     @if (job.IsComplete)
                     {
-                        <form method="post" asp-page-handler="Rerun">
+                        <form method="post" asp-page-handler="Rerun" style="display:inline">
                             <input type="hidden" name="jobId" value="@job.Id" />
                             <input type="submit" value="Rerun" />
                         </form>
-                        <form method="post" asp-page-handler="Delete">
+                        <form method="post" asp-page-handler="Delete" style="display:inline">
                             <input type="hidden" name="jobId" value="@job.Id" />
                             <input type="submit" value="Delete" />
                         </form>
