@@ -62,8 +62,14 @@ namespace MoonlightDashboard.Pages
 
         public IActionResult OnPostCancel(string jobId)
         {
-            var job = db.Jobs.FirstOrDefault(j => j.Id == jobId);
-            if (job != null && job.IsRunning && !job.CancellationRequested)
+            var job = db.Jobs.First(j => j.Id == jobId);
+            if (job.IsPending())
+            {
+                job.IsComplete = true;
+                job.IsSuccessful = false;
+                job.ErrorMessage = "Job was cancelled before it ran";
+            }
+            else if (job.IsRunning && !job.CancellationRequested)
             {
                 job.CancellationRequested = true;
                 db.SaveChanges();
