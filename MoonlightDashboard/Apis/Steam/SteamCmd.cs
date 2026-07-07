@@ -91,7 +91,7 @@ namespace MoonlightDashboard.Apis.Steam
                 {
                     try
                     {
-                        process.Kill();
+                        process.Kill(true);
                     }
                     catch (InvalidOperationException e) {
                     }
@@ -103,7 +103,7 @@ namespace MoonlightDashboard.Apis.Steam
             {
                 try
                 {
-                    process.Kill();
+                    process.Kill(true);
                 }
                 catch (InvalidOperationException)
                 {
