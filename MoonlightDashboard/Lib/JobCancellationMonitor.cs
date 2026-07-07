@@ -41,18 +41,15 @@ namespace MoonlightDashboard.Lib
                 {
                     // Ignore if the token source is already disposed
                 }
-                Console.WriteLine("timer set to never due to Cancel being called");
                 _timer?.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             }
         }
 
         private void CheckDatabase(object? state)
         {
-            Console.WriteLine("check db");
             // Prevent re-entrancy and redundant checks after cancellation
             if (_isCancelled || _cts.IsCancellationRequested)
             {
-                Console.WriteLine("timer set to never because we are already cancelled");
                 _timer?.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
                 return;
             }
@@ -63,17 +60,13 @@ namespace MoonlightDashboard.Lib
                 var job = db.Jobs.AsNoTracking().FirstOrDefault(j => j.Id == _jobId);
                 if(job == null)
                 {
-                    Console.WriteLine("job for cancellation monitor not found, stopping monitoring");
+                    //Console.WriteLine("job for cancellation monitor not found, stopping monitoring");
                     Cancel();
                 }
                 else if(job.CancellationRequested)
                 {
-                    Console.WriteLine("job was cancelled, calling cancel on tokensource");
+                    //Console.WriteLine("job was cancelled, calling cancel on tokensource");
                     Cancel();
-                }
-                else
-                {
-                    Console.WriteLine($"{job.Id} cancelled: {job.CancellationRequested}");
                 }
             }
             catch (Exception ex)
@@ -84,7 +77,6 @@ namespace MoonlightDashboard.Lib
 
         public void Dispose()
         {
-            Console.WriteLine("job cancellation monitor disposed");
             _timer?.Dispose();
             _parentRegistration.Unregister();
             _cts?.Dispose();

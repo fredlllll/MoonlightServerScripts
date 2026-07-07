@@ -86,7 +86,16 @@ namespace MoonlightDashboard.Apis.Steam
 
             try
             {
+                var reg = stoppingToken.Register(() =>
+                {
+                    try
+                    {
+                        process.Kill();
+                    }
+                    catch (InvalidOperationException) { }
+                });
                 await process.WaitForExitAsync(stoppingToken);
+                reg.Unregister();
                 stoppingToken.ThrowIfCancellationRequested();
             }
             catch (OperationCanceledException)
