@@ -68,6 +68,7 @@ namespace MoonlightDashboard.Pages
                 job.IsComplete = true;
                 job.IsSuccessful = false;
                 job.ErrorMessage = "Job was cancelled before it ran";
+                db.SaveChanges();
             }
             else if (job.IsRunning && !job.CancellationRequested)
             {
