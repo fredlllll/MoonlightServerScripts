@@ -21,7 +21,7 @@ namespace MoonlightDashboard.Pages
 
         public async Task OnGet()
         {
-            Jobs = db.Jobs;
+            Jobs = db.Jobs.ToArray();
             var modInfos = await Apis.Steam.Local.Mods.GetModInfos(db, Jobs.Select(x => x.Data ?? ""));
             foreach (var job in Jobs)
             {
