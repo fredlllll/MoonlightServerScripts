@@ -3,7 +3,7 @@
 
 <h3>Server Profile</h3>
 <form method="post" asp-page-handler="Update">
-    <textarea name="content" class="file">@Model.ServerApi.GetServerProfileFileContents()</textarea>
+    <textarea name="content" class="file" style="height:50em;">@Model.ServerApi.GetServerProfileFileContents()</textarea>
     <input type="submit" value="Update Server Profile" />
 </form>
 <form method="post" asp-page-handler="Reset">

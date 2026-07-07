@@ -3,7 +3,7 @@
 
 <h3>Basic Config</h3>
 <form method="post" asp-page-handler="Update">
-    <textarea name="content" class="file">@Model.ServerApi.GetBasicConfigFileContents()</textarea>
+    <textarea name="content" class="file" style="height:50em;">@Model.ServerApi.GetBasicConfigFileContents()</textarea>
     <input type="submit" value="Update Basic Config" />
 </form>
 <form method="post" asp-page-handler="Reset">

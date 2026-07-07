@@ -3,7 +3,7 @@
 
 <h3>Server Config</h3>
 <form method="post" asp-page-handler="Update">
-    <textarea name="content" class="file">@Model.ServerApi.GetServerConfigFileContents()</textarea>
+    <textarea name="content" class="file" style="height:50em;">@Model.ServerApi.GetServerConfigFileContents()</textarea>
     <input type="submit" value="Update Server Config" />
 </form>
 <form method="post" asp-page-handler="Reset">
