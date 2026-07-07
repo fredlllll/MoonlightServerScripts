@@ -42,7 +42,7 @@ namespace MoonlightDashboard.Pages.Mods
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostDownloadMods(string? collectionId, string? modIds, IFormFile? file)
+        public async Task<IActionResult> OnPostDownloadMods(string? collectionId, string? modIds, IFormFile? modsetHtml)
         {
             IEnumerable<string> modIdsList;
             if (!string.IsNullOrWhiteSpace(collectionId))
