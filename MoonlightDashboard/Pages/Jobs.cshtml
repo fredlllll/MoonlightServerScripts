@@ -1,7 +1,13 @@
 ﻿@page
 @using Microsoft.AspNetCore.Html
+@using MoonlightDashboard.Lib;
 @model MoonlightDashboard.Pages.JobsModel
 @{
+    var info = Model.GetInfo();
+}
+@if (!string.IsNullOrEmpty(info))
+{
+    @info<br/>
 }
 Jobs(@Model.Jobs.Count()):
 <br />
