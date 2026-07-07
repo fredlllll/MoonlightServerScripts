@@ -54,9 +54,9 @@
 <input type="checkbox" id="scroll-enabled" checked>Log Scroll Enabled
 <br />
 <textarea class="log file" id="log" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">@Model.LastLog</textarea>
-<a asp-page="Servers/BasicConfig" asp-route-id="@Model.Server.Id" class="btn">Edit Basic Config</a>
-<a asp-page="Servers/ServerConfig" asp-route-id="@Model.Server.Id" class="btn">Edit Server Config</a>
-<a asp-page="Servers/ServerProfile" asp-route-id="@Model.Server.Id" class="btn">Edit Server Profile</a>
+<a asp-page="/Servers/BasicConfig" asp-route-id="@Model.Server.Id" class="btn">Edit Basic Config</a>
+<a asp-page="/Servers/ServerConfig" asp-route-id="@Model.Server.Id" class="btn">Edit Server Config</a>
+<a asp-page="/Servers/ServerProfile" asp-route-id="@Model.Server.Id" class="btn">Edit Server Profile</a>
 
 <script type="module">
     import { LogTracker } from 'app/LogTracker.js';
