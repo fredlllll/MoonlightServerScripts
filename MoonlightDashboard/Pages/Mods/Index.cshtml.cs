@@ -53,9 +53,9 @@ namespace MoonlightDashboard.Pages.Mods
             {
                 modIdsList = modIds.Split(',').Select(m => m.Trim());
             }
-            else if (file != null && file.Length > 0)
+            else if (modsetHtml != null && modsetHtml.Length > 0)
             {
-                using var reader = new StreamReader(file.OpenReadStream());
+                using var reader = new StreamReader(modsetHtml.OpenReadStream());
                 var content = await reader.ReadToEndAsync();
 
                 var regex = new Regex(@"filedetails/\?id=(\d+)");
