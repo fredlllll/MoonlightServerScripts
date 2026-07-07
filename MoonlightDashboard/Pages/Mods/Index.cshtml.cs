@@ -5,6 +5,7 @@ using MoonlightDashboard.Database.Models;
 using MoonlightDashboard.Filters;
 using MoonlightDashboard.Lib;
 using MoonlightDashboard.Services;
+using System.Text.RegularExpressions;
 
 namespace MoonlightDashboard.Pages.Mods
 {
@@ -41,7 +42,7 @@ namespace MoonlightDashboard.Pages.Mods
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostDownloadMods(string? collectionId, string? modIds)
+        public async Task<IActionResult> OnPostDownloadMods(string? collectionId, string? modIds, IFormFile? file)
         {
             IEnumerable<string> modIdsList;
             if (!string.IsNullOrWhiteSpace(collectionId))
@@ -51,6 +52,15 @@ namespace MoonlightDashboard.Pages.Mods
             else if (!string.IsNullOrWhiteSpace(modIds))
             {
                 modIdsList = modIds.Split(',').Select(m => m.Trim());
+            }
+            else if (file != null && file.Length > 0)
+            {
+                using var reader = new StreamReader(file.OpenReadStream());
+                var content = await reader.ReadToEndAsync();
+
+                var regex = new Regex(@"filedetails/\?id=(\d+)");
+                var matches = regex.Matches(content);
+                modIdsList = matches.Select(m => m.Groups[1].Value).Distinct();
             }
             else
             {

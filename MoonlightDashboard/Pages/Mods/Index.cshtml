@@ -8,7 +8,7 @@ Delete Mods:
 </form>
 <br />
 Download Mods:
-<form asp-page-handler="DownloadMods" method="post">
+<form asp-page-handler="DownloadMods" method="post" enctype="multipart/form-data">
     <table>
         <tr>
             <td>
@@ -28,6 +28,18 @@ Download Mods:
             </td>
             <td>
                 <input type="text" name="modIds" placeholder="123,5656,12331234,..." />
+            </td>
+        </tr>
+        <tr>
+            <td>OR</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                c) Modset Html
+            </td>
+            <td>
+                <input type="file" name="modsetHtml"/>
             </td>
         </tr>
         <tr>
