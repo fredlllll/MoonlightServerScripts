@@ -57,8 +57,14 @@ namespace MoonlightDashboard.Lib
             {
                 var db = _scope.ServiceProvider.GetRequiredService<DatabaseContext>();
                 var job = db.Jobs.FirstOrDefault(j => j.Id == _jobId);
-                if (job != null && job.CancellationRequested)
+                if(job == null)
                 {
+                    Console.WriteLine("job for cancellation monitor not found, stopping monitoring");
+                    Cancel();
+                }
+                else if(job.CancellationRequested)
+                {
+                    Console.WriteLine("job was cancelled, calling cancel on tokensource");
                     Cancel();
                 }
             }
