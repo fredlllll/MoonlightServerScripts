@@ -65,7 +65,7 @@ Downloaded mods(@Model.ModInfos.Count()):
         @foreach (var modInfo in Model.ModInfos)
         {
             <tr>
-                <td>@modInfo.ModId</td>
+                <td><a href="/Mods/Details/@modInfo.ModId">@modInfo.ModId</a></td>
                 <td>@modInfo.Name</td>
                 <td>
                     <form asp-page-handler="DeleteMod" method="post">

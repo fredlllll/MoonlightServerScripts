@@ -93,7 +93,7 @@ namespace MoonlightDashboard.Apis.Steam.Local
 
             var missingIds = modIds.Where(id => !existingIds.Contains(id)).ToList();
 
-            var outdatedInfos = infos.Where(m => m.Updated < threshold).ToList();
+            var outdatedInfos = infos.Where(m => m.Updated < threshold && !m.IsManuallyNamed).ToList();
             foreach (var info in outdatedInfos)
             {
                 info.Name = await GetModName(info.ModId);
@@ -130,7 +130,7 @@ namespace MoonlightDashboard.Apis.Steam.Local
             else
             {
                 var threshold = DateTime.UtcNow.AddDays(-DAYSTILLINFOSTALE);
-                if (info.Updated < threshold)
+                if (info.Updated < threshold && !info.IsManuallyNamed)
                 {
                     info.Name = await GetModName(info.ModId);
                     info.Updated = DateTime.UtcNow;

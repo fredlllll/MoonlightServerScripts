@@ -7,6 +7,7 @@ namespace MoonlightDashboard.Database.Models
     {
         public required string ModId { get; set; }
         public required string Name { get; set; }
+        public bool IsManuallyNamed { get; set; } = false;
 
     }
 }

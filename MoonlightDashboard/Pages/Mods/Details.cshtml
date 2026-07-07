@@ -2,4 +2,22 @@
 @model MoonlightDashboard.Pages.Mods.DetailsModel
 @{
 }
-//TODO: haben noch kein markup
+<form method="post" asp-page-handler="Update">
+    <table>
+        <tr>
+            <td>Mod Id</td>
+            <td><a href="https://steamcommunity.com/sharedfiles/filedetails/?id=@Model.Info.ModId">@Model.Info.ModId</a></td>
+        </tr>
+        <tr>
+            <td>Mod Name</td>
+            <td><input type="text" value="@Model.Info.Name" name="name" /></td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <input type="submit" value="Update" />
+            </td>
+        </tr>
+    </table>
+</form>
