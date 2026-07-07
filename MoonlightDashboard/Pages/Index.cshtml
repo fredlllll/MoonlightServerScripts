@@ -10,7 +10,7 @@
     {
         var unitInfo = Model.ServerUnitInfos[server.Id];
         <div>
-            <h3>Server <a href="/Servers/Details/@server.Id">@server.Name</a></h3>
+            <h3>Server <a asp-page="/Servers/Details" asp-route-id="@server.Id">@server.Name</a></h3>
             running on port @server.Port<br />
             Status: @unitInfo.ActiveState, @unitInfo.SubState
             <br />
