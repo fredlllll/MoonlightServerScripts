@@ -1,4 +1,5 @@
-﻿using MoonlightDashboard.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using MoonlightDashboard.Database;
 
 namespace MoonlightDashboard.Lib
 {
@@ -59,7 +60,7 @@ namespace MoonlightDashboard.Lib
             try
             {
                 var db = _scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-                var job = db.Jobs.FirstOrDefault(j => j.Id == _jobId);
+                var job = db.Jobs.AsNoTracking().FirstOrDefault(j => j.Id == _jobId);
                 if(job == null)
                 {
                     Console.WriteLine("job for cancellation monitor not found, stopping monitoring");
