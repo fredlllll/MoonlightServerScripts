@@ -31,12 +31,12 @@ namespace MoonlightDashboard.Pages.Servers
 
         public void OnGet(string id)
         {
-            Server ??= db.Arma3Servers.First(s => s.Id == id);
-            ServerApi ??= new Arma3ServerApi(id);
+            Server = db.Arma3Servers.First(s => s.Id == id);
+            ServerApi = new Arma3ServerApi(id);
             Modsets = db.Arma3Modsets.ToList();
             CreatorDlcs = db.Arma3CreatorDlcs.ToList();
             ActiveCreatorDlcs = new HashSet<string>(db.Arma3ServerCreatorDlcs.Where(cdlc => cdlc.Arma3ServerId == Server.Id).Select(x => x.Arma3CreatorDlcId));
-            ServerUnit ??= new SystemDUnit(id);
+            ServerUnit = new SystemDUnit(id);
             ServerUnitInfo = ServerUnit.GetInfo();
             LastLog = ServerUnit.GetLog(1000);
         }
@@ -89,47 +89,6 @@ namespace MoonlightDashboard.Pages.Servers
             }
             db.SaveChanges();
 
-            return RedirectToPage();
-        }
-
-        public IActionResult OnPostUpdateBasicConfig(string id, string content)
-        {
-            ServerApi = new Arma3ServerApi(id);
-            ServerApi.SetBasicConfigFileContents(content);
-            return RedirectToPage();
-        }
-
-        public IActionResult OnPostResetBasicConfig(string id)
-        {
-            ServerApi = new Arma3ServerApi(id);
-            ServerApi.ResetBasicConfigFileContents();
-            return RedirectToPage();
-        }
-
-        public IActionResult OnPostUpdateServerConfig(string id, string content)
-        {
-            ServerApi = new Arma3ServerApi(id);
-            ServerApi.SetServerConfigFileContents(content);
-            return RedirectToPage();
-        }
-        public IActionResult OnPostResetServerConfig(string id)
-        {
-            ServerApi = new Arma3ServerApi(id);
-            ServerApi.ResetServerConfigFileContents();
-            return RedirectToPage();
-        }
-
-        public IActionResult OnPostUpdateServerProfile(string id, string content)
-        {
-            ServerApi = new Arma3ServerApi(id);
-            ServerApi.SetServerProfileFileContents(content);
-            return RedirectToPage();
-        }
-
-        public IActionResult OnPostResetServerProfile(string id)
-        {
-            ServerApi = new Arma3ServerApi(id);
-            ServerApi.ResetServerProfileFileContents();
             return RedirectToPage();
         }
     }

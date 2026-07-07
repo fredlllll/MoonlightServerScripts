@@ -55,11 +55,36 @@ textarea.file {
     height: 75%;
 }
 
-div.error{
-    color:red;
+div.error {
+    color: red;
 }
 
-.job-output pre{
-    padding:0;
-    margin:0;
+.job-output pre {
+    padding: 0;
+    margin: 0;
 }
+
+a.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #0284c7;
+    color: #ffffff;
+    font-weight: 500;
+    font-family: sans-serif;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+    a.btn:hover {
+        background-color: #0369a1;
+        color: #ffffff;
+    }
+
+    a.btn:active {
+        transform: scale(0.98);
+    }

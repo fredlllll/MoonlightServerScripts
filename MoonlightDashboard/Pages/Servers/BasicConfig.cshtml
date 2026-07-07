@@ -1,0 +1,11 @@
+﻿@page "/Servers/{id}/BasicConfig"
+@model MoonlightDashboard.Pages.Servers.BasicConfigModel
+
+<h3>Basic Config</h3>
+<form method="post" asp-page-handler="Update">
+    <textarea name="content" class="file">@Model.ServerApi.GetBasicConfigFileContents()</textarea>
+    <input type="submit" value="Update Basic Config" />
+</form>
+<form method="post" asp-page-handler="Reset">
+    <input type="submit" value="Reset Basic Config" />
+</form>

@@ -13,12 +13,12 @@
         @foreach (var server in Model.Servers)
         {
             <tr>
-                <td><a href="/Servers/Details/@server.Id">@server.Name</a></td>
+                <td><a asp-page="/Servers/Details" asp-route-id="@server.Id">@server.Name</a></td>
                 <td>@server.Port</td>
                 <td>
                     @if (server.ActiveModsetId != null)
                     {
-                        <a href="/Modsets/Details/@server.ActiveModsetId">@Model.ActiveModsetNames[server.Id]</a>
+                        <a asp-page="/Modsets/Details" asp-route-id="@server.ActiveModsetId">@Model.ActiveModsetNames[server.Id]</a>
                     }
                     else
                     {
