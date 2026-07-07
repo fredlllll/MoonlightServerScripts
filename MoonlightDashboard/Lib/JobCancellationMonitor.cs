@@ -70,6 +70,10 @@ namespace MoonlightDashboard.Lib
                     Console.WriteLine("job was cancelled, calling cancel on tokensource");
                     Cancel();
                 }
+                else
+                {
+                    Console.WriteLine($"{job.Id} cancelled: {job.CancellationRequested}");
+                }
             }
             catch (Exception ex)
             {

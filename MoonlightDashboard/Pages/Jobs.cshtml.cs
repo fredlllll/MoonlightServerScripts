@@ -69,13 +69,13 @@ namespace MoonlightDashboard.Pages
                 job.IsComplete = true;
                 job.IsSuccessful = false;
                 job.ErrorMessage = "Job was cancelled before it ran";
-                this.SetInfo("Cancelled job " + job.Id);
+                this.SetInfo("Cancelled job in pending " + job.Id);
                 db.SaveChanges();
             }
             else if (job.IsRunning && !job.CancellationRequested)
             {
                 job.CancellationRequested = true;
-                this.SetInfo("Cancelled job " + job.Id);
+                this.SetInfo("Cancelled job in running " + job.Id);
                 db.SaveChanges();
             }
             return RedirectToPage();
